@@ -7,8 +7,6 @@ on:
       - master
     paths-ignore:
         - 'README.md'
-    tags-ignore:
-        - 'Initial*'
 
     # Publish `v1.2.3` tags as releases.
     tags:
