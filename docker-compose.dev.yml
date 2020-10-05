@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  backend:
+    container_name: backend_dev
+    image: ghcr.io/dormlife-softeng/backend-baseimage:0.3.1-dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${SERVER_PORT}:3000
+    command: npm run start:dev
+    env_file:
+        - .env
