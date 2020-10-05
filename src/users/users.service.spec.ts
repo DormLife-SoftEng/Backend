@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
+<<<<<<< HEAD
 import {LoginUserDto} from './dto/login-user.dto';
 import {User} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
@@ -44,3 +45,21 @@ describe('UserServiceMock', () => {
 })
 
 
+=======
+
+describe('UsersService', () => {
+  let service: UsersService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [UsersService],
+    }).compile();
+
+    service = module.get<UsersService>(UsersService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+});
+>>>>>>> init auth, user
