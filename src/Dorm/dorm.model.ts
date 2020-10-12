@@ -1,36 +1,15 @@
 import * as mongoose from 'mongoose';
 
-export const DormSchema = new mongoose.Schema({
-  name: { type: String },
-  code: { type: String },
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  // contact: contactSchema,
-  address: {
-    address: { type: String },
-    coordinate: {
-      type: String,
-      enum: ['Point'],
-    },
-  },
-  // utility: [utilSchema],
-  type: { type: String },
-  description: { type: String },
-  // room: [RoomSchema],
-  allowedSex: { type: String },
-  avgStar: { type: Number },
-  license: { type: [String] },
-  createdOn: { type: Date, default: Date.now },
-  modifiedOn: { type: Date, default: Date.now },
-  approved: { type: String, enum: ['approved', 'disapproved', 'pending'] },
-  approvedOn: { type: Date },
-});
-
-var contactSchema = new mongoose.Schema({
-  telephone: { type: String },
-  email: { type: String },
-  lineID: { type: String },
-  website: { type: String },
-});
+enum Sex {
+  'male',
+  'female',
+  'any',
+}
+enum approval {
+  'approved',
+  'disapproved',
+  'pending',
+}
 
 var utilSchema = new mongoose.Schema({
   type: { type: String },
@@ -53,6 +32,40 @@ var RoomSchema = new mongoose.Schema({
   },
   allowedSex: { type: String, enum: ['any', 'male', 'female'] },
 });
+
+var contactSchema = new mongoose.Schema({
+  telephone: { type: String },
+  // email: { type: String },
+  // lineID: { type: String },
+  // website: { type: String },
+});
+export const DormSchema = new mongoose.Schema({
+  name: { type: String },
+  // code: { type: String },
+  // owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  contact: contactSchema,
+  // address: {
+  //   address: { type: String },
+  //   coordinate: {
+  //     type: String,
+  //     enum: ['Point'],
+  //   },
+  // },
+  // // utility: [utilSchema],
+  // type: { type: String },
+  // description: { type: String },
+  // // room: [RoomSchema],
+  // allowedSex: { type: String },
+  // avgStar: { type: Number },
+  // license: { type: [String] },
+  // createdOn: { type: Date, default: Date.now },
+  // modifiedOn: { type: Date, default: Date.now },
+  // approved: { type: String, enum: ['approved', 'disapproved', 'pending'] },
+  // approvedOn: { type: Date },
+});
+
+
+
 
 // export interface DormQuery extends mongoose.Document {
 //   name: string;
@@ -92,18 +105,13 @@ var RoomSchema = new mongoose.Schema({
 //   };
 //   allowedSex: Sex;
 // }
-// enum Sex {
-//   'male',
-//   'female',
-//   'any',
-// }
-// enum approval {
-//   'approved',
-//   'disapproved',
-//   'pending',
-// }
+
 export interface Dorm extends mongoose.Document {
+  id:string,
   name: string;
+  contact: {
+    telephone: string
+  };
 }
 export interface DormAdd extends mongoose.Document {
   name: string;
