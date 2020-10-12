@@ -14,4 +14,8 @@ export class ReviewService {
   patchTest(reviewId: string, dormId: string): string {
     return `Post Test<br>reviewId: ${reviewId}<br>dormId: ${dormId}`
   }
+
+  deleteTest(reviewId: string, dormId: string): string {
+    return `Delete Test<br>reviewId: ${reviewId}<br>dormId: ${dormId}`
+  }
 }
