@@ -26,8 +26,12 @@
     "@nestjs/mongoose": "^7.0.2",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
+<<<<<<< HEAD
     "class-validator": "^0.12.2",
     "mongoose": "^5.10.7",
+=======
+    "mongoose": "^5.10.9",
+>>>>>>> 239a6dd9d4424814a886672da19e04583628ca0f
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
