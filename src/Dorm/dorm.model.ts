@@ -19,7 +19,7 @@ export const DormSchema = new mongoose.Schema({
         type: [
           {
             type: String,
-            enum:['Point'],
+            enum: ['Point'],
           },
         ],
       },
@@ -32,10 +32,10 @@ export const DormSchema = new mongoose.Schema({
   allowedSex: { type: String },
   avgStar: { type: Number },
   license: { type: [String] },
-  createdOn: { type: Date },
-  modifiedOn: { type: Date },
+  createdOn: { type: Date, default: Date.now },
+  modifiedOn: { type: Date, default: Date.now },
   approved: { type: String, enum: ['approved', 'disapproved', 'pending'] },
-  approvedOn: { type: String },
+  approvedOn: { type: Date },
 });
 
 var utilSchema = new mongoose.Schema({
@@ -57,25 +57,58 @@ var RoomSchema = new mongoose.Schema({
     amount: { type: Number },
     pricePer: { type: Number },
   },
-  allowedSex: { type: String },
+  allowedSex: { type: String, enum: ['any', 'male', 'female'] },
 });
 
 export interface DormQuery extends mongoose.Document {
   name: string;
   address: {
-    address: string,
-    coordinate: { type: 'Point', coordinates: [Number, Number] }
+    address: string;
+    coordinate: { type: 'Point'; coordinates: [Number, Number] };
   };
-  utility: [{
-      type: string,
-      distance: number,
-      description: string
-  }],
-  room: RoomInterface
+  utility: Array<UtilityInterfacce>;
+  room: Array<RoomInterface>;
+  allowedSex: Sex;
+  avgStar: number;
+  license: Array<string>;
+  createdOn: Date;
+  modifiedOn: Date;
+  approved: approval;
+  approvedOn: Date;
+}
+
+export interface UtilityInterfacce {
+  type: string;
+  distance: number;
+  description: string;
 }
 
 export interface RoomInterface {
-    
+  name: string;
+  capacity: number;
+  image: Array<string>;
+  bathroom: number;
+  aircond: number;
+  kitchen: number;
+  bedroom: number;
+  description: string;
+  price: {
+    amount: number;
+    pricePer: number;
+  };
+  allowedSex: Sex;
 }
-export interface Dorm extends mongoose.Document {}
+enum Sex {
+  'male',
+  'female',
+  'any',
+}
+enum approval {
+  'approved',
+  'disapproved',
+  'pending',
+}
+export interface Dorm extends mongoose.Document {
+  
+}
 export interface DormAdd extends mongoose.Document {}
