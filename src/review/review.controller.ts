@@ -1,4 +1,12 @@
-import { Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { ReviewQueryDto } from './review.validation';
 
@@ -7,21 +15,22 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Get()
-  getTest(
+  async getReviewList(
     @Query('dormId') dormId: ReviewQueryDto,
     @Query('offset') offset: number,
     @Query('stop') stop: number,
-  ): string {
-    return this.reviewService.getTest(dormId, offset, stop);
+  ) {
+    const reviews = await this.reviewService.getReviewList();
+    return reviews
   }
 
   @Post()
-  postTest(@Query('dormId') dormId: ReviewQueryDto): string {
+  addReview(@Query('dormId') dormId: ReviewQueryDto): string {
     return this.reviewService.postTest(dormId);
   }
 
   @Patch(':reviewId')
-  patchTest(
+  editReview(
     @Param('reviewId') reviewId: string,
     @Query('dormId') dormId: string,
   ) {
@@ -29,7 +38,7 @@ export class ReviewController {
   }
 
   @Delete(':reviewId')
-  deleteTest(
+  seleteReview(
     @Param('reviewId') reviewId: string,
     @Query('dormId') dormId: string,
   ) {
