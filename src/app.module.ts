@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 @Module({
   imports: [
   	MongooseModule.forRoot(
-  		'MONGO_URI',
+  		'mongodb://mongol:27017/DormLife',
   	),
   ],
   controllers: [AppController],
