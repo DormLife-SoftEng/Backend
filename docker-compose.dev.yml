@@ -2,7 +2,7 @@ version: '3.7'
 services:
   backend:
     container_name: backend_dev
-    image: ghcr.io/dormlife-softeng/backend-baseimage:0.3.3-dev
+    image: ghcr.io/dormlife-softeng/backend-baseimage:0.3.4-dev
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -11,3 +11,14 @@ services:
     command: npm run start:dev
     env_file:
         - .env
+
+  db:
+    container_name: mongol
+    image: mongo
+    volumes:
+      - mongodata:/data/db
+    ports:
+      - "27107:27107"
+
+volumes:
+  mongodata:

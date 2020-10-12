@@ -7,9 +7,9 @@ import { DormModule } from './Dorm/dorm.module';
 @Module({
   imports: [
   	MongooseModule.forRoot(
-  		'MONGO_URI',
-    ),
     DormModule
+    'mongodb://mongol:27017/DormLife',
+  	),
   ],
   controllers: [AppController],
   providers: [AppService],
