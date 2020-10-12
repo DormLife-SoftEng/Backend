@@ -1,6 +1,6 @@
-import { IsNotEmpyty } from 'class-validation';
+// import { IsNotEmpyty } from 'class-validation';
 
-export class ReviewsQueryDto {
-    @IsNotEmpty()
-
-}
+// export class ReviewQueryDto {
+//     @IsNotEmpty()
+//     password: string;
+//   }
