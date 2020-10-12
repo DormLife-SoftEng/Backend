@@ -3,10 +3,9 @@ import { DormSchema } from '../Dorm/dorm.model';
 
 export const ReviewSchema = new mongoose.Schema({
   reviewId: { type: String },
-  //   dorm: { type: mongoose.Schema.Types.ObjectId, ref: 'Dorm' },
-  //   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   dorm: {
-    d: {type: String},
+    dormName: {type: String},
+    dormId: {type: String}
   },
   user: {
     u: { type: String },
@@ -20,7 +19,8 @@ export const ReviewSchema = new mongoose.Schema({
 export interface Review extends mongoose.Document {
   id: string;
   dorm: {
-      d: string
+      dormName: string,
+      dormId: string
   };
   user: {
       u: string

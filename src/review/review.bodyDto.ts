@@ -2,9 +2,6 @@ import { IsNotEmpty } from 'class-validator';
 
 export class ReviewBodyDto {
     @IsNotEmpty()
-    id: string;
-
-    @IsNotEmpty()
     dorm: any;
 
     @IsNotEmpty()
@@ -18,7 +15,4 @@ export class ReviewBodyDto {
 
     @IsNotEmpty()
     image: [string];
-
-    @IsNotEmpty()
-    createdOn: Date;
   }

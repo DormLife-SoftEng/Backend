@@ -32,8 +32,7 @@ export class ReviewController {
 
   @Post()
   async addReview(@Body() reviewBody: ReviewBodyDto) {
-    console.log("Here");
-    console.log(reviewBody);
+    // console.log(reviewBody);
     const generatedId = await this.reviewService.addReview(reviewBody);
     return { id: generatedId };
   }
