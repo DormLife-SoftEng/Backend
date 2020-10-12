@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import { ReviewQueryDto } from './review.validation';
+import { ReviewBodyDto } from './review.bodyDto';
 
 @Controller('/reviews')
 export class ReviewController {
@@ -20,13 +22,20 @@ export class ReviewController {
     @Query('offset') offset: number,
     @Query('stop') stop: number,
   ) {
-    const reviews = await this.reviewService.getReviewList();
-    return reviews
+    const reviews = await this.reviewService.getReviewList(
+      dormId,
+      offset,
+      stop,
+    );
+    return reviews;
   }
 
   @Post()
-  addReview(@Query('dormId') dormId: ReviewQueryDto): string {
-    return this.reviewService.postTest(dormId);
+  async addReview(@Body() reviewBody: ReviewBodyDto) {
+    console.log("Here");
+    console.log(reviewBody);
+    const generatedId = await this.reviewService.addReview(reviewBody);
+    return { id: generatedId };
   }
 
   @Patch(':reviewId')

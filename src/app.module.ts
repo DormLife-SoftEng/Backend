@@ -17,6 +17,8 @@ import { ReviewModule } from './review/review.module'
 //    DormModule,
 	AuthModule,
 	UsersModule
+    DormModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],
