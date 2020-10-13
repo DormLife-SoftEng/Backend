@@ -71,6 +71,8 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "../coverage",
+	"collectCoverage": true,
+	"verbose": true,
     "testEnvironment": "node"
   }
 }
