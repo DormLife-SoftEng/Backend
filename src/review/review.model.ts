@@ -13,7 +13,7 @@ export const ReviewSchema = new mongoose.Schema({
   star: { type: Number },
   comment: { type: String },
   image: { type: [String] },
-  createdOn: { type: Date, default: Date.now },
+  createdOn: { type: Date },
 });
 
 export interface Review extends mongoose.Document {
