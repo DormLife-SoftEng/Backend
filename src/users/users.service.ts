@@ -3,15 +3,38 @@ import {UserRepository} from './repositories/user.repository';
 import {LoginUserDto} from './dto/login-user.dto';
 import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
+import {UserParsedDto} from './users.interface'
 import {validate} from 'class-validator';
+var bcrypt = require('bcryptjs');
 
 
 @Injectable()
 export class UsersService {
 	constructor(private userRepo: UserRepository) {}
 
-	async find(dto: LoginUserDto): Promise<UserDocument | undefined> {
-		const user = await this.userRepo.findByEmail(dto.email);
+	private userDtoConversion(dto: CreateUserDto): UserParsedDto{
+		return {
+			name: {
+				firstName: dto.firstName,
+				lastName: dto.lastName
+			},
+			telephone: dto.telephone,
+			email: dto.email,
+			natId: dto.natId,
+			email_verified: (dto.email_verified == "true"),
+			sex: dto.sex,
+			hashedPassword: dto.password,
+			userType: dto.userType,
+			PicProf: null,
+			refreshToken: null,
+			createdOn: null,
+			modifiedOn: null,
+
+		}
+	}
+
+	async find(email: string): Promise<UserDocument | undefined> {
+		const user = await this.userRepo.findByEmail(email);
 		if (!user) {
 			return null;
 		}
@@ -29,16 +52,19 @@ export class UsersService {
 								    HttpStatus.BAD_REQUEST);
 		}
 
+		const errors = validate(CreateUserDto);
 
-		const errors = await validate(CreateUserDto);
-
-		if (errors) {
-			const _errors = {email: 'Invalid input.'};
+		if ((await errors).length > 0) {
+			const _errors = {email: 'Invalid input.', detaiL: errors};
 			throw new HttpException({message: 'Input data validation failed', _errors},
 								    HttpStatus.BAD_REQUEST);
 		}
 		else {
-			const savedUser = await this.userRepo.create(dto);
+			// resolve password before saving.
+			dto.password = await bcrypt.hash(dto.password, 10);
+			// Conversion
+			const newDto = this.userDtoConversion(dto);
+			const savedUser = await this.userRepo.create(newDto);
 			return savedUser._id;
 		}
 	}

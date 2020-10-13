@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import {UsersService} from 'src/users/users.service';
+import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+
 import {LoginUserDto} from 'src/users/dto/login-user.dto';
 import {UserDocument} from 'src/users/schemas/users.schemas';
 import {JwtService} from '@nestjs/jwt';
 import {jwtPayload, accessToken} from './auth.interface';
+import {UsersService} from '../users/users.service';
 
 
 var bcrypt = require('bcryptjs');
@@ -14,20 +15,14 @@ export class AuthService {
 		private userServ: UsersService,
 		private jwtServ: JwtService,
 	) {}
+	private readonly logger = new Logger(AuthService.name);
 
-	async validateUser(loginDto: LoginUserDto): Promise<UserDocument | undefined>{
-		this.userServ.find(loginDto).then(userDoc => {
-			if(!userDoc) {
-				return null;
-			}
+	async validateUser(username: string, password: string): Promise<any>{
+		const userDoc = await this.userServ.find(username);
+		this.logger.log(userDoc);
+		const result = await bcrypt.compare(password, userDoc.hashedPassword);
+		return result;
 
-			bcrypt.compare(loginDto.password, userDoc.hashedPassword).then((isMatch: boolean) => {
-				if (isMatch) {
-					return userDoc;
-				}
-			});
-		});
-		return null;
 	}
 
 	async login(user: UserDocument): Promise<accessToken>{
