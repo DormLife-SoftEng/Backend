@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import {
-  ReviewQueryDto,
   ReviewBodyDto,
   ReviewParamDto,
   reviewCodeDto,
@@ -23,10 +22,21 @@ export class ReviewController {
 
   @Get()
   async getReviewList(
-    @Query() dormId: ReviewQueryDto,
+    @Query('dormId') dormId: string,
+    @Query('reviewCode') reviewCode: string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
+    @Query('userId') userId: string, // mocked user id
   ) {
+    if (
+      (reviewCode === undefined && dormId === undefined) ||
+      (reviewCode !== undefined && dormId !== undefined)
+    ) {
+      throw new BadRequestException(
+        'Only one of reviewCode or dormId values ​​must be specified.',
+      );
+    }
+
     if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
       throw new BadRequestException('offset must be integer.');
     }
@@ -43,12 +53,25 @@ export class ReviewController {
       stop = '50';
     }
 
-    const reviews = await this.reviewService.getReviewList(
-      dormId,
-      offset,
-      stop,
-    );
-    return reviews;
+    if (reviewCode === undefined) {
+      const reviews = await this.reviewService.getReviewList(
+        dormId,
+        offset,
+        stop,
+      );
+      return reviews;
+    } else if (dormId === undefined) {
+      if (userId === undefined) {
+        throw new BadRequestException('userId must be defined.');
+      }
+      const review = await this.reviewService.getSingleReviewByReviewCode(
+        reviewCode,
+        offset,
+        stop,
+        userId
+      );
+      return review;
+    }
   }
 
   @Post()

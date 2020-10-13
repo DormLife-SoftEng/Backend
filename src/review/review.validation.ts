@@ -1,11 +1,5 @@
 import { IsNotEmpty, IsArray, IsInt, IsString, ValidateIf, IsNumberString, IsNumber } from 'class-validator';
 
-export class ReviewQueryDto {
-  @IsNotEmpty()
-  @IsString()
-  dormId: string;
-}
-
 export class reviewCodeDto {
   @IsString()
   @IsNotEmpty()
