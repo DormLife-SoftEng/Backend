@@ -13,7 +13,7 @@ export const PendingActionSchema = new mongoose.Schema({
     },
     profilePic: { type: String },
   },
-  status: { type: [String] },
+  status: { type: String },
 });
 
 export interface PendingAction extends mongoose.Document {
@@ -29,5 +29,5 @@ export interface PendingAction extends mongoose.Document {
     };
     profilePic: string;
   };
-  status: [string];
+  status: string;
 }
