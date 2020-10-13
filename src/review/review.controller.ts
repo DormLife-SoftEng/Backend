@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -9,8 +10,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
-import { ReviewQueryDto } from './review.validation';
-import { ReviewBodyDto } from './review.bodyDto';
+import {
+  ReviewQueryDto,
+  ReviewBodyDto,
+  ReviewParamDto,
+  offsetStopDto,
+  dormIdDto,
+} from './review.validation';
 
 @Controller('/reviews')
 export class ReviewController {
@@ -18,14 +24,30 @@ export class ReviewController {
 
   @Get()
   async getReviewList(
-    @Query('dormId') dormId: ReviewQueryDto,
-    @Query('offset') offset: number,
-    @Query('stop') stop: number,
+    @Query() dormId: ReviewQueryDto,
+    @Query() offsetStop: offsetStopDto,
   ) {
+    console.log(offsetStop.offset);
+    if (!(parseInt(offsetStop.offset) === parseFloat(offsetStop.offset) || (offsetStop.offset === undefined))) {
+      throw new BadRequestException("offset must be integer.");
+    }
+
+    if (!(parseInt(offsetStop.stop) === parseFloat(offsetStop.stop) || (offsetStop.stop === undefined))) {
+      throw new BadRequestException("stop must be integer.");
+    }
+
+    if (offsetStop.offset === undefined) {
+      offsetStop.offset = "0";
+    }
+
+    if (offsetStop.stop === undefined) {
+      offsetStop.stop = "50";
+    }
+
     const reviews = await this.reviewService.getReviewList(
       dormId,
-      offset,
-      stop,
+      offsetStop.offset.toString(),
+      offsetStop.stop.toString(),
     );
     return reviews;
   }
@@ -38,18 +60,18 @@ export class ReviewController {
   }
 
   @Patch(':reviewId')
-  editReview(
-    @Param('reviewId') reviewId: string,
-    @Query('dormId') dormId: string,
+  async editReview(
+    @Param() reviewId: ReviewParamDto,
+    @Query() dormId: dormIdDto,
   ) {
-    return this.reviewService.patchTest(reviewId, dormId);
+    return this.reviewService.editReview(reviewId, dormId);
   }
 
   @Delete(':reviewId')
-  seleteReview(
-    @Param('reviewId') reviewId: string,
-    @Query('dormId') dormId: string,
+  async seleteReview(
+    @Param() reviewId: ReviewParamDto,
+    @Query() dormId: dormIdDto,
   ) {
-    return this.reviewService.deleteTest(reviewId, dormId);
+    return this.reviewService.deleteReview(reviewId, dormId);
   }
 }
