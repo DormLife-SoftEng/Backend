@@ -67,8 +67,17 @@ export class AdminController {
   }
 
   @Patch(':ticketId')
-  approve() {}
+  async changeStatus(@Param() ticketId: TicketIdDto) {
+    const generatedId = await this.adminService.changeStatus(ticketId);
+    return { id: generatedId };
+  }
 
   @Delete(':ticketId')
-  deleteTicket() {}
+  async deleteTicket(@Param() ticketId: TicketIdDto) {
+    await this.adminService.deleteTicket(ticketId);
+    return {
+      statusCode: 200,
+      message: 'OK',
+    };
+  }
 }
