@@ -1,7 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import {UserRepository} from './repositories/user.repository';
 import {LoginUserDto} from './dto/login-user.dto';
-import {User} from './schemas/users.schemas';
+import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 import {validate} from 'class-validator';
 
@@ -10,20 +10,15 @@ import {validate} from 'class-validator';
 export class UsersService {
 	constructor(private userRepo: UserRepository) {}
 
-	async find({email, password}: LoginUserDto): Promise<User | undefined> {
-		const user = await this.userRepo.findByEmail(email);
+	async find(dto: LoginUserDto): Promise<UserDocument | undefined> {
+		const user = await this.userRepo.findByEmail(dto.email);
 		if (!user) {
 			return null;
 		}
-		// verification goes here
-
-		// verification ends here
-
-		// if the worlds has fails
-		return null;
+		return user;
 	}
 
-	async create(dto: CreateUserDto): Promise<any> {
+	async create(dto: CreateUserDto): Promise<string | undefined> {
 		// Is unique
 		const email = dto.email;
 		const query = await this.userRepo.findByEmail(email);
@@ -35,15 +30,16 @@ export class UsersService {
 		}
 
 
-	const errors = await validate(CreateUserDto);
+		const errors = await validate(CreateUserDto);
 
-	if (errors) {
-		const _errors = {email: 'Invalid input.'};
-		throw new HttpException({message: 'Input data validation failed', _errors},
-							    HttpStatus.BAD_REQUEST);
-	}
-	else {
-		const savedUser = await this.userRepo.create(dto);
-	}
+		if (errors) {
+			const _errors = {email: 'Invalid input.'};
+			throw new HttpException({message: 'Input data validation failed', _errors},
+								    HttpStatus.BAD_REQUEST);
+		}
+		else {
+			const savedUser = await this.userRepo.create(dto);
+			return savedUser._id;
+		}
 	}
 }

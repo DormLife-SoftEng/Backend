@@ -9,20 +9,20 @@ export class UserRepository {
 
 	constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-	async create(createUserDto: CreateUserDto): Promise<User> {
+	async create(createUserDto: CreateUserDto): Promise<UserDocument> {
 		const createdUser = new this.userModel (createUserDto);
 		return createdUser.save()
 	}
 
-	async findAll(): Promise<User[]> {
+	async findAll(): Promise<UserDocument[]> {
 		return this.userModel.find().exec();
 	}
 
-	async findByEmail(emailQuery: string): Promise<User> {
+	async findByEmail(emailQuery: string): Promise<UserDocument> {
 		return this.userModel.findOne({emailInfo: {email: emailQuery}}).exec();
 	}
 
-	async findById(userId: string): Promise<User> {
+	async findById(userId: string): Promise<UserDocument> {
 		return this.userModel.findById(userId).exec();
 	}
 }
