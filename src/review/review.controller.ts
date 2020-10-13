@@ -14,7 +14,7 @@ import {
   ReviewQueryDto,
   ReviewBodyDto,
   ReviewParamDto,
-  dormIdDto,
+  reviewCodeDto,
 } from './review.validation';
 
 @Controller('/reviews')
@@ -57,19 +57,25 @@ export class ReviewController {
     return { id: generatedId };
   }
 
-  @Patch(':reviewId')
+  @Patch()
   async editReview(
-    @Param() reviewId: ReviewParamDto,
-    @Query() dormId: dormIdDto,
+    @Query() reviewCode: reviewCodeDto,
+    @Query('userId') userId: string, // mocked user id
+    @Body() reviewBody: ReviewBodyDto,
   ) {
-    return this.reviewService.editReview(reviewId, dormId);
+    const generatedId = await this.reviewService.editReview(
+      reviewCode,
+      reviewBody,
+      userId,
+    );
+    return { id: generatedId };
   }
 
   @Delete(':reviewId')
   async seleteReview(
     @Param() reviewId: ReviewParamDto,
-    @Query() dormId: dormIdDto,
+    @Query() reviewCode: reviewCodeDto,
   ) {
-    return this.reviewService.deleteReview(reviewId, dormId);
+    return this.reviewService.deleteReview(reviewId, reviewCode);
   }
 }

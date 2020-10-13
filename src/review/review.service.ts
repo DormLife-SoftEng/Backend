@@ -3,7 +3,7 @@ import {
   ReviewQueryDto,
   ReviewBodyDto,
   ReviewParamDto,
-  dormIdDto,
+  reviewCodeDto,
 } from './review.validation';
 import { Review } from '../review/review.model';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,7 +15,7 @@ export class ReviewService {
     @InjectModel('Review') private readonly reviewModel: Model<Review>,
   ) {}
 
-  private async findReview(
+  private async findReviewByDormId(
     dormId: ReviewQueryDto,
     stop: number,
   ): Promise<Review[]> {
@@ -34,10 +34,38 @@ export class ReviewService {
     return review;
   }
 
+  private async findAnUpdateReview(
+    reviewCode: reviewCodeDto,
+    reviewBody: ReviewBodyDto,
+    userId: string,
+  ): Promise<Review> {
+    let review;
+    try {
+      review = await this.reviewModel
+        .findOneAndUpdate(
+          {
+            'dorm.reviewCode': reviewCode.reviewCode,
+            'user.userId': userId,
+          },
+          reviewBody,
+          {
+            new: true,
+          },
+        )
+        .exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find product.');
+    }
+    if (!review) {
+      throw new NotFoundException('Could not find product.');
+    }
+    return review;
+  }
+
   async getReviewList(dormId: ReviewQueryDto, offset: string, stop: string) {
     const _offset = parseInt(offset);
     const _stop = parseInt(stop);
-    const review = await this.findReview(dormId, _stop);
+    const review = await this.findReviewByDormId(dormId, _stop);
     return review
       .map(review => ({
         id: review.id,
@@ -64,11 +92,21 @@ export class ReviewService {
     return result.id as string;
   }
 
-  async editReview(reviewId: ReviewParamDto, dormId: dormIdDto) {
-    return `Post Test<br>reviewId: ${reviewId}<br>dormId: ${dormId}`;
+  async editReview(
+    reviewCode: reviewCodeDto,
+    reviewBody: ReviewBodyDto,
+    userId: string,
+  ) {
+    console.log(userId);
+    const review = await this.findAnUpdateReview(
+      reviewCode,
+      reviewBody,
+      userId,
+    );
+    return review.id as string;
   }
 
-  async deleteReview(reviewId: ReviewParamDto, dormId: dormIdDto) {
-    return `Delete Test<br>reviewId: ${reviewId}<br>dormId: ${dormId}`;
+  async deleteReview(reviewId: ReviewParamDto, reviewCode: reviewCodeDto) {
+    return `Delete Test<br>dormId: ${reviewCode}`;
   }
 }
