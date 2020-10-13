@@ -7,16 +7,6 @@ export class ReviewQueryDto {
   dormId: string;
 }
 
-export class offsetStopDto {
-  @ValidateIf(offset => offset === undefined || typeof(offset) === typeof(""))
-  @IsNumberString()
-  offset: string;
-
-  @ValidateIf(stop => stop === undefined || typeof(stop) === typeof(""))
-  @IsNumberString()
-  stop: string;
-}
-
 export class dormIdDto {
   @IsString()
   dormId: string;

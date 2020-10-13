@@ -14,7 +14,6 @@ import {
   ReviewQueryDto,
   ReviewBodyDto,
   ReviewParamDto,
-  offsetStopDto,
   dormIdDto,
 } from './review.validation';
 
@@ -25,36 +24,35 @@ export class ReviewController {
   @Get()
   async getReviewList(
     @Query() dormId: ReviewQueryDto,
-    @Query() offsetStop: offsetStopDto,
+    @Query('offset') offset: string,
+    @Query('stop') stop: string,
   ) {
-    console.log(offsetStop.offset);
-    if (!(parseInt(offsetStop.offset) === parseFloat(offsetStop.offset) || (offsetStop.offset === undefined))) {
-      throw new BadRequestException("offset must be integer.");
+    if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
+      throw new BadRequestException('offset must be integer.');
     }
 
-    if (!(parseInt(offsetStop.stop) === parseFloat(offsetStop.stop) || (offsetStop.stop === undefined))) {
-      throw new BadRequestException("stop must be integer.");
+    if (!(parseInt(stop) === parseFloat(stop) || stop === undefined)) {
+      throw new BadRequestException('stop must be integer.');
     }
 
-    if (offsetStop.offset === undefined) {
-      offsetStop.offset = "0";
+    if (offset === undefined) {
+      offset = '0';
     }
 
-    if (offsetStop.stop === undefined) {
-      offsetStop.stop = "50";
+    if (stop === undefined) {
+      stop = '50';
     }
 
     const reviews = await this.reviewService.getReviewList(
       dormId,
-      offsetStop.offset.toString(),
-      offsetStop.stop.toString(),
+      offset,
+      stop,
     );
     return reviews;
   }
 
   @Post()
   async addReview(@Body() reviewBody: ReviewBodyDto) {
-    // console.log(reviewBody);
     const generatedId = await this.reviewService.addReview(reviewBody);
     return { id: generatedId };
   }

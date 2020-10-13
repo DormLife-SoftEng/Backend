@@ -31,10 +31,6 @@ export class ReviewService {
     if (!review) {
       throw new NotFoundException('Could not find product.');
     }
-    // review = await this.reviewModel
-    //     .find({ 'dorm.dormId': dormId.dormId })
-    //     .limit(stop)
-    //     .exec();
     return review;
   }
 
@@ -42,19 +38,20 @@ export class ReviewService {
     const _offset = parseInt(offset);
     const _stop = parseInt(stop);
     const review = await this.findReview(dormId, _stop);
-    return review.map(review => ({
-      id: review.id,
-      dorm: review.dorm,
-      user: review.user,
-      star: review.star,
-      comment: review.comment,
-      image: review.image,
-      createdOn: review.createdOn,
-    })).slice(_offset);
+    return review
+      .map(review => ({
+        id: review.id,
+        dorm: review.dorm,
+        user: review.user,
+        star: review.star,
+        comment: review.comment,
+        image: review.image,
+        createdOn: review.createdOn,
+      }))
+      .slice(_offset);
   }
 
   async addReview(reviewBody: ReviewBodyDto) {
-    console.log(Date.now());
     const newReview = new this.reviewModel({
       dorm: reviewBody.dorm,
       user: reviewBody.user,
