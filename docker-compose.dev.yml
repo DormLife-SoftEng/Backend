@@ -2,7 +2,7 @@ version: '3.7'
 services:
   backend:
     container_name: backend_dev
-    image: ghcr.io/dormlife-softeng/backend-baseimage:0.3.4-dev
+    image: ghcr.io/dormlife-softeng/backend-baseimage:0.3.5-dev
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
