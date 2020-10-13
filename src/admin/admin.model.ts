@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const PendingActionSchema = new mongoose.Schema({
+  targetId: { type: String },
   target: {},
   newdata: {},
   createdOn: { type: Date },
@@ -16,16 +17,17 @@ export const PendingActionSchema = new mongoose.Schema({
 });
 
 export interface PendingAction extends mongoose.Document {
-    target: any;
-    newdata: any;
-    createdOn: Date;
-    createdBy: {
-      userId: string,
-      name: {
-        firstname: string,
-        lastname: string,
-      },
-      profilePic: string,
-    },
-    status: [string],
+  id: string;
+  target: any;
+  newdata: any;
+  createdOn: Date;
+  createdBy: {
+    userId: string;
+    name: {
+      firstname: string;
+      lastname: string;
+    };
+    profilePic: string;
+  };
+  status: [string];
 }

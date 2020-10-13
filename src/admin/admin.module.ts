@@ -6,9 +6,9 @@ import { PendingActionSchema } from './admin.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'PendingAciton', schema: PendingActionSchema }]),
+    MongooseModule.forFeature([{ name: 'PendingAction', schema: PendingActionSchema }]),
   ],
   controllers: [AdminController],
   providers: [AdminService],
 })
-export class ReviewModule {}
+export class AdminModule {}
