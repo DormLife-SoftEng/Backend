@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmptyObject, ValidateIf } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNotEmptyObject, IsString, ValidateIf } from 'class-validator';
 
 export class TicketBodyDto {
   @IsNotEmptyObject()
@@ -20,4 +20,10 @@ export class TicketBodyDto {
 
   @IsArray()
   status: [string];
+}
+
+export class TicketIdDto {
+  @IsNotEmpty()
+  @IsString()
+  ticketId: string
 }
