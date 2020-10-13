@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PendingAction } from './admin.model';
-import { TicketBodyDto } from './admin.validation';
+import { TicketBodyDto, TicketIdDto } from './admin.validation';
 
 @Injectable()
 export class AdminService {
@@ -17,6 +17,21 @@ export class AdminService {
       review = await this.pendingActionModel
         .find()
         .limit(stop)
+        .exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find ticket.');
+    }
+    if (!review) {
+      throw new NotFoundException('Could not find ticket.');
+    }
+    return review;
+  }
+
+  async findSingleTicket(ticketId: TicketIdDto): Promise<PendingAction[]> {
+    let review;
+    try {
+      review = await this.pendingActionModel
+        .find({_id: ticketId.ticketId})
         .exec();
     } catch (error) {
       throw new NotFoundException('Could not find ticket.');
@@ -49,6 +64,7 @@ export class AdminService {
       }))
       .slice(_offset);
   }
+  
 
   async addTicket(ticketBody: TicketBodyDto) {
     const newTicket = new this.pendingActionModel({
@@ -67,5 +83,25 @@ export class AdminService {
     });
     const result = await newTicket.save();
     return result.id as string;
+  }
+
+  async getSingleTicket(ticketId: TicketIdDto) {
+    const ticket = await this.findSingleTicket(ticketId);
+    return ticket
+      .map(ticket => ({
+        id: ticket.id,
+        target: ticket.target,
+        newdata: ticket.newdata,
+        createdOn: ticket.createdOn,
+        createdBy: {
+          userId: ticket.createdBy.userId,
+          name: {
+            firstname: ticket.createdBy.name.firstname,
+            lastname: ticket.createdBy.name.lastname,
+          },
+          profilePic: ticket.createdBy.profilePic,
+        },
+        status: ticket.status,
+      }))
   }
 }

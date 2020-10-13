@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { TicketBodyDto } from './admin.validation';
+import { TicketBodyDto, TicketIdDto } from './admin.validation';
 
 @Controller('/tickets')
 export class AdminController {
@@ -43,7 +43,28 @@ export class AdminController {
   }
 
   @Get(':ticketId')
-  getSingleTicket() {}
+  getSingleTicket(
+    @Param() ticketId: TicketIdDto,
+    @Query('offset') offset: string,
+    @Query('stop') stop: string,
+  ) {
+    if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
+      throw new BadRequestException('offset must be integer.');
+    }
+
+    if (!(parseInt(stop) === parseFloat(stop) || stop === undefined)) {
+      throw new BadRequestException('stop must be integer.');
+    }
+
+    if (offset === undefined) {
+      offset = '0';
+    }
+
+    if (stop === undefined) {
+      stop = '50';
+    }
+    return this.adminService.getSingleTicket(ticketId);
+  }
 
   @Patch(':ticketId')
   approve() {}
