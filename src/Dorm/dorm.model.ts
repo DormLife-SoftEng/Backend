@@ -11,13 +11,13 @@ enum approval {
   'pending',
 }
 
-var utilSchema = new mongoose.Schema({
+export const utilSchema = new mongoose.Schema({
   type: { type: String },
   distance: { type: Number },
   description: { type: String },
 });
 
-var RoomSchema = new mongoose.Schema({
+export const RoomSchema = new mongoose.Schema({
   name: { type: String },
   capacity: { type: Number },
   image: { type: [String] },
@@ -35,84 +35,117 @@ var RoomSchema = new mongoose.Schema({
 
 var contactSchema = new mongoose.Schema({
   telephone: { type: String },
-  // email: { type: String },
-  // lineID: { type: String },
-  // website: { type: String },
+  email: { type: String },
+  lineID: { type: String },
+  website: { type: String },
 });
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
-  // code: { type: String },
-  // owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  code: { type: String },
+  owner: { type: String }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   contact: contactSchema,
-  // address: {
-  //   address: { type: String },
-  //   coordinate: {
-  //     type: String,
-  //     enum: ['Point'],
-  //   },
-  // },
-  // // utility: [utilSchema],
-  // type: { type: String },
-  // description: { type: String },
-  // // room: [RoomSchema],
-  // allowedSex: { type: String },
-  // avgStar: { type: Number },
-  // license: { type: [String] },
-  // createdOn: { type: Date, default: Date.now },
-  // modifiedOn: { type: Date, default: Date.now },
-  // approved: { type: String, enum: ['approved', 'disapproved', 'pending'] },
-  // approvedOn: { type: Date },
+  address: {
+    address: { type: String },
+    coordinate: {
+      type: String,
+      enum: ['Point'],
+    },
+  },
+  utility: [utilSchema],
+  type: { type: String },
+  description: { type: String },
+  room: [RoomSchema],
+  allowedSex: { type: String },
+  avgStar: { type: Number },
+  license: { type: [String] },
+  createdOn: { type: Date, default: Date.now },
+  modifiedOn: { type: Date, default: Date.now },
+  approved: { type: String, enum: ['approved', 'disapproved', 'pending'] ,index:true},
+  approvedOn: { type: Date },
 });
 
 
 
+export interface UtilityInterface extends mongoose.Document{
+  type: string;
+  distance: number;
+  description: string;
+}
 
-// export interface DormQuery extends mongoose.Document {
-//   name: string;
-//   address: {
-//     address: string;
-//     coordinate: { type: 'Point'; coordinates: [Number, Number] };
-//   };
-//   utility: Array<UtilityInterfacce>;
-//   room: Array<RoomInterface>;
-//   allowedSex: Sex;
-//   avgStar: number;
-//   license: Array<string>;
-//   createdOn: Date;
-//   modifiedOn: Date;
-//   approved: approval;
-//   approvedOn: Date;
-// }
-
-// export interface UtilityInterfacce {
-//   type: string;
-//   distance: number;
-//   description: string;
-// }
-
-// export interface RoomInterface {
-//   name: string;
-//   capacity: number;
-//   image: Array<string>;
-//   bathroom: number;
-//   aircond: number;
-//   kitchen: number;
-//   bedroom: number;
-//   description: string;
-//   price: {
-//     amount: number;
-//     pricePer: number;
-//   };
-//   allowedSex: Sex;
-// }
+export interface RoomInterface extends mongoose.Document{
+  name: string;
+  capacity: number;
+  image: string[];
+  bathroom: number;
+  aircond: number;
+  kitchen: number;
+  bedroom: number;
+  description: string;
+  price: {
+    amount: number;
+    pricePer: number;
+  };
+  allowedSex: Sex;
+}
 
 export interface Dorm extends mongoose.Document {
-  id:string,
+  id: string;
   name: string;
   contact: {
-    telephone: string
+    telelphone: string;
+    email: string;
+    lineOD: string;
+    website: string;
   };
+  address: {
+    address: string;
+    coordinate: { type: 'Point'; coordinates: [Number, Number] };
+  };
+  utility: Array<UtilityInterface>;
+  room: Array<RoomInterface>;
+  allowedSex: Sex;
+  avgStar: number;
+  license: string[];
+  createdOn: Date;
+  modifiedOn: Date;
+  approved: approval;
+  approvedOn: Date;
 }
+
 export interface DormAdd extends mongoose.Document {
   name: string;
+  code: string;
+  owner: string; //change to userschema here
+  contact: {
+    telephone: string;
+    email: string;
+    lineID: string;
+    website: string;
+  };
+  address: {
+    address: string;
+    coordinate: { type: 'Point'; coordinates: [number, number] };
+  };
+  utility: Array<UtilityInterface>;
+  room: Array<RoomInterface>;
+  allowedSex: Sex;
+  avgStar: number;
+  license: string[];
+}
+
+export interface DormQuery extends mongoose.Document {
+  name: string;
+  address: {
+    address: string;
+    coordinate: { type: 'Point'; coordinates: [Number, Number] };
+  };
+  utility: Array<UtilityInterface>;
+  room: Array<RoomInterface>;
+  allowedSex: Sex;
+  avgStar: number;
+  license: string[];
+  createdOn: Date;
+  modifiedOn: Date;
+  approved: approval;
+  approvedOn: Date;
 }
