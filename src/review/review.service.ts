@@ -25,10 +25,10 @@ export class ReviewService {
         .limit(stop)
         .exec();
     } catch (error) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find review.');
     }
     if (!review) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find review.');
     }
     return review;
   }
@@ -45,10 +45,10 @@ export class ReviewService {
         .limit(stop)
         .exec();
     } catch (error) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find review.');
     }
     if (!review) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find review.');
     }
     return review;
   }
@@ -73,10 +73,10 @@ export class ReviewService {
         )
         .exec();
     } catch (error) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find review.');
     }
     if (!review) {
-      throw new NotFoundException('Could not find product.');
+      throw new NotFoundException('Could not find review.');
     }
     return review;
   }
@@ -138,7 +138,6 @@ export class ReviewService {
     reviewBody: ReviewBodyDto,
     userId: string,
   ) {
-    console.log(userId);
     const review = await this.findAnUpdateReview(
       reviewCode,
       reviewBody,
@@ -147,7 +146,10 @@ export class ReviewService {
     return review.id as string;
   }
 
-  async deleteReview(reviewId: ReviewParamDto, reviewCode: reviewCodeDto) {
-    return `Delete Test<br>dormId: ${reviewCode}`;
+  async deleteReview(reviewId: ReviewParamDto) {
+    const result = await this.reviewModel.deleteOne({ _id: reviewId.reviewId }).exec();
+    if (result.n === 0) {
+      throw new NotFoundException('Could not find review.');
+    }
   }
 }

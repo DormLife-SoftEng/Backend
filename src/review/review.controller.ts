@@ -68,7 +68,7 @@ export class ReviewController {
         reviewCode,
         offset,
         stop,
-        userId
+        userId,
       );
       return review;
     }
@@ -95,10 +95,11 @@ export class ReviewController {
   }
 
   @Delete(':reviewId')
-  async seleteReview(
-    @Param() reviewId: ReviewParamDto,
-    @Query() reviewCode: reviewCodeDto,
-  ) {
-    return this.reviewService.deleteReview(reviewId, reviewCode);
+  async seleteReview(@Param() reviewId: ReviewParamDto) {
+    await this.reviewService.deleteReview(reviewId);
+    return {
+      statusCode: 200,
+      message: 'OK',
+    };
   }
 }
