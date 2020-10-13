@@ -36,13 +36,11 @@ export class ReviewService {
   private async findReviewByReviewCode(
     reviewCode: string,
     userId: string,
-    stop: number,
   ): Promise<Review[]> {
     let review;
     try {
       review = await this.reviewModel
         .find({ 'dorm.reviewCode': reviewCode, 'user.userId': userId })
-        .limit(stop)
         .exec();
     } catch (error) {
       throw new NotFoundException('Could not find review.');
@@ -100,13 +98,9 @@ export class ReviewService {
 
   async getSingleReviewByReviewCode(
     reviewCode: string,
-    offset: string,
-    stop: string,
     userId: string,
   ) {
-    const _offset = parseInt(offset);
-    const _stop = parseInt(stop);
-    const review = await this.findReviewByReviewCode(reviewCode, userId, _stop);
+    const review = await this.findReviewByReviewCode(reviewCode, userId);
     return review
       .map(review => ({
         id: review.id,
@@ -117,7 +111,6 @@ export class ReviewService {
         image: review.image,
         createdOn: review.createdOn,
       }))
-      .slice(_offset);
   }
 
   async addReview(reviewBody: ReviewBodyDto) {

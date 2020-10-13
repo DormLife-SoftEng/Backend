@@ -66,9 +66,7 @@ export class ReviewController {
       }
       const review = await this.reviewService.getSingleReviewByReviewCode(
         reviewCode,
-        offset,
-        stop,
-        userId,
+        userId
       );
       return review;
     }
