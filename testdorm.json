@@ -1,0 +1,62 @@
+{
+    "name" : "kuy",
+    "owner" : "chen",
+    "contact": {
+        "telephone": "03796346",
+        "email" : "sdksjdh@kuy.com",
+        "lineID" : "sdgsdgdfg",
+        "website" : "www.nudyed.com"
+    },
+    "address": {
+        "address" : "69/00 KUYroad",
+        "coordinate" : [69,100]
+    },
+    "utility": [
+        {
+            "type": "kuy",
+            "distance": 67,
+            "description": "kkkkk"
+        },
+        {
+            "type": "hee",
+            "distance": 99,
+            "description": "aaaaa"
+        }
+    ],
+    "type" : "hee",
+    "description":"fghjkl",
+    "room" : [
+        {
+            "name" : "kuy1",
+            "capacity" : 2,
+            "image": ["hee1", "hee2"],
+            "bathroom" : 5,
+            "aircond" : 4,
+            "kitchen" : 2,
+            "bedroom" : 10,
+            "description" : "sdfsdfsdfsdf",
+            "price" : {
+                "amount" : 10000,
+                "pricePer" : 20
+            },
+            "allowedSex":"male"
+        },
+        {
+            "name" : "kuy2",
+            "capacity" : 1000,
+            "image": ["hee3", "hee4"],
+            "bathroom" : 5,
+            "aircond" : 4,
+            "kitchen" : 2,
+            "bedroom" : 10,
+            "description" : "sdfsdfsdfsdf",
+            "price" : {
+                "amount" : 10000,
+                "pricePer" : 20
+            },
+            "allowedSex":"male"
+        }
+    ],
+    "allowedSex": "any",
+    "license":["djkfhg", "hee"]
+}
