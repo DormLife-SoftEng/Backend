@@ -102,6 +102,8 @@ export interface RoomInterface extends mongoose.Document {
 export interface Dorm extends mongoose.Document {
   id: string;
   name: string;
+  owner: UserDocument,
+  code: string,
   contact: {
     telelphone: string;
     email: string;
