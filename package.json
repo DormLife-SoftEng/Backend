@@ -27,9 +27,14 @@
     "@nestjs/mongoose": "^7.0.2",
     "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/platform-fastify": "^7.4.4",
+    "@nestjs/platform-socket.io": "^7.4.4",
+    "@nestjs/swagger": "^4.6.1",
+    "@nestjs/websockets": "^7.4.4",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
+    "fastify-swagger": "^3.4.0",
     "mongoose": "^5.10.7",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -76,8 +81,6 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "coverageDirectory": "../coverage",
-	"collectCoverage": true,
-	"verbose": true,
     "testEnvironment": "node"
   }
 }
