@@ -1,12 +1,6 @@
 import * as mongoose from 'mongoose';
-import {User} from '../users/schemas/user.schemas'
+import {User, UserDocument} from '../users/schemas/users.schemas'
 
-
-enum Sex {
-  'male',
-  'female',
-  'any',
-}
 enum approval {
   'approved',
   'disapproved',
@@ -96,7 +90,7 @@ export interface RoomInterface extends mongoose.Document {
     amount: number;
     pricePer: number;
   };
-  allowedSex: Sex;
+  allowedSex: string;
 }
 
 export interface Dorm extends mongoose.Document {
@@ -116,7 +110,7 @@ export interface Dorm extends mongoose.Document {
   };
   utility: UtilityInterface[];
   room: RoomInterface[];
-  allowedSex: Sex;
+  allowedSex: string;
   avgStar: number;
   license: string[];
   createdOn: Date;
@@ -141,7 +135,7 @@ export interface DormAdd extends mongoose.Document {
   };
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
-  allowedSex: Sex;
+  allowedSex: string;
   avgStar: number;
   license: string[];
 }
@@ -150,15 +144,9 @@ export interface DormQuery extends mongoose.Document {
   name: string;
   address: {
     address: string;
-    coordinate: { type: 'Point'; coordinates: [Number, Number] };
+    coordinate: [Number] 
   };
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
-  allowedSex: Sex;
-  avgStar: number;
-  license: string[];
-  createdOn: Date;
-  modifiedOn: Date;
-  approved: approval;
-  approvedOn: Date;
+  allowedSex: string;
 }

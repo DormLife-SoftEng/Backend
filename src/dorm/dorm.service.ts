@@ -5,13 +5,9 @@ import {
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Dorm, UtilityInterface, RoomInterface } from './dorm.model';
+import { Dorm, UtilityInterface, RoomInterface, DormQuery } from './dorm.model';
+import { DormModule } from './dorm.module';
 
-enum Sex {
-  'male',
-  'female',
-  'any',
-}
 
 @Injectable()
 export class DormService {
@@ -107,7 +103,7 @@ export class DormService {
     });
 
     const result = await newDorm.save();
-    
+
     return result.id as string;
   }
 
@@ -181,6 +177,30 @@ export class DormService {
     return dorm;
   }
 
+  private async findDormList(
+    Dname: string,
+    Daddress: string,
+    Dcoordinate: [number],
+    DutilityArray: any,
+    DroomArray: any,
+    DallowedSex: string,
+    stop: string,
+  ): Promise<Dorm[]> {
+    const Stop = parseInt(stop);
+
+    const dorms = await this.DormModel.find({
+      name: Dname,
+      'address.address': Daddress,
+      'address.coordinate': Dcoordinate,
+      utility: DutilityArray,
+      room: DroomArray,
+      allowedSex: DallowedSex,
+    })
+      .limit(Stop)
+      .exec();
+    return dorms;
+  }
+
   // filter dorm
   async getDormList(
     Dname: string,
@@ -188,27 +208,23 @@ export class DormService {
     Dcoordinate: [number],
     DutilityArray: any,
     DroomArray: any,
-    DallowedSex: Sex,
+    DallowedSex: string,
     offset: string,
     stop: string,
-  ): Promise<any> {
+  ) {
     const Offset = parseInt(offset);
-    const Stop = parseInt(stop);
 
-    const dorms = await this.DormModel.find({
-      name: Dname,
-      'address.address': Daddress,
-      'address.coordinate': Dcoordinate,
-      // "utility": DutilityArray,
-      // "room":DroomArray,
-      allowedSex: DallowedSex,
-    })
-      .limit(Stop)
-      .exec();
+    const dorms = await this.findDormList(
+      Dname,
+      Daddress,
+      Dcoordinate,
+      DutilityArray,
+      DroomArray,
+      DallowedSex,
+      stop,
+    );
 
-    // console.log(DroomArray);
-
-    return dorms
+    const kuy = dorms
       .map(d => ({
         name: d.name,
         address: {
@@ -235,5 +251,6 @@ export class DormService {
         allowedSex: d.allowedSex,
       }))
       .slice(Offset);
+    return kuy;
   }
 }

@@ -98,7 +98,7 @@ export class DormController {
     @Body('address') address: any,
     @Body('utility') utils: any,
     @Body('room') rooms: any,
-    @Body('allowedSex') allowedSex: Sex,
+    @Body('allowedSex') allowedSex: string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
   ) {
