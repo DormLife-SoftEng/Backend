@@ -47,8 +47,7 @@ export const DormSchema = new mongoose.Schema({
   address: {
     address: { type: String },
     coordinate: {
-      type: String,
-      enum: ['Point'],
+      type: [Number]
     },
   },
   utility: [utilSchema],
@@ -60,11 +59,15 @@ export const DormSchema = new mongoose.Schema({
   license: { type: [String] },
   createdOn: { type: Date, default: Date.now },
   modifiedOn: { type: Date, default: Date.now },
-  approved: { type: String, enum: ['approved', 'disapproved', 'pending'] ,index:true},
-  approvedOn: { type: Date },
+  approved: { type: String, enum: ['approved', 'disapproved', 'pending'] ,index:true, default:"pending"},
+  approvedOn: { type: Date, default: null},
 });
 
-
+export interface UtilityInterface extends mongoose.Document{
+  type: string;
+  distance: number;
+  description: string;
+}
 
 export interface UtilityInterface extends mongoose.Document{
   type: string;
@@ -73,6 +76,7 @@ export interface UtilityInterface extends mongoose.Document{
 }
 
 export interface RoomInterface extends mongoose.Document{
+  id: string,
   name: string;
   capacity: number;
   image: string[];
@@ -99,10 +103,10 @@ export interface Dorm extends mongoose.Document {
   };
   address: {
     address: string;
-    coordinate: { type: 'Point'; coordinates: [Number, Number] };
+    coordinate: number[];
   };
-  utility: Array<UtilityInterface>;
-  room: Array<RoomInterface>;
+  utility: UtilityInterface[];
+  room: RoomInterface[];
   allowedSex: Sex;
   avgStar: number;
   license: string[];
@@ -124,7 +128,7 @@ export interface DormAdd extends mongoose.Document {
   };
   address: {
     address: string;
-    coordinate: { type: 'Point'; coordinates: [number, number] };
+    coordinate: { type: 'Point'; coordinates: number[] };
   };
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
