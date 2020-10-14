@@ -1,20 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
+
 import {LoginUserDto} from './dto/login-user.dto';
 import {User} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 
-
 class UserRepositoryMock {
-	async find({email, password}: LoginUserDto): Promise<User | undefined>{
-		const user = new User();
-		user.emailInfo = {'email': email, 'verified': true};
-		return user;
-	}
-	async create(dto: CreateUserDto): Promise<string> {
-		const userId = '012345678910';
-		return userId;
-	}
+  async find({ email, password }: LoginUserDto): Promise<User | undefined> {
+    const user = new User();
+    user.emailInfo = { email: email, verified: true };
+    return user;
+  }
+  async create(dto: CreateUserDto): Promise<string> {
+    const userId = '012345678910';
+    return userId;
+  }
 }
 
 describe('UserServiceMock', () => {
@@ -42,5 +42,3 @@ describe('UserServiceMock', () => {
 		expect(user.emailInfo).toEqual(getuser.emailInfo);
 	});
 })
-
-

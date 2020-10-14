@@ -8,14 +8,17 @@ import { UsersModule } from './users/users.module';
 import {UsersController} from './users/users.controller';
 
 // import { DormModule } from './Dorm/dorm.module';
+import { ReviewModule } from './review/review.module';
+import { AdminModule } from './admin/admin.module';
+
 @Module({
   imports: [
-  	MongooseModule.forRoot(
-    'mongodb://mongol:27017/DormLife',
-  	),
-//    DormModule,
-	AuthModule,
-	UsersModule
+    MongooseModule.forRoot('mongodb://mongol:27017/DormLife'),
+    AuthModule,
+    UsersModule,
+    // DormModule,
+    ReviewModule,
+    AdminModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService],
