@@ -8,8 +8,12 @@ import {
   Patch,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
 import { ReviewService } from './review.service';
 import {
   ReviewBodyDto,
@@ -56,17 +60,20 @@ export class ReviewController {
   }
 
   @Get('users')
-  @UseGuards(JwtA)
-  async getReviewByReviewCode(@Query('reviewCode') reviewCode: string) {
-    if (userId === undefined) {
-      throw new BadRequestException('userId must be defined.');
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
+  async getReviewByReviewCode(
+    @Query('reviewCode') reviewCode: string,
+    @Request() req,
+  ) {
+    if (reviewCode === undefined) {
+      throw new BadRequestException('reviewCode must be defined.');
     }
     const review = await this.reviewService.getSingleReviewByReviewCode(
       reviewCode,
-      userId
+      req.user.userId,
     );
     return review;
-  }
   }
 
   @Post()
@@ -76,15 +83,17 @@ export class ReviewController {
   }
 
   @Patch()
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
   async editReview(
     @Query() reviewCode: reviewCodeDto,
-    @Query('userId') userId: string, // mocked user id
+    @Request() req,
     @Body() reviewBody: ReviewBodyDto,
   ) {
     const generatedId = await this.reviewService.editReview(
       reviewCode,
       reviewBody,
-      userId,
+      req.user.userId,
     );
     return { id: generatedId };
   }
