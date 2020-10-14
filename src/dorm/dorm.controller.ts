@@ -19,7 +19,6 @@ enum Sex {
 }
 
 
-
 @Controller('/dorms')
 @ApiTags('Dorms')
 export class DormController {
