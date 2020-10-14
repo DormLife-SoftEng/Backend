@@ -7,6 +7,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Dorm, UtilityInterface, RoomInterface, DormQuery } from './dorm.model';
 import { DormModule } from './dorm.module';
+import { UserDocument } from '../users/schemas/users.schemas'
 
 
 @Injectable()
@@ -60,7 +61,7 @@ export class DormService {
   //Create new dorm
   async insertDorm(
     name: string,
-    owner: string,
+    owner: UserDocument,
     telephone: string,
     email: string,
     lineID: string,

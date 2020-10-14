@@ -1,10 +1,8 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { DormService } from './dorm.service';
-enum Sex {
-  'male',
-  'female',
-  'any',
-}
+import { UserDocument } from '../users/schemas/users.schemas'
+
+
 @Controller('/dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
@@ -12,7 +10,7 @@ export class DormController {
   @Post('newdorm')
   async addDorm(
     @Body('name') dormName: string,
-    @Body('owner') dormowner: string,
+    @Body('owner') dormowner: UserDocument,
     @Body('contact')
     dormcontact: {
       telelphone: string;

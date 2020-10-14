@@ -1,5 +1,6 @@
+import { Prop, raw, Schema } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import {User, UserDocument} from '../users/schemas/users.schemas'
+import { User, UserDocument } from '../users/schemas/users.schemas';
 
 enum approval {
   'approved',
@@ -35,10 +36,11 @@ var contactSchema = new mongoose.Schema({
   lineID: { type: String },
   website: { type: String },
 });
+
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
   code: { type: String },
-  owner: User, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  owner: { }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   contact: contactSchema,
   address: {
     address: { type: String },
@@ -96,8 +98,8 @@ export interface RoomInterface extends mongoose.Document {
 export interface Dorm extends mongoose.Document {
   id: string;
   name: string;
-  owner: UserDocument,
-  code: string,
+  owner: UserDocument;
+  code: string;
   contact: {
     telelphone: string;
     email: string;
@@ -122,7 +124,7 @@ export interface Dorm extends mongoose.Document {
 export interface DormAdd extends mongoose.Document {
   name: string;
   code: string;
-  owner: string; //change to userschema here
+  owner: UserDocument; //change to userschema here
   contact: {
     telephone: string;
     email: string;
@@ -144,7 +146,7 @@ export interface DormQuery extends mongoose.Document {
   name: string;
   address: {
     address: string;
-    coordinate: [Number] 
+    coordinate: [Number];
   };
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
