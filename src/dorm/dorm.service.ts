@@ -181,9 +181,9 @@ export class DormService {
   }
 
   private utilChk(util: string, arr: any) {
-    if (util === '') {}
-    else {
-      arr.push({type: util});
+    if (util === '') {
+    } else {
+      arr.push({ type: util });
     }
   }
 
@@ -195,26 +195,25 @@ export class DormService {
 
     const dorms = await this.DormModel.find({
       name: propsSearch.dormName,
-      distance: propsSearch.distance,
-      avgStar: propsSearch.rating,
+      // distance: propsSearch.distance,
+      avgStar: { $gte: propsSearch.rating },
       allowedSex: propsSearch.gender,
       type: propsSearch.dormType,
       'room.price.amount': { $lt: propsSearch.price },
-      'room.capacity': { $lt: propsSearch.maxperson },
-      'room.kitchen': { $gt: propsSearch.kitchen },
-      'room.aircond': { $gt: propsSearch.aircond },
-      'room.bathroom': { $gt: propsSearch.bathroom },
-      'room.bedroom': { $gt: propsSearch.bedroom },
+      'room.capacity': propsSearch.maxperson,
+      'room.kitchen': { $gte: propsSearch.kitchen },
+      'room.aircond': { $gte: propsSearch.aircond },
+      'room.bathroom': { $gte: propsSearch.bathroom },
+      'room.bedroom': { $gte: propsSearch.bedroom },
     })
       .limit(Stop)
       .exec();
-
+    console.log(dorms);
     const myUtil = dorms.map(res => ({
       utility: res.utility.map(r => ({
         type: r.type,
       })),
     }));
-
     let mySearch = [];
     this.utilChk(propsSearch.convenienceStore, mySearch);
     this.utilChk(propsSearch.laundry, mySearch);
@@ -226,14 +225,18 @@ export class DormService {
     this.utilChk(propsSearch.cooking, mySearch);
 
     let res = [];
-    for (let i = 0; i < dorms.length; i++) {
-      if (
-        myUtil[i].utility.every(
-          util =>
-          myUtil[i].utility.indexOf(util) === mySearch.indexOf(util) &&
-          myUtil[i].utility.length === mySearch.length,
-        )
-      ) {
+    for (let i = 0; i < myUtil.length; i++) {
+      let state = 1;
+      if (myUtil[i].utility.length !== mySearch.length) {
+        continue;
+      }
+      for (let j = 0; j < myUtil[i].utility.length; j++) {
+        if (myUtil[i].utility[j].type !== mySearch[j].type) {
+          state = 0;
+          break;
+        }
+      }
+      if (state) {
         res.push(dorms[i]);
       }
     }
@@ -246,8 +249,6 @@ export class DormService {
     const Offset = parseInt(offset);
 
     const dorms = await this.findDormList(propsSearch, stop);
-
-    return dorms;
 
     const kuy = dorms
       .map(d => ({
