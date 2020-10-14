@@ -1,6 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { DormService } from './dorm.service';
 import { UserDocument } from '../users/schemas/users.schemas'
+import { propsSearchDto } from './kuy';
 
 
 @Controller('/dorms')
@@ -92,11 +93,7 @@ export class DormController {
 
   @Post()
   async queryDorm(
-    @Body('name') name: string,
-    @Body('address') address: any,
-    @Body('utility') utils: any,
-    @Body('room') rooms: any,
-    @Body('allowedSex') allowedSex: string,
+    @Body() propsSearch: propsSearchDto,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
   ) {
@@ -117,12 +114,7 @@ export class DormController {
     }
 
     const dorms = await this.DormService.getDormList(
-      name,
-      address.address,
-      address.coordinate,
-      utils,
-      rooms,
-      allowedSex,
+      propsSearch,
       offset,
       stop
     );
