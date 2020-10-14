@@ -1,6 +1,5 @@
-import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import {LoginUserDto} from 'src/users/dto/login-user.dto';
 import {UserDocument} from 'src/users/schemas/users.schemas';
 import {JwtService} from '@nestjs/jwt';
 import {jwtPayload, accessToken} from './auth.interface';
@@ -15,11 +14,9 @@ export class AuthService {
 		private userServ: UsersService,
 		private jwtServ: JwtService,
 	) {}
-	private readonly logger = new Logger(AuthService.name);
 
 	async validateUser(username: string, password: string): Promise<any>{
 		const userDoc = await this.userServ.find(username);
-		this.logger.log(userDoc);
 		const result = await bcrypt.compare(password, userDoc.hashedPassword);
 		if (result) {
 			return userDoc;
@@ -40,7 +37,6 @@ export class AuthService {
 			avatar: user.PictureProfile,
 			role: user.userType,
 		};
-		this.logger.log('Authorizing new token' + `${payload}`)
 		return {
 			access_token: this.jwtServ.sign(payload),
 		};

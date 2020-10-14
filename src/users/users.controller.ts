@@ -5,11 +5,11 @@ import {UsersService} from './users.service';
 @Controller('users')
 export class UsersController {
 	constructor(private userServ: UsersService) {}
-	@Post('sign-up')
-	@HttpCode(HttpStatus.CREATED)
-	async createUser(@Body() createUserDto: CreateUserDto) {
-		const userId = await this.userServ.create(createUserDto);
-		return userId
-	}
+	//@Post('sign-up')
+	//@HttpCode(HttpStatus.CREATED)
+	//async createUser(@Body() createUserDto: CreateUserDto) {
+	//	const userId = await this.userServ.create(createUserDto);
+	//	return userId
+	//}
 
 }
