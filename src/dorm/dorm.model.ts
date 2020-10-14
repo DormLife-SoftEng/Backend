@@ -1,4 +1,6 @@
 import * as mongoose from 'mongoose';
+import {User} from '../users/schemas/user.schemas'
+
 
 enum Sex {
   'male',
@@ -42,7 +44,7 @@ var contactSchema = new mongoose.Schema({
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
   code: { type: String },
-  owner: { type: String }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  owner: User, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   contact: contactSchema,
   address: {
     address: { type: String },
