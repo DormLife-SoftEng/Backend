@@ -15,12 +15,12 @@ import {UserRepository} from 'src/users/repositories/user.repository';
 		UsersModule,
 		PassportModule.register({
 				defaultStrategy: 'jwt',
-				property: 'users',
+				property: 'user',
 				session: false,
 		}),
 		JwtModule.register({
 			secret: jwtConstants.secret,
-			signOptions: {expiresIn: '60s'},
+			signOptions: {expiresIn: '2w'},
 		}),
 	],
 	providers: [

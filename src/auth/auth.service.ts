@@ -21,7 +21,12 @@ export class AuthService {
 		const userDoc = await this.userServ.find(username);
 		this.logger.log(userDoc);
 		const result = await bcrypt.compare(password, userDoc.hashedPassword);
-		return result;
+		if (result) {
+			return userDoc;
+		}
+		else {
+			return null;
+		}
 
 	}
 
@@ -35,6 +40,7 @@ export class AuthService {
 			avatar: user.PictureProfile,
 			role: user.userType,
 		};
+		this.logger.log('Authorizing new token' + `${payload}`)
 		return {
 			access_token: this.jwtServ.sign(payload),
 		};
