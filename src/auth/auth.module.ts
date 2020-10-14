@@ -18,10 +18,7 @@ import {UserRepository} from 'src/users/repositories/user.repository';
 				property: 'user',
 				session: false,
 		}),
-		JwtModule.register({
-			secret: jwtConstants.secret,
-			signOptions: {expiresIn: '2w'},
-		}),
+		JwtModule.register({}),
 	],
 	providers: [
 			AuthService,

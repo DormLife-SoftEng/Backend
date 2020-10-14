@@ -4,7 +4,7 @@ import {AuthService} from './auth.service';
 import {JwtAuthGuard} from './guards/jwt-auth.guard';
 import {CreateUserDto} from 'src/users/dto/create-user.dto';
 import {UsersService} from 'src/users/users.service';
-import {accessToken} from './auth.interface';
+import {jwtToken} from './auth.interface';
 import {RoleGuard} from './guards/role.guard';
 import {Role} from './decorator/role.decorator';
 
@@ -20,7 +20,7 @@ export class AuthController {
 	@HttpCode(HttpStatus.OK)
 	@Post('sign-in')
 	async login(@Request() req) {
-		const payload: accessToken = await this.authServ.login(req.user);
+		const payload: jwtToken = await this.authServ.login(req.user);
 		return payload;
 	}
 
@@ -28,7 +28,7 @@ export class AuthController {
 	@HttpCode(HttpStatus.OK)
 	@Get('verify-token')
 	async verifyToken(@Request() req) {
-		return req.user.role;
+		return req.user;
 	}
 
 	@UseGuards(JwtAuthGuard, RoleGuard)
