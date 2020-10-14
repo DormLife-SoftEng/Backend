@@ -27,5 +27,4 @@ export class propsSearchDto {
   fitness: string;
   pool: string;
   cooking: string;
-  kuy : string;
 }

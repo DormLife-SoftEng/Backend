@@ -112,12 +112,7 @@ export class DormService {
   //show all dorm list
   async getAll(): Promise<any> {
     const dorm = await this.DormModel.find().exec();
-    const kuy = dorm.map(res => {
-      kuy2: res.utility.map(util=>{
-        kuy2: util.type
-      })
-    })
-    console.log(kuy);
+
     return dorm.map(d => ({
       id: d.id,
       name: d.name,
@@ -185,6 +180,13 @@ export class DormService {
     return dorm;
   }
 
+  private utilChk(util: string, arr: any) {
+    if (util === '') {}
+    else {
+      arr.push({type: util});
+    }
+  }
+
   private async findDormList(
     propsSearch: propsSearchDto,
     stop: string,
@@ -206,21 +208,37 @@ export class DormService {
     })
       .limit(Stop)
       .exec();
-  
-    const kuy = dorms.map(res => {
-      kuy2: res.utility.map(util=>{
-        kuy2: util.type
-      })
-    })
-    console.log(kuy);
-    let res = [];
-    for (let i=0;i<dorms.length;i++) {
-      // if (arr1.every((util) => arr2.indexOf(util) >= 0 )) {
 
-      // }
+    const myUtil = dorms.map(res => ({
+      utility: res.utility.map(r => ({
+        type: r.type,
+      })),
+    }));
+
+    let mySearch = [];
+    this.utilChk(propsSearch.convenienceStore, mySearch);
+    this.utilChk(propsSearch.laundry, mySearch);
+    this.utilChk(propsSearch.parking, mySearch);
+    this.utilChk(propsSearch.pet, mySearch);
+    this.utilChk(propsSearch.internet, mySearch);
+    this.utilChk(propsSearch.fitness, mySearch);
+    this.utilChk(propsSearch.pool, mySearch);
+    this.utilChk(propsSearch.cooking, mySearch);
+
+    let res = [];
+    for (let i = 0; i < dorms.length; i++) {
+      if (
+        myUtil[i].utility.every(
+          util =>
+          myUtil[i].utility.indexOf(util) === mySearch.indexOf(util) &&
+          myUtil[i].utility.length === mySearch.length,
+        )
+      ) {
+        res.push(dorms[i]);
+      }
     }
 
-    return dorms;
+    return res;
   }
 
   // filter dorm
@@ -228,6 +246,8 @@ export class DormService {
     const Offset = parseInt(offset);
 
     const dorms = await this.findDormList(propsSearch, stop);
+
+    return dorms;
 
     const kuy = dorms
       .map(d => ({
