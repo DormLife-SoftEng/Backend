@@ -14,34 +14,34 @@ export class User {
 	@Prop()
 	telephone: string;
 
+	@Prop({ required: true })
+	natId: string;
+
+	@Prop({ required: true, unique: true, index: true})
+	email: string;
+
 	@Prop({required: true})
-	natid: string;
+	email_verified: boolean;
 
-	@Prop(raw({
-		email: {type: String},
-		verified: {type: Boolean}
-	}))
-	emailInfo: Record<string, any>;
-
-	@Prop()
+	@Prop({required: true})
 	sex: string;
 
-	@Prop()
+	@Prop({required: true})
 	hashedPassword: string;
 
-	@Prop()
+	@Prop({required: true})
 	userType: string;
 
-	@Prop()
+	@Prop({required: true, default: 'profile1'})
 	PictureProfile: string;
 
 	@Prop()
 	refreshToken: string;
 
-	@Prop(Date)
+	@Prop({timestamps: true, required:true})
 	createdOn: string;
 
-	@Prop(Date)
+	@Prop({timestamps: true})
 	modifiedOn: string;
 }
 

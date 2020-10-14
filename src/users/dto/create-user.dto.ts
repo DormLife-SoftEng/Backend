@@ -1,32 +1,57 @@
-import { IsNotEmpty, IsEmail, Matches, IsIn } from 'class-validator';
+import { IsNotEmpty, IsEmail, Matches, IsIn, IsBoolean, IsString, MinLength, MaxLength } from 'class-validator';
+import {Exclude, Expose} from 'class-transformer';
+
 
 const sex: string[] = ['male', 'female'];
-const usertype: string[] = ['general', 'owner', 'admin'];
+const allowedUsertype: string[] = ['general', 'owner'];
 
+@Exclude()
 export class CreateUserDto {
 	@IsNotEmpty()
-	@Matches("/[a-zA-Z]+/")
+	@IsString()
+	@Expose()
+	@Matches(/[a-zA-Z]+/)
 	readonly firstName: string;
 
 	@IsNotEmpty()
-	@Matches("/[a-zA-Z]/")
-	readonly secondName: string;
+	@IsString()
+	@Expose()
+	@Matches(/[a-zA-Z]+/)
+	readonly lastName: string;
 
 	@IsNotEmpty()
-	@Matches("/[0-9]/")
+	@IsString()
+	@Expose()
+	@Matches(/[0-9]+/)
 	readonly telephone: string;
 
 	@IsNotEmpty()
 	@IsEmail()
+	@Expose()
 	readonly email: string;
 
+	@IsNotEmpty()
+	@Expose()
+	@IsIn(["true", "false"])
+	email_verified: string;
+
 	@IsIn(sex)
+	@Expose()
 	readonly sex: string;
 
 	@IsNotEmpty()
-	readonly password: string;
+	@Expose()
+	password: string;
 
 	@IsNotEmpty()
-	@IsIn(usertype)
+	@Expose()
+	@IsIn(allowedUsertype)
 	userType: string;
+
+	@IsNotEmpty()
+	@Expose()
+	@MinLength(13)
+	@MaxLength(13)
+	@Matches(/[0-9]+/)
+	natId: string;
 }

@@ -1,21 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-<<<<<<< HEAD
+
 import {LoginUserDto} from './dto/login-user.dto';
 import {User} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 
-
 class UserRepositoryMock {
-	async find({email, password}: LoginUserDto): Promise<User | undefined>{
-		const user = new User();
-		user.emailInfo = {'email': email, 'verified': true};
-		return user;
-	}
-	async create(dto: CreateUserDto): Promise<string> {
-		const userId = '012345678910';
-		return userId;
-	}
+  async find({ email, password }: LoginUserDto): Promise<User | undefined> {
+    const user = new User();
+    user.emailInfo = { email: email, verified: true };
+    return user;
+  }
+  async create(dto: CreateUserDto): Promise<string> {
+    const userId = '012345678910';
+    return userId;
+  }
 }
 
 describe('UserServiceMock', () => {
@@ -43,23 +42,3 @@ describe('UserServiceMock', () => {
 		expect(user.emailInfo).toEqual(getuser.emailInfo);
 	});
 })
-
-
-=======
-
-describe('UsersService', () => {
-  let service: UsersService;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
-
-    service = module.get<UsersService>(UsersService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
->>>>>>> init auth, user
