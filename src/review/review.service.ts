@@ -21,7 +21,7 @@ export class ReviewService {
     let review;
     try {
       review = await this.reviewModel
-        .find({ 'dorm.dormId': dormId })
+        .find({ 'dorm._id': dormId })
         .limit(stop)
         .exec();
     } catch (error) {
@@ -40,7 +40,7 @@ export class ReviewService {
     let review;
     try {
       review = await this.reviewModel
-        .find({ 'dorm.reviewCode': reviewCode, 'user.userId': userId })
+        .find({ 'dorm.code': reviewCode, 'user.userId': userId })
         .exec();
     } catch (error) {
       throw new NotFoundException('Could not find review.');
@@ -61,7 +61,7 @@ export class ReviewService {
       review = await this.reviewModel
         .findOneAndUpdate(
           {
-            'dorm.reviewCode': reviewCode.reviewCode,
+            'dorm.code': reviewCode.reviewCode,
             'user.userId': userId,
           },
           reviewBody,
