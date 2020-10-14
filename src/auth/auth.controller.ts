@@ -7,8 +7,9 @@ import {UsersService} from 'src/users/users.service';
 import {jwtToken} from './auth.interface';
 import {RoleGuard} from './guards/role.guard';
 import {Role} from './decorator/role.decorator';
+import {ApiTags, ApiBearerAuth} from '@nestjs/swagger';
 
-
+@ApiTags('Authentication')
 @Controller('oauth')
 export class AuthController {
 	constructor(
