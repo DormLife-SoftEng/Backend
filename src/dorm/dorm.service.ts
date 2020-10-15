@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Dorm, UtilityInterface, RoomInterface, DormQuery } from './dorm.model';
 import { DormModule } from './dorm.module';
 import { UserDocument } from '../users/schemas/users.schemas';
-import { propsSearchDto } from './kuy';
+import { propsSearchDto } from './dorm.validation';
 import { arrayContains } from 'class-validator';
 
 @Injectable()
@@ -158,7 +158,7 @@ export class DormService {
   //get specific room of specific dorm
   async getDormRoom(dormID: string, roomID: string) {
     const dorm = await this.findDorm(dormID);
-    let room;
+    let room : RoomInterface;
     for (var i = 0; i < dorm.room.length; i++) {
       if (dorm.room[i].id == roomID) {
         room = dorm.room[i];

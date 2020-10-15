@@ -9,6 +9,7 @@ import { UsersController } from './users/users.controller';
 import { DormModule } from './Dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
 import { AdminModule } from './admin/admin.module';
+import { LobbyModule } from './lobby/lobby.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AdminModule } from './admin/admin.module';
     DormModule,
     ReviewModule,
     AdminModule,
+    LobbyModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService],

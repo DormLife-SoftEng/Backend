@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { DormService } from './dorm.service';
 import { UserDocument } from '../users/schemas/users.schemas'
-import { propsSearchDto } from './kuy';
+import { propsSearchDto } from './dorm.validation';
 
 
 @Controller('/dorms')
