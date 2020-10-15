@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { DormSchema } from '../Dorm/dorm.model';
+import { DormSchema } from '../dorm/dorm.model';
 import { User, UserDocument } from '../users/schemas/users.schemas';
 
 export const LobbySchema = new mongoose.Schema({
@@ -8,7 +8,7 @@ export const LobbySchema = new mongoose.Schema({
   owner: {},
   code: { type: String },
   member: { type: [{
-      user: User,
+      user: {},
       ready: Boolean
   }] },
   maxMember: { type: Number },

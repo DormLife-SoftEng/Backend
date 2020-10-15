@@ -9,8 +9,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Lobby, LobbySchema } from './lobby.model';
 import { LobbyModule } from './lobby.module';
 import { lobbyCodeDto, lobbyIdDto } from './lobby.dto';
-import { DormService } from '../Dorm/dorm.service';
+import { DormService } from '../dorm/dorm.service';
+import { UserRepository } from '../users/repositories/user.repository'
 import { UsersService } from '../users/users.service';
+import { User } from '../users/schemas/users.schemas' 
 
 @Injectable()
 export class LobbyService {
@@ -18,6 +20,7 @@ export class LobbyService {
     @InjectModel('Lobby') private readonly lobbyModel: Model<Lobby>,
     private readonly DormService: DormService,
     private readonly UsersService: UsersService,
+    private readonly UsersRepository: UserRepository,
   ) {}
 
   private async findAllLobby(stop: number): Promise<Lobby[]> {
@@ -233,11 +236,11 @@ export class LobbyService {
       const lobby = await this.getLobbyById(lobbyId);
 
       if (user.id == lobby.owner.id) {
-        const user2kick = await this.UsersService;
+        const user2kick = await this.UsersRepository.findById(userId);
 
         const lobby = await this.lobbyModel.update(
           { _id: lobbyId.lobbyId },
-          { $pull: { member: user2kick } },
+          { $pull: { "member.user": user2kick } },
         );
       } else {
         throw new UnauthorizedException(

@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { LobbyController } from './lobby.controller';
 import { LobbyService } from './lobby.service';
 import { LobbySchema } from './lobby.model';
-import { DormModule } from 'src/Dorm/dorm.module';
+import { DormModule } from 'src/dorm/dorm.module';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({

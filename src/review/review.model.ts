@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { DormSchema, Dorm } from '../Dorm/dorm.model';
+import { DormSchema, Dorm } from '../dorm/dorm.model';
 
 export const ReviewSchema = new mongoose.Schema({
   reviewId: { type: String },
