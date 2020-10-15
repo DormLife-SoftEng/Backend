@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Request, Get, HttpCode, HttpStatus, Body,SetMetadata } from '@nestjs/common';
+import { Controller, UseGuards, Post, Request, Get, HttpCode, HttpStatus, Body, UnauthorizedException } from '@nestjs/common';
 import {LocalAuthGuard} from './guards/local-auth.guard';
 import {AuthService} from './auth.service';
 import {JwtAuthGuard} from './guards/jwt-auth.guard';
@@ -7,7 +7,7 @@ import {UsersService} from 'src/users/users.service';
 import {jwtToken} from './auth.interface';
 import {RoleGuard} from './guards/role.guard';
 import {Role} from './decorator/role.decorator';
-import {ApiTags, ApiBearerAuth} from '@nestjs/swagger';
+import {ApiTags, ApiBearerAuth, ApiOAuth2} from '@nestjs/swagger';
 
 @ApiTags('Authentication')
 @Controller('oauth')
@@ -26,16 +26,28 @@ export class AuthController {
 	}
 
 	@UseGuards(JwtAuthGuard)
+	@ApiOAuth2([])
+	@Post('sign-out')
+	@HttpCode(HttpStatus.OK)
+	async logOut(@Request() req) {
+		const result = await this.authServ.invalidateToken(req.user.userId);
+		if(!result){
+			throw new UnauthorizedException();
+		}
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@ApiOAuth2([])
 	@HttpCode(HttpStatus.OK)
 	@Get('verify-token')
 	async verifyToken(@Request() req) {
 		return req.user;
 	}
 
-	@UseGuards(JwtAuthGuard, RoleGuard)
-	@Role('owner')
-	@Get('check-general')
-	async check_general(@Request() req) {
+	@UseGuards(JwtAuthGuard)
+	@ApiOAuth2([])
+	@Get('refresh-token')
+	async refresh_token(@Request() req) {
 		return req.user;
 	}
 

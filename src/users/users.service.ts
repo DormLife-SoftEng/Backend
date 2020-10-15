@@ -41,6 +41,14 @@ export class UsersService {
 		return user;
 	}
 
+	async findById(userId: string): Promise<UserDocument | undefined> {
+		const user = await this.userRepo.findById(userId);
+		if (!user) {
+			return null;
+		}
+		return user;
+	}
+
 	async create(dto: CreateUserDto): Promise<string | undefined> {
 		// Is unique
 		const email = dto.email;
