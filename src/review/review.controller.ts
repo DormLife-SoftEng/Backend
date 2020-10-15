@@ -8,7 +8,12 @@ import {
   Patch,
   Post,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
 import { ReviewService } from './review.service';
 import {
   ReviewBodyDto,
@@ -23,18 +28,11 @@ export class ReviewController {
   @Get()
   async getReviewList(
     @Query('dormId') dormId: string,
-    @Query('reviewCode') reviewCode: string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
-    @Query('userId') userId: string, // mocked user id
   ) {
-    if (
-      (reviewCode === undefined && dormId === undefined) ||
-      (reviewCode !== undefined && dormId !== undefined)
-    ) {
-      throw new BadRequestException(
-        'Only one of reviewCode or dormId values ​​must be specified.',
-      );
+    if (dormId === undefined) {
+      throw new BadRequestException('dormId values ​​must be specified.');
     }
 
     if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
@@ -53,23 +51,29 @@ export class ReviewController {
       stop = '50';
     }
 
+    const reviews = await this.reviewService.getReviewList(
+      dormId,
+      offset,
+      stop,
+    );
+    return reviews;
+  }
+
+  @Get('users')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
+  async getReviewByReviewCode(
+    @Query('reviewCode') reviewCode: string,
+    @Request() req,
+  ) {
     if (reviewCode === undefined) {
-      const reviews = await this.reviewService.getReviewList(
-        dormId,
-        offset,
-        stop,
-      );
-      return reviews;
-    } else if (dormId === undefined) {
-      if (userId === undefined) {
-        throw new BadRequestException('userId must be defined.');
-      }
-      const review = await this.reviewService.getSingleReviewByReviewCode(
-        reviewCode,
-        userId
-      );
-      return review;
+      throw new BadRequestException('reviewCode must be defined.');
     }
+    const review = await this.reviewService.getSingleReviewByReviewCode(
+      reviewCode,
+      req.user.userId,
+    );
+    return review;
   }
 
   @Post()
@@ -79,15 +83,17 @@ export class ReviewController {
   }
 
   @Patch()
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
   async editReview(
     @Query() reviewCode: reviewCodeDto,
-    @Query('userId') userId: string, // mocked user id
+    @Request() req,
     @Body() reviewBody: ReviewBodyDto,
   ) {
     const generatedId = await this.reviewService.editReview(
       reviewCode,
       reviewBody,
-      userId,
+      req.user.userId,
     );
     return { id: generatedId };
   }
