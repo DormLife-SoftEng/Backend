@@ -27,7 +27,6 @@ export class LobbyController {
 
   @Get()
   async getAllLobbyList(
-    @Request() req,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
     @Query('dormId') dormId: string,
