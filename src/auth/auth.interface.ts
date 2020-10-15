@@ -6,8 +6,11 @@ export interface jwtPayload {
 	}
 	avatar: string;
 	role: string;
+	token_type: string;
 }
 
-export interface accessToken {
+export interface jwtToken {
 	access_token: string
+	refresh_token: string
 }
+
