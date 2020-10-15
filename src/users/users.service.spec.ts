@@ -8,7 +8,7 @@ import {CreateUserDto} from './dto/create-user.dto';
 class UserRepositoryMock {
   async find({ email, password }: LoginUserDto): Promise<User | undefined> {
     const user = new User();
-    user.emailInfo = { email: email, verified: true };
+    user.email = email;
     return user;
   }
   async create(dto: CreateUserDto): Promise<string> {
@@ -36,9 +36,9 @@ describe('UserServiceMock', () => {
 		const email = 'test@DormLife';
 		const password = 'test';
 		const user = new User();
-		user.emailInfo = {'email': email, verified: true};
+		user.email = email;
 
-		const getuser = await service.find({email, password});
-		expect(user.emailInfo).toEqual(getuser.emailInfo);
+		const getuser = await service.find(email);
+		expect(user.email).toEqual(getuser.email);
 	});
 })
