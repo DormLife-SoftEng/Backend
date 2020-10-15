@@ -1,10 +1,7 @@
+import { Prop, raw, Schema } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { User, UserDocument } from '../users/schemas/users.schemas';
 
-enum Sex {
-  'male',
-  'female',
-  'any',
-}
 enum approval {
   'approved',
   'disapproved',
@@ -39,10 +36,11 @@ var contactSchema = new mongoose.Schema({
   lineID: { type: String },
   website: { type: String },
 });
+
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
   code: { type: String },
-  owner: { type: String }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  owner: { }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   contact: contactSchema,
   address: {
     address: { type: String },
@@ -94,12 +92,14 @@ export interface RoomInterface extends mongoose.Document {
     amount: number;
     pricePer: number;
   };
-  allowedSex: Sex;
+  allowedSex: string;
 }
 
 export interface Dorm extends mongoose.Document {
   id: string;
   name: string;
+  owner: UserDocument;
+  code: string;
   contact: {
     telelphone: string;
     email: string;
@@ -112,7 +112,7 @@ export interface Dorm extends mongoose.Document {
   };
   utility: UtilityInterface[];
   room: RoomInterface[];
-  allowedSex: Sex;
+  allowedSex: string;
   avgStar: number;
   license: string[];
   createdOn: Date;
@@ -124,7 +124,7 @@ export interface Dorm extends mongoose.Document {
 export interface DormAdd extends mongoose.Document {
   name: string;
   code: string;
-  owner: string; //change to userschema here
+  owner: UserDocument; //change to userschema here
   contact: {
     telephone: string;
     email: string;
@@ -137,7 +137,7 @@ export interface DormAdd extends mongoose.Document {
   };
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
-  allowedSex: Sex;
+  allowedSex: string;
   avgStar: number;
   license: string[];
 }
@@ -146,15 +146,9 @@ export interface DormQuery extends mongoose.Document {
   name: string;
   address: {
     address: string;
-    coordinate: { type: 'Point'; coordinates: [Number, Number] };
+    coordinate: [Number];
   };
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
-  allowedSex: Sex;
-  avgStar: number;
-  license: string[];
-  createdOn: Date;
-  modifiedOn: Date;
-  approved: approval;
-  approvedOn: Date;
+  allowedSex: string;
 }

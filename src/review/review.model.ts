@@ -1,11 +1,12 @@
 import * as mongoose from 'mongoose';
-import { DormSchema, Dorm } from '../Dorm/dorm.model';
-import { User, UserDocument } from '../users/schemas/users.schemas';
+import { DormSchema, Dorm } from '../dorm/dorm.model';
 
 export const ReviewSchema = new mongoose.Schema({
   reviewId: { type: String },
   dorm: DormSchema,
-  user: User,
+  user: {
+    userId: { type: String },
+  },
   star: { type: Number },
   comment: { type: String },
   image: { type: [String] },
@@ -15,7 +16,9 @@ export const ReviewSchema = new mongoose.Schema({
 export interface Review extends mongoose.Document {
   id: string;
   dorm: Dorm;
-  user: UserDocument;
+  user: {
+    userId: string;
+  };
   star: number;
   comment: string;
   image: [string];

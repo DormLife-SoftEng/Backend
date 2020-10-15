@@ -5,13 +5,11 @@ import {
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Dorm, UtilityInterface, RoomInterface } from './dorm.model';
-
-enum Sex {
-  'male',
-  'female',
-  'any',
-}
+import { Dorm, UtilityInterface, RoomInterface, DormQuery } from './dorm.model';
+import { DormModule } from './dorm.module';
+import { UserDocument } from '../users/schemas/users.schemas';
+import { propsSearchDto } from './dorm.validation';
+import { arrayContains } from 'class-validator';
 
 @Injectable()
 export class DormService {
@@ -64,7 +62,7 @@ export class DormService {
   //Create new dorm
   async insertDorm(
     name: string,
-    owner: string,
+    owner: UserDocument,
     telephone: string,
     email: string,
     lineID: string,
@@ -107,13 +105,14 @@ export class DormService {
     });
 
     const result = await newDorm.save();
-    
+
     return result.id as string;
   }
 
   //show all dorm list
   async getAll(): Promise<any> {
     const dorm = await this.DormModel.find().exec();
+
     return dorm.map(d => ({
       id: d.id,
       name: d.name,
@@ -159,7 +158,7 @@ export class DormService {
   //get specific room of specific dorm
   async getDormRoom(dormID: string, roomID: string) {
     const dorm = await this.findDorm(dormID);
-    let room;
+    let room : RoomInterface;
     for (var i = 0; i < dorm.room.length; i++) {
       if (dorm.room[i].id == roomID) {
         room = dorm.room[i];
@@ -181,34 +180,77 @@ export class DormService {
     return dorm;
   }
 
-  // filter dorm
-  async getDormList(
-    Dname: string,
-    Daddress: string,
-    Dcoordinate: [number],
-    DutilityArray: any,
-    DroomArray: any,
-    DallowedSex: Sex,
-    offset: string,
+  private utilChk(util: string, arr: any) {
+    if (util === '') {
+    } else {
+      arr.push({ type: util });
+    }
+  }
+
+  private async findDormList(
+    propsSearch: propsSearchDto,
     stop: string,
-  ): Promise<any> {
-    const Offset = parseInt(offset);
+  ): Promise<Dorm[]> {
     const Stop = parseInt(stop);
 
     const dorms = await this.DormModel.find({
-      name: Dname,
-      'address.address': Daddress,
-      'address.coordinate': Dcoordinate,
-      // "utility": DutilityArray,
-      // "room":DroomArray,
-      allowedSex: DallowedSex,
+      name: propsSearch.dormName,
+      // distance: propsSearch.distance,
+      avgStar: { $gte: propsSearch.rating },
+      allowedSex: propsSearch.gender,
+      type: propsSearch.dormType,
+      'room.price.amount': { $lt: propsSearch.price },
+      'room.capacity': propsSearch.maxperson,
+      'room.kitchen': { $gte: propsSearch.kitchen },
+      'room.aircond': { $gte: propsSearch.aircond },
+      'room.bathroom': { $gte: propsSearch.bathroom },
+      'room.bedroom': { $gte: propsSearch.bedroom },
     })
       .limit(Stop)
       .exec();
+    console.log(dorms);
+    const myUtil = dorms.map(res => ({
+      utility: res.utility.map(r => ({
+        type: r.type,
+      })),
+    }));
+    let mySearch = [];
+    this.utilChk(propsSearch.convenienceStore, mySearch);
+    this.utilChk(propsSearch.laundry, mySearch);
+    this.utilChk(propsSearch.parking, mySearch);
+    this.utilChk(propsSearch.pet, mySearch);
+    this.utilChk(propsSearch.internet, mySearch);
+    this.utilChk(propsSearch.fitness, mySearch);
+    this.utilChk(propsSearch.pool, mySearch);
+    this.utilChk(propsSearch.cooking, mySearch);
 
-    // console.log(DroomArray);
+    let res = [];
+    for (let i = 0; i < myUtil.length; i++) {
+      let state = 1;
+      if (myUtil[i].utility.length !== mySearch.length) {
+        continue;
+      }
+      for (let j = 0; j < myUtil[i].utility.length; j++) {
+        if (myUtil[i].utility[j].type !== mySearch[j].type) {
+          state = 0;
+          break;
+        }
+      }
+      if (state) {
+        res.push(dorms[i]);
+      }
+    }
 
-    return dorms
+    return res;
+  }
+
+  // filter dorm
+  async getDormList(propsSearch: propsSearchDto, offset: string, stop: string) {
+    const Offset = parseInt(offset);
+
+    const dorms = await this.findDormList(propsSearch, stop);
+
+    const kuy = dorms
       .map(d => ({
         name: d.name,
         address: {
@@ -235,5 +277,6 @@ export class DormService {
         allowedSex: d.allowedSex,
       }))
       .slice(Offset);
+    return kuy;
   }
 }

@@ -40,7 +40,7 @@ export class ReviewService {
     let review;
     try {
       review = await this.reviewModel
-        .find({ 'dorm.code': reviewCode, 'user._id': userId })
+        .find({ 'dorm.code': reviewCode, 'user.userId': userId })
         .exec();
     } catch (error) {
       throw new NotFoundException('Could not find review.');

@@ -6,9 +6,11 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { UsersController } from './users/users.controller';
-import { DormModule } from './Dorm/dorm.module';
+import { DormModule } from './dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
 import { AdminModule } from './admin/admin.module';
+import { LobbyModule } from './lobby/lobby.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -18,8 +20,9 @@ import { AdminModule } from './admin/admin.module';
     DormModule,
     ReviewModule,
     AdminModule,
+    LobbyModule,
   ],
   controllers: [AppController, UsersController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}
