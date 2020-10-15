@@ -151,3 +151,4 @@ export interface DormQuery extends mongoose.Document {
   utility: Array<UtilityInterface>;
   room: Array<RoomInterface>;
   allowedSex: string;
+}
