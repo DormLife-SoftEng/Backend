@@ -10,6 +10,7 @@ import { DormModule } from './dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
 import { AdminModule } from './admin/admin.module';
 import { LobbyModule } from './lobby/lobby.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { LobbyModule } from './lobby/lobby.module';
     LobbyModule,
   ],
   controllers: [AppController, UsersController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}
