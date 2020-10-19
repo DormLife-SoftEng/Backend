@@ -1,18 +1,18 @@
 version: '3.7'
 services:
   backend:
-    container_name: backend_dev
-    depends_on: 
+    container_name: backend_prod
+    depends_on:
       - db
     build:
       context: .
-      target: development
+      target: production
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${SERVER_PORT}:3000
-    command: npm run start:dev
+    command: npm run start:prod
     env_file:
         - .env
 
