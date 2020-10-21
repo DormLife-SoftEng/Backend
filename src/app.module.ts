@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import {UsersController} from './users/users.controller';
 
-// import { DormModule } from './Dorm/dorm.module';
+import { DormModule } from './dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
 import { AdminModule } from './admin/admin.module';
 
@@ -16,7 +16,7 @@ import { AdminModule } from './admin/admin.module';
     MongooseModule.forRoot('mongodb://mongol:27017/DormLife'),
     AuthModule,
     UsersModule,
-    // DormModule,
+	  DormModule,
     ReviewModule,
     AdminModule,
   ],

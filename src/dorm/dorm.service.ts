@@ -6,6 +6,7 @@ import {
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Dorm, UtilityInterface, RoomInterface } from './dorm.model';
+import {UserDocument} from 'src/users/schemas/users.schemas';
 
 enum Sex {
   'male',
@@ -107,7 +108,7 @@ export class DormService {
     });
 
     const result = await newDorm.save();
-    
+
     return result.id as string;
   }
 
@@ -140,6 +141,11 @@ export class DormService {
       })),
       allowedSex: d.allowedSex,
     }));
+  }
+
+  async getDormByOwner(dormOwner: UserDocument): Promise<Dorm[]> {
+  	const dorm = await this.DormModel.find({owner: dormOwner}).exec();
+	return dorm;
   }
 
   //get specific dorm

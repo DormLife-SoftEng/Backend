@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Inject, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Mongoose } from 'mongoose';
 import { DormController } from './dorm.controller';
@@ -13,5 +13,6 @@ import { DormSchema, RoomSchema, utilSchema } from './dorm.model';
   ],
   controllers: [DormController],
   providers: [DormService],
+  exports: [DormService],
 })
 export class DormModule {}
