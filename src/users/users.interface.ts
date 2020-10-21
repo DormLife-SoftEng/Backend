@@ -26,3 +26,7 @@ export interface UserParsedDto {
 
 	userType: string;
 }
+
+export interface UserRegisterRes {
+	userId: string;
+}

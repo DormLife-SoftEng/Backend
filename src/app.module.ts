@@ -20,7 +20,7 @@ import { AdminModule } from './admin/admin.module';
     ReviewModule,
     AdminModule,
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
