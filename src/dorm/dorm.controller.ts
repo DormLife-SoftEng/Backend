@@ -8,8 +8,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
-import { UserDocument } from '../users/schemas/users.schemas';
-import { propsSearchDto } from './dorm.dto';
 
 import {ApiTags} from '@nestjs/swagger';
 enum Sex {
@@ -18,60 +16,10 @@ enum Sex {
   'any',
 }
 
-
 @Controller('/dorms')
 @ApiTags('Dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
-
-  @Post('newdorm')
-  async addDorm(
-    @Body('name') dormName: string,
-    @Body('owner') dormowner: UserDocument,
-    @Body('contact')
-    dormcontact: {
-      telelphone: string;
-      email: string;
-      lineID: string;
-      website: string;
-    },
-    @Body('address')
-    dormaddress: {
-      address: string;
-      coordinate: [number];
-    },
-    @Body('utility')
-    dormutility: any,
-    @Body('type')
-    dormtype: string,
-    @Body('description')
-    dormdescription: string,
-    @Body('room')
-    dormroom: any,
-    @Body('allowedSex')
-    dormallowedSex: string,
-    @Body('license')
-    dormlicense: string[],
-  ) {
-    const genID = await this.DormService.insertDorm(
-      dormName,
-      dormowner,
-      dormcontact.telelphone,
-      dormcontact.email,
-      dormcontact.lineID,
-      dormcontact.website,
-      dormaddress.address,
-      dormaddress.coordinate,
-      dormutility,
-      dormtype,
-      dormdescription,
-      dormroom,
-      dormallowedSex,
-      dormlicense,
-    );
-
-    return { id: genID };
-  }
 
   @Get()
   async getAlldorm() {

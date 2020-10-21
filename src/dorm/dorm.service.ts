@@ -257,7 +257,7 @@ export class DormService {
       }
     }
 
-    return res;
+    return dorms;
   }
 
   // filter dorm
