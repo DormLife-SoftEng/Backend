@@ -52,17 +52,17 @@ export class DormController {
   @Post()
   async queryDorm(
     // @Body() propsSearch: propsSearchDto,
-    @Query('dormName') dormName: string,
-    @Query('distance') distance: number,
-    @Query('rating') rating: number,
-    @Query('gender') gender: string,
-    @Query('price') price: number,
-    @Query('maxPerson') maxPerson: number,
-    @Query('kitchen') kitchen: number,
-    @Query('dormType') dormType: string,
-    @Query('airCond') airCond: number,
-    @Query('bathroom') bathroom: number,
-    @Query('bedroom') bedroom: number,
+    @Query('name') name: string,
+    @Query('distance') distance: string,
+    @Query('rating') rating: string,
+    @Query('allowedSex') allowedSex: string,
+    @Query('price') price: string,
+    @Query('maxperson') maxPerson: string,
+    @Query('kitchen') kitchen: string,
+    @Query('type') dormType: string,
+    @Query('aircond') airCond: string,
+    @Query('bathroom') bathroom: string,
+    @Query('bedroom') bedroom: string,
     @Query('convenienceStore') convenienceStore: string,
     @Query('laundry') laundry: string,
     @Query('parking') parking: string,
@@ -92,89 +92,66 @@ export class DormController {
     }
 
     let propsSearch = {
-      dormName: dormName,
-      distance: distance,
-      rating: rating,
-      gender: gender,
-      dormType: dormType,
-      'room.price': price,
-      'room.maxPerson': maxPerson,
-      'room.kitchen': kitchen,
-      'room.airCond': airCond,
-      'room.bathroom': bathroom,
-      'room.bedroom': bedroom,
-      'utility.type.convenienceStore': convenienceStore,
-      'utility.type.laundry': laundry,
-      'utility.type.parking': parking,
-      'utility.type.pet': pet,
-      'utility.type.internet': internet,
-      'utility.type.smoking': smoking,
-      'utility.type.fitness': fitness,
-      'utility.type.pool': pool,
-      'utility.type.cooking': cooking,
+      name: name,
+      allowedSex: allowedSex,
+      type: dormType,
+      distance: parseInt(distance),
+      rating: parseInt(rating),
+      'room.price.amount': parseInt(price),
+      'room.capacity': parseInt(maxPerson),
+      'room.kitchen': parseInt(kitchen),
+      'room.aircond': parseInt(airCond),
+      'room.bathroom': parseInt(bathroom),
+      'room.bedroom': parseInt(bedroom),
     };
+    let utilsSearch = {
+      convenienceStore: convenienceStore,
+      laundry: laundry,
+      parking: parking,
+      pet: pet,
+      internet: internet,
+      smoking: smoking,
+      fitness: fitness,
+      pool: pool,
+      cooking: cooking,
+    }
 
-    if (!dormName) {
-      delete propsSearch.dormName;
+    if (!name) {
+      delete propsSearch.name;
     }
     if (!distance) {
-      delete propsSearch.distance;
+      propsSearch.distance = -1;
     }
     if (!rating) {
-      delete propsSearch.rating;
+      propsSearch.rating = -1;
     }
-    if (!gender) {
-      delete propsSearch.gender;
+    if (!allowedSex) {
+      delete propsSearch.allowedSex;
     }
     if (!dormType) {
-      delete propsSearch.dormType;
+      delete propsSearch.type;
     }
     if (!price) {
-      delete propsSearch['room.price'];
+      propsSearch['room.price.amount'] = 99999999999999999999999999999999999;
     }
     if (!maxPerson) {
-      delete propsSearch['room.maxPerson'];
+      delete propsSearch['room.capacity'];
     }
     if (!kitchen) {
-      delete propsSearch['room.kitchen'];
+      propsSearch['room.kitchen'] = -1;
     }
     if (!airCond) {
-      delete propsSearch['room.airCond'];
+      propsSearch['room.aircond'] = -1;
     }
     if (!bathroom) {
-      delete propsSearch['room.bathroom'];
+      propsSearch['room.bathroom'] = -1;
     }
     if (!bedroom) {
-      delete propsSearch['room.bedroom'];
+      propsSearch['room.bedroom'] = -1;
     }
-    if (!convenienceStore) {
-      delete propsSearch['utility.type.convenienceStore'];
-    }
-    if (!laundry) {
-      delete propsSearch['utility.type.laundry'];
-    }
-    if (!parking) {
-      delete propsSearch['utility.type.parking'];
-    }
-    if (!pet) {
-      delete propsSearch['utility.type.pet'];
-    }
-    if (!internet) {
-      delete propsSearch['utility.type.internet'];
-    }
-    if (!smoking) {
-      delete propsSearch['utility.type.smoking'];
-    }
-    if (!fitness) {
-      delete propsSearch['utility.type.fitness'];
-    }
-    if (!pool) {
-      delete propsSearch['utility.type.pool'];
-    }
-    if (!cooking) {
-      delete propsSearch['utility.type.cooking'];
-    }
-    const dorms = await this.DormService.getDormList(propsSearch, offset, stop);
+
+    console.log(utilsSearch);
+    const dorms = await this.DormService.getDormList(propsSearch, utilsSearch, offset, stop);
     return dorms;
   }
 }

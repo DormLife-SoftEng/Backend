@@ -181,61 +181,89 @@ export class DormService {
   }
 
   private utilChk(util: string, arr: any) {
-    if (util === '') {
+    if (util === undefined) {
     } else {
       arr.push({ type: util });
     }
   }
 
-  private async findDormList(propsSearch: {}, stop: string): Promise<Dorm[]> {
+  private async findDormList(propsSearch, utilsSearch, stop: string): Promise<any> {
     const Stop = parseInt(stop);
-
     const dorms = await this.DormModel.find(propsSearch)
       .limit(Stop)
       .exec();
-    console.log(dorms);
-    // const myUtil = dorms.map(res => ({
-    //   utility: res.utility.map(r => ({
-    //     type: r.type,
-    //   })),
-    // }));
+    // console.log(dorms);
+
+    const myUtil = dorms.map(res => ({
+      utility: res.utility.map(r => ({
+        type: r.type,
+      })),
+    }));
+
     let mySearch = [];
-    // this.utilChk(propsSearch.convenienceStore, mySearch);
-    // this.utilChk(propsSearch.laundry, mySearch);
-    // this.utilChk(propsSearch.parking, mySearch);
-    // this.utilChk(propsSearch.pet, mySearch);
-    // this.utilChk(propsSearch.internet, mySearch);
-    // this.utilChk(propsSearch.fitness, mySearch);
-    // this.utilChk(propsSearch.pool, mySearch);
-    // this.utilChk(propsSearch.cooking, mySearch);
+    this.utilChk(utilsSearch.convenienceStore, mySearch);
+    this.utilChk(utilsSearch.laundry, mySearch);
+    this.utilChk(utilsSearch.parking, mySearch);
+    this.utilChk(utilsSearch.pet, mySearch);
+    this.utilChk(utilsSearch.internet, mySearch);
+    this.utilChk(utilsSearch.fitness, mySearch);
+    this.utilChk(utilsSearch.pool, mySearch);
+    this.utilChk(utilsSearch.cooking, mySearch);
+
+    // [ { utility: [ [Object], [Object] ] } ]
+    // [ { type: 'laundry' }, { type: 'pet' } ]
+
+    console.log(myUtil);
+    console.log(mySearch);
+    
+    // return myUtil;
 
     let res = [];
-    // for (let i = 0; i < myUtil.length; i++) {
-    //   let state = 1;
-    //   if (myUtil[i].utility.length !== mySearch.length) {
-    //     continue;
-    //   }
-    //   for (let j = 0; j < myUtil[i].utility.length; j++) {
-    //     if (myUtil[i].utility[j].type !== mySearch[j].type) {
-    //       state = 0;
-    //       break;
-    //     }
-    //   }
-    //   if (state) {
-    //     res.push(dorms[i]);
-    //   }
-    // }
+    for (let i = 0; i < myUtil.length; i++) { //for each dorm
+      let dorm_state = 1; //will store this dorm
 
-    return dorms;
+      for (let j = 0; j < mySearch.length; j++) { //for each filter
+        let filter_state = 0; //won't search in this dorm any more
+
+        for (let k = 0; k < myUtil[i].utility.length; k++) { //check if filter in dorm
+
+          if (myUtil[i].utility[k].type === mySearch[j].type) {
+            filter_state = 1; //still check other filter
+            break;
+          }
+        }
+
+        if (!filter_state) { //set state to skip this dorm
+          dorm_state = 0;
+          break;
+        }
+      }
+
+      if (!dorm_state) { //skip this dorm
+        continue;
+      } else { //store this dorm
+        res.push(dorms[i]);
+      }
+    }
+
+    return res;
   }
 
   // filter dorm
-  async getDormList(propsSearch: {}, offset: string, stop: string) {
+  async getDormList(propsSearch, utilsSearch, offset: string, stop: string) {
     const Offset = parseInt(offset);
 
-    const dorms = await this.findDormList(propsSearch, stop);
+    propsSearch.distance = { $gte: propsSearch.distance };
+    propsSearch.rating = { $gte: propsSearch.rating };
+    propsSearch['room.price.amount'] = { $lte: propsSearch['room.price.amount'] };
+    propsSearch['room.kitchen'] = { $gte: propsSearch['room.kitchen'] };
+    propsSearch['room.aircond'] = { $gte: propsSearch['room.aircond'] };
+    propsSearch['room.bathroom'] = { $gte: propsSearch['room.bathroom'] };
+    propsSearch['room.bedroom'] = { $gte: propsSearch['room.bedroom'] };
 
-    const kuy = dorms
+    const dorms = await this.findDormList(propsSearch, utilsSearch, stop);
+    // return dorms;
+    const res = dorms
       .map(d => ({
         name: d.name,
         address: {
@@ -262,6 +290,6 @@ export class DormService {
         allowedSex: d.allowedSex,
       }))
       .slice(Offset);
-    return kuy;
+    return res;
   }
 }
