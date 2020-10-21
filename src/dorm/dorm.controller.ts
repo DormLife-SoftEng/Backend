@@ -1,61 +1,19 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { DormService } from './dorm.service';
-import { UserDocument } from '../users/schemas/users.schemas'
-import { propsSearchDto } from './dorm.validation';
-
+import { UserDocument } from '../users/schemas/users.schemas';
+import { propsSearchDto } from './dorm.dto';
 
 @Controller('/dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
-
-  @Post('newdorm')
-  async addDorm(
-    @Body('name') dormName: string,
-    @Body('owner') dormowner: UserDocument,
-    @Body('contact')
-    dormcontact: {
-      telelphone: string;
-      email: string;
-      lineID: string;
-      website: string;
-    },
-    @Body('address')
-    dormaddress: {
-      address: string;
-      coordinate: [number];
-    },
-    @Body('utility')
-    dormutility: any,
-    @Body('type')
-    dormtype: string,
-    @Body('description')
-    dormdescription: string,
-    @Body('room')
-    dormroom: any,
-    @Body('allowedSex')
-    dormallowedSex: string,
-    @Body('license')
-    dormlicense: string[],
-  ) {
-    const genID = await this.DormService.insertDorm(
-      dormName,
-      dormowner,
-      dormcontact.telelphone,
-      dormcontact.email,
-      dormcontact.lineID,
-      dormcontact.website,
-      dormaddress.address,
-      dormaddress.coordinate,
-      dormutility,
-      dormtype,
-      dormdescription,
-      dormroom,
-      dormallowedSex,
-      dormlicense,
-    );
-
-    return { id: genID };
-  }
 
   @Get()
   async getAlldorm() {
@@ -86,14 +44,34 @@ export class DormController {
   }
 
   @Get(':id/rooms/:roomid')
-  getSingleRoom(@Param('id') dormID:string, @Param('roomid') roomID:string) {
+  getSingleRoom(@Param('id') dormID: string, @Param('roomid') roomID: string) {
     // console.log(roomID);
     return this.DormService.getDormRoom(dormID, roomID);
   }
 
   @Post()
   async queryDorm(
-    @Body() propsSearch: propsSearchDto,
+    // @Body() propsSearch: propsSearchDto,
+    @Query('dormName') dormName: string,
+    @Query('distance') distance: number,
+    @Query('rating') rating: number,
+    @Query('gender') gender: string,
+    @Query('price') price: number,
+    @Query('maxPerson') maxPerson: number,
+    @Query('kitchen') kitchen: number,
+    @Query('dormType') dormType: string,
+    @Query('airCond') airCond: number,
+    @Query('bathroom') bathroom: number,
+    @Query('bedroom') bedroom: number,
+    @Query('convenienceStore') convenienceStore: string,
+    @Query('laundry') laundry: string,
+    @Query('parking') parking: string,
+    @Query('pet') pet: string,
+    @Query('internet') internet: string,
+    @Query('smoking') smoking: string,
+    @Query('fitness') fitness: string,
+    @Query('pool') pool: string,
+    @Query('cooking') cooking: string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
   ) {
@@ -113,11 +91,90 @@ export class DormController {
       stop = '50';
     }
 
-    const dorms = await this.DormService.getDormList(
-      propsSearch,
-      offset,
-      stop
-    );
+    let propsSearch = {
+      dormName: dormName,
+      distance: distance,
+      rating: rating,
+      gender: gender,
+      dormType: dormType,
+      'room.price': price,
+      'room.maxPerson': maxPerson,
+      'room.kitchen': kitchen,
+      'room.airCond': airCond,
+      'room.bathroom': bathroom,
+      'room.bedroom': bedroom,
+      'utility.type.convenienceStore': convenienceStore,
+      'utility.type.laundry': laundry,
+      'utility.type.parking': parking,
+      'utility.type.pet': pet,
+      'utility.type.internet': internet,
+      'utility.type.smoking': smoking,
+      'utility.type.fitness': fitness,
+      'utility.type.pool': pool,
+      'utility.type.cooking': cooking,
+    };
+
+    if (!dormName) {
+      delete propsSearch.dormName;
+    }
+    if (!distance) {
+      delete propsSearch.distance;
+    }
+    if (!rating) {
+      delete propsSearch.rating;
+    }
+    if (!gender) {
+      delete propsSearch.gender;
+    }
+    if (!dormType) {
+      delete propsSearch.dormType;
+    }
+    if (!price) {
+      delete propsSearch['room.price'];
+    }
+    if (!maxPerson) {
+      delete propsSearch['room.maxPerson'];
+    }
+    if (!kitchen) {
+      delete propsSearch['room.kitchen'];
+    }
+    if (!airCond) {
+      delete propsSearch['room.airCond'];
+    }
+    if (!bathroom) {
+      delete propsSearch['room.bathroom'];
+    }
+    if (!bedroom) {
+      delete propsSearch['room.bedroom'];
+    }
+    if (!convenienceStore) {
+      delete propsSearch['utility.type.convenienceStore'];
+    }
+    if (!laundry) {
+      delete propsSearch['utility.type.laundry'];
+    }
+    if (!parking) {
+      delete propsSearch['utility.type.parking'];
+    }
+    if (!pet) {
+      delete propsSearch['utility.type.pet'];
+    }
+    if (!internet) {
+      delete propsSearch['utility.type.internet'];
+    }
+    if (!smoking) {
+      delete propsSearch['utility.type.smoking'];
+    }
+    if (!fitness) {
+      delete propsSearch['utility.type.fitness'];
+    }
+    if (!pool) {
+      delete propsSearch['utility.type.pool'];
+    }
+    if (!cooking) {
+      delete propsSearch['utility.type.cooking'];
+    }
+    const dorms = await this.DormService.getDormList(propsSearch, offset, stop);
     return dorms;
   }
 }

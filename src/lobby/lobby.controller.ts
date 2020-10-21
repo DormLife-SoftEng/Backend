@@ -51,11 +51,11 @@ export class LobbyController {
     @Request() req,
     @Query() createNewLobbyQueryParam: createLobbyDto,
   ) {
-    const newLobby = await this.lobbyService.postNewLobby(
+    const generatedId = await this.lobbyService.postNewLobby(
       createNewLobbyQueryParam.dormId,
       createNewLobbyQueryParam.roomId,
     );
-    return newLobby;
+    return { id: generatedId };
   }
 
   @Get(':id')
@@ -77,12 +77,14 @@ export class LobbyController {
     @Query('lobbyCode') lobbyCode: lobbyCodeDto,
   ) {
     if (id !== undefined && lobbyCode !== undefined) {
-      throw new BadRequestException("Only one of lobbyCode or lobbyId should be defined at the time.");
+      throw new BadRequestException(
+        'Only one of lobbyCode or lobbyId should be defined at the time.',
+      );
     }
 
     if (lobbyCode !== undefined) {
       const result = await this.lobbyService.joinLobbyID(req.user, id);
-      return result;   
+      return result;
     } else {
       const id = await this.lobbyService.getIdByCode(lobbyCode);
       const result = await this.lobbyService.joinLobbyID(req.user, id);
@@ -97,8 +99,16 @@ export class LobbyController {
   }
 
   @Put(':id/kick')
-  async kickMember(@Request() req, @Query('lobbyId') lobbyId: lobbyIdDto, @Query('userId') userId: string) {
-    const result = await this.lobbyService.kickMember(req.user, lobbyId, userId);
+  async kickMember(
+    @Request() req,
+    @Query('lobbyId') lobbyId: lobbyIdDto,
+    @Query('userId') userId: string,
+  ) {
+    const result = await this.lobbyService.kickMember(
+      req.user,
+      lobbyId,
+      userId,
+    );
     return result;
   }
 

@@ -10,9 +10,9 @@ import { Lobby, LobbySchema } from './lobby.model';
 import { LobbyModule } from './lobby.module';
 import { lobbyCodeDto, lobbyIdDto } from './lobby.dto';
 import { DormService } from '../dorm/dorm.service';
-import { UserRepository } from '../users/repositories/user.repository'
+import { UserRepository } from '../users/repositories/user.repository';
 import { UsersService } from '../users/users.service';
-import { User } from '../users/schemas/users.schemas' 
+import { User } from '../users/schemas/users.schemas';
 
 @Injectable()
 export class LobbyService {
@@ -171,7 +171,8 @@ export class LobbyService {
       createdOn: Date.now,
       modifiedOn: Date.now,
     });
-    return newLobby;
+    const result = await newLobby.save();
+    return result.id as string;
   }
 
   async getLobbyById(lobbyId: lobbyIdDto) {
@@ -240,7 +241,7 @@ export class LobbyService {
 
         const lobby = await this.lobbyModel.update(
           { _id: lobbyId.lobbyId },
-          { $pull: { "member.user": user2kick } },
+          { $pull: { 'member.user': user2kick } },
         );
       } else {
         throw new UnauthorizedException(

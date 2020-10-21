@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Dorm, UtilityInterface, RoomInterface, DormQuery } from './dorm.model';
 import { DormModule } from './dorm.module';
 import { UserDocument } from '../users/schemas/users.schemas';
-import { propsSearchDto } from './dorm.validation';
+import { propsSearchDto } from './dorm.dto';
 import { arrayContains } from 'class-validator';
 
 @Injectable()
@@ -158,7 +158,7 @@ export class DormService {
   //get specific room of specific dorm
   async getDormRoom(dormID: string, roomID: string) {
     const dorm = await this.findDorm(dormID);
-    let room : RoomInterface;
+    let room: RoomInterface;
     for (var i = 0; i < dorm.room.length; i++) {
       if (dorm.room[i].id == roomID) {
         room = dorm.room[i];
@@ -187,65 +187,50 @@ export class DormService {
     }
   }
 
-  private async findDormList(
-    propsSearch: propsSearchDto,
-    stop: string,
-  ): Promise<Dorm[]> {
+  private async findDormList(propsSearch: {}, stop: string): Promise<Dorm[]> {
     const Stop = parseInt(stop);
 
-    const dorms = await this.DormModel.find({
-      name: propsSearch.dormName,
-      // distance: propsSearch.distance,
-      avgStar: { $gte: propsSearch.rating },
-      allowedSex: propsSearch.gender,
-      type: propsSearch.dormType,
-      'room.price.amount': { $lt: propsSearch.price },
-      'room.capacity': propsSearch.maxperson,
-      'room.kitchen': { $gte: propsSearch.kitchen },
-      'room.aircond': { $gte: propsSearch.aircond },
-      'room.bathroom': { $gte: propsSearch.bathroom },
-      'room.bedroom': { $gte: propsSearch.bedroom },
-    })
+    const dorms = await this.DormModel.find(propsSearch)
       .limit(Stop)
       .exec();
     console.log(dorms);
-    const myUtil = dorms.map(res => ({
-      utility: res.utility.map(r => ({
-        type: r.type,
-      })),
-    }));
+    // const myUtil = dorms.map(res => ({
+    //   utility: res.utility.map(r => ({
+    //     type: r.type,
+    //   })),
+    // }));
     let mySearch = [];
-    this.utilChk(propsSearch.convenienceStore, mySearch);
-    this.utilChk(propsSearch.laundry, mySearch);
-    this.utilChk(propsSearch.parking, mySearch);
-    this.utilChk(propsSearch.pet, mySearch);
-    this.utilChk(propsSearch.internet, mySearch);
-    this.utilChk(propsSearch.fitness, mySearch);
-    this.utilChk(propsSearch.pool, mySearch);
-    this.utilChk(propsSearch.cooking, mySearch);
+    // this.utilChk(propsSearch.convenienceStore, mySearch);
+    // this.utilChk(propsSearch.laundry, mySearch);
+    // this.utilChk(propsSearch.parking, mySearch);
+    // this.utilChk(propsSearch.pet, mySearch);
+    // this.utilChk(propsSearch.internet, mySearch);
+    // this.utilChk(propsSearch.fitness, mySearch);
+    // this.utilChk(propsSearch.pool, mySearch);
+    // this.utilChk(propsSearch.cooking, mySearch);
 
     let res = [];
-    for (let i = 0; i < myUtil.length; i++) {
-      let state = 1;
-      if (myUtil[i].utility.length !== mySearch.length) {
-        continue;
-      }
-      for (let j = 0; j < myUtil[i].utility.length; j++) {
-        if (myUtil[i].utility[j].type !== mySearch[j].type) {
-          state = 0;
-          break;
-        }
-      }
-      if (state) {
-        res.push(dorms[i]);
-      }
-    }
+    // for (let i = 0; i < myUtil.length; i++) {
+    //   let state = 1;
+    //   if (myUtil[i].utility.length !== mySearch.length) {
+    //     continue;
+    //   }
+    //   for (let j = 0; j < myUtil[i].utility.length; j++) {
+    //     if (myUtil[i].utility[j].type !== mySearch[j].type) {
+    //       state = 0;
+    //       break;
+    //     }
+    //   }
+    //   if (state) {
+    //     res.push(dorms[i]);
+    //   }
+    // }
 
-    return res;
+    return dorms;
   }
 
   // filter dorm
-  async getDormList(propsSearch: propsSearchDto, offset: string, stop: string) {
+  async getDormList(propsSearch: {}, offset: string, stop: string) {
     const Offset = parseInt(offset);
 
     const dorms = await this.findDormList(propsSearch, stop);
