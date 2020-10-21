@@ -1,8 +1,11 @@
-import { Controller, Post, HttpCode, HttpStatus, Body } from '@nestjs/common';
+import { Controller, Post, Request, HttpCode, HttpStatus, Body, UseGuards, Get } from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UsersService} from './users.service';
-import {ApiTags} from '@nestjs/swagger';
-import {UserRegisterRes} from './users.interface';
+import {ApiTags, ApiOAuth2} from '@nestjs/swagger';
+import {UserRegisterRes, generalUserInfo} from './users.interface';
+import {JwtAuthGuard} from 'src/auth/guards/jwt-auth.guard';
+import {UserDocument} from './schemas/users.schemas';
+import {Dorm} from 'src/dorm/dorm.model';
 
 @Controller('users')
 @ApiTags('Users')
@@ -15,5 +18,34 @@ export class UsersController {
 		return {
 			userId: userId
 		}
+	}
+
+	@Get()
+	@UseGuards(JwtAuthGuard)
+	@ApiOAuth2([])
+	async getUserInfo(@Request() req): Promise<generalUserInfo> {
+		const userDoc = await this.userServ.findById(req.user.userId);
+		return {
+			name: {
+				firstName: userDoc.name.firstName,
+				lastName: userDoc.name.lastName,
+			},
+			telelphone: userDoc.telephone,
+			email: userDoc.email,
+			email_verified: userDoc.email_verified,
+			sex: userDoc.sex,
+			createdOn: userDoc.createdOn,
+			modifiedOn: userDoc.modifiedOn,
+			userType: userDoc.userType,
+		}
+	}
+
+	@Get('dorms')
+	@UseGuards(JwtAuthGuard)
+	@ApiOAuth2([])
+	async getUserOwnDorm(@Request() req) {
+		const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
+		const dormDocs: Dorm[] = await this.userServ.findDormById(userDoc);
+		return dormDocs;
 	}
 }

@@ -30,3 +30,24 @@ export interface UserParsedDto {
 export interface UserRegisterRes {
 	userId: string;
 }
+
+export interface generalUserInfo {
+	name: {
+		firstName: string;
+		lastName: string;
+	}
+
+	telelphone: string;
+
+	email: string;
+
+	email_verified: boolean;
+
+	sex: string;
+
+	createdOn: string;
+
+	modifiedOn: string;
+
+	userType: string;
+}

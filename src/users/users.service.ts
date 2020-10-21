@@ -1,16 +1,20 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import {UserRepository} from './repositories/user.repository';
-import {LoginUserDto} from './dto/login-user.dto';
 import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UserParsedDto} from './users.interface'
 import {validate} from 'class-validator';
+import {DormService} from 'src/dorm/dorm.service';
+import {Dorm} from 'src/dorm/dorm.model';
 var bcrypt = require('bcryptjs');
 
 
 @Injectable()
 export class UsersService {
-	constructor(private userRepo: UserRepository) {}
+	constructor(
+		private userRepo: UserRepository,
+		private readonly dormServ: DormService,
+	) {}
 
 	private userDtoConversion(dto: CreateUserDto): UserParsedDto{
 		return {
@@ -75,5 +79,10 @@ export class UsersService {
 			const savedUser = await this.userRepo.create(newDto);
 			return savedUser._id;
 		}
+	}
+
+	async findDormById(owner: UserDocument): Promise<Dorm[]> {
+		const dorm = await this.dormServ.getDormByOwner(owner);
+		return dorm;
 	}
 }
