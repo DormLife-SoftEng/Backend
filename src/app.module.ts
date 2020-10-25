@@ -10,7 +10,6 @@ import { DormModule } from './dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
 import { AdminModule } from './admin/admin.module';
 import { LobbyModule } from './lobby/lobby.module';
-import { AppGateway } from './app.gateway';
 import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
@@ -27,6 +26,6 @@ import { MulterModule } from '@nestjs/platform-express';
     })
   ],
   controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [AppService],
 })
 export class AppModule {}
