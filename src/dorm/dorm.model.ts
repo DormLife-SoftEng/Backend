@@ -54,6 +54,7 @@ export const DormSchema = new mongoose.Schema({
   room: [RoomSchema],
   allowedSex: { type: String },
   avgStar: { type: Number },
+  image: {type:[String]},
   license: { type: [String] },
   createdOn: { type: Date },
   modifiedOn: { type: Date },
@@ -114,6 +115,7 @@ export interface Dorm extends mongoose.Document {
   room: RoomInterface[];
   allowedSex: string;
   avgStar: number;
+  image:string[];
   license: string[];
   createdOn: Date;
   modifiedOn: Date;

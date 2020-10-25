@@ -81,14 +81,14 @@ export class propsSearchDto {
   maxperson: number;
   dormType: string;
   //room2
-  kitchen:  number; //true = 0, false = 999999999999999999
-  aircond:  number; //true = 0, false = 999999999999999999
+  kitchen: number; //true = 0, false = 999999999999999999
+  aircond: number; //true = 0, false = 999999999999999999
   bathroom: number; //true = 0, false = 999999999999999999
-  bedroom:  number; //true = 0, false = 999999999999999999
+  bedroom: number; //true = 0, false = 999999999999999999
 
   //util
   // in utility.type
-  convenienceStore: string; //true = convenienceStore, false = '' 
+  convenienceStore: string; //true = convenienceStore, false = ''
   laundry: string; // true = laundry, false = ''
   parking: string;
   pet: string;
@@ -97,4 +97,84 @@ export class propsSearchDto {
   fitness: string;
   pool: string;
   cooking: string;
+}
+
+interface Room {
+  name: string;
+  capacity: number;
+  image: string[];
+  bathroom: number;
+  aircond: number;
+  kitchen: number;
+  bedroom: number;
+  description: string;
+  price: {
+    amount: number;
+    pricePer: number;
+  };
+  allowedSex: string;
+}
+
+interface Utility {
+  type: string;
+  distance: number;
+  description: string;
+}
+
+export class DormAddDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  owner: string;
+
+  @IsString()
+  @IsNotEmpty()
+  telephone: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  lineID: string;
+
+  @IsString()
+  @IsNotEmpty()
+  website: string;
+
+  @IsString()
+  @IsNotEmpty()
+  address: string;
+
+  @IsNotEmpty()
+  coordinate: number[];
+
+  @IsNotEmpty()
+  utility: Utility[];
+
+  @IsString()
+  @IsNotEmpty()
+  type: string;
+
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @IsNotEmpty()
+  room: Room[];
+
+  @IsString()
+  @IsNotEmpty()
+  allowedSex: string;
+
+  @IsNotEmpty()
+  image: string[];
+  
+  @IsNotEmpty()
+  license: string[];
 }
