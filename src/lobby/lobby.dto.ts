@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsObject, IsString } from 'class-validator';
+import { UserDocument } from 'src/users/schemas/users.schemas';
 
 export class createLobbyDto {
     @IsString()
@@ -20,4 +21,18 @@ export class lobbyCodeDto {
     @IsNotEmpty()
     @IsString()
     lobbyCode: string
+}
+
+export class chatDto {
+    @IsNotEmpty()
+    @IsObject()
+    user: UserDocument
+
+    @IsNotEmpty()
+    @IsString()
+    message: string
+
+    @IsNotEmpty()
+    @IsDate()
+    time: Date
 }

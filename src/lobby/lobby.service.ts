@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,7 +9,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Lobby, LobbySchema } from './lobby.model';
 import { LobbyModule } from './lobby.module';
-import { lobbyCodeDto, lobbyIdDto } from './lobby.dto';
+import { chatDto, lobbyCodeDto, lobbyIdDto } from './lobby.dto';
 import { DormService } from '../dorm/dorm.service';
 import { UserRepository } from '../users/repositories/user.repository';
 import { UsersService } from '../users/users.service';
@@ -76,16 +77,16 @@ export class LobbyService {
   }
 
   private async findLobbyById(lobbyId: string): Promise<Lobby> {
-    let lobbies;
+    let lobby;
     try {
-      lobbies = await this.lobbyModel.find({ _id: lobbyId }).exec();
+      lobby = await this.lobbyModel.find({ _id: lobbyId }).exec();
     } catch (error) {
       throw new NotFoundException('Could not find lobby.');
     }
-    if (!lobbies) {
+    if (!lobby) {
       throw new NotFoundException('Could not find lobby.');
     }
-    return lobbies;
+    return lobby;
   }
 
   async getAllLobbyList(
@@ -198,26 +199,24 @@ export class LobbyService {
 
   async joinLobbyID(user, lobbyId: lobbyIdDto) {
     let lobby;
-    let res = 'OK';
-    try {
-      const lobby = await this.lobbyModel.update(
-        { _id: lobbyId.lobbyId },
-        { $push: { member: user } },
-      );
-    } catch (error) {
-      throw new NotFoundException('Could not find lobby.');
+    lobby = await this.findLobbyById(lobbyId.lobbyId);
+
+    for (let i = 0; i < lobby.blackList.length; i++) {
+      if (user._id === lobby.blackList[i]._id) {
+        throw new ForbiddenException(lobby.blackList[i].message);
+      }
     }
-    if (!lobby) {
-      throw new NotFoundException('Could not find lobby.');
-    }
-    return res;
+
+    lobby.member.push(user);
+    lobby.save();
+
+    return { id: lobby._id };
   }
 
   async leaveLobby(user, lobbyId: lobbyIdDto) {
     let lobby;
-    let res = 'OK';
     try {
-      const lobby = await this.lobbyModel.update(
+      lobby = await this.lobbyModel.update(
         { _id: lobbyId.lobbyId },
         { $pull: { member: user } },
       );
@@ -227,21 +226,26 @@ export class LobbyService {
     if (!lobby) {
       throw new NotFoundException('Could not find lobby.');
     }
-    return res;
+    return {
+      statusCode: 200,
+      message: 'OK',
+    };
   }
 
-  async kickMember(user, lobbyId: lobbyIdDto, userId: string) {
+  async kickMember(user, lobbyId: lobbyIdDto, userId: string, message: string) {
     let lobby;
-    let res = 'OK';
     try {
-      const lobby = await this.getLobbyById(lobbyId);
+      lobby = await this.getLobbyById(lobbyId);
 
       if (user.id == lobby.owner.id) {
         const user2kick = await this.UsersRepository.findById(userId);
 
-        const lobby = await this.lobbyModel.update(
+        lobby = await this.lobbyModel.update(
           { _id: lobbyId.lobbyId },
-          { $pull: { 'member.user': user2kick } },
+          {
+            $pull: { 'member.user': user2kick },
+            $push: { blackList: { user: user2kick, message: message } },
+          },
         );
       } else {
         throw new UnauthorizedException(
@@ -254,7 +258,10 @@ export class LobbyService {
     if (!lobby) {
       throw new NotFoundException('Could not find lobby.');
     }
-    return res;
+    return {
+      statusCode: 200,
+      message: 'OK',
+    };
   }
 
   async deleteLobby(lobbyId: lobbyIdDto) {
@@ -274,5 +281,23 @@ export class LobbyService {
       }
     }
     lobby.save();
+  }
+
+  async getChat(lobbyId: lobbyIdDto) {
+    let lobby = await this.findLobbyById(lobbyId.lobbyId);
+
+    return lobby.chat;
+  }
+
+  async addChat(lobbyId: lobbyIdDto, chat: chatDto) {
+    let lobby = await this.findLobbyById(lobbyId.lobbyId);
+
+    lobby.chat.push(chat);
+    lobby.save();
+
+    return {
+      statusCode: 200,
+      message: 'OK',
+    };
   }
 }

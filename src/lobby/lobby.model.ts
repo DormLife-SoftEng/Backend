@@ -7,13 +7,12 @@ export const LobbySchema = new mongoose.Schema({
   dorm: DormSchema,
   owner: {},
   code: { type: String },
-  member: { type: [{
-      user: {},
-      ready: Boolean
-  }] },
+  member: { type: [{ user: {}, ready: Boolean }] },
+  blackList: { type: [{ user: {}, message: String }] },
   maxMember: { type: Number },
   createdOn: { type: Date },
   modifiedOn: { type: Date },
+  chat: { type: [{ user: {}, message: String, time: Date }] },
 });
 
 export interface Lobby extends mongoose.Document {
@@ -21,11 +20,10 @@ export interface Lobby extends mongoose.Document {
   expireOn: Date;
   owner: UserDocument;
   code: string;
-  member: [{
-      user: UserDocument,
-      ready: boolean
-  }];
+  member: [{ user: UserDocument; ready: boolean }];
+  blackList: [{ user: UserDocument; message: string }];
   maxMember: number;
   createdOn: Date;
   modifiedOn: Date;
+  chat: [{ user: UserDocument; message: string; time: Date }];
 }
