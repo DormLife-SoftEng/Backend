@@ -1,11 +1,14 @@
 import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { DormService } from './dorm.service';
+import {ApiTags} from '@nestjs/swagger';
 enum Sex {
   'male',
   'female',
   'any',
 }
+
 @Controller('/dorms')
+@ApiTags('Dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
 
