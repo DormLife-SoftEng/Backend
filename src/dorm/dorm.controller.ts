@@ -3,9 +3,14 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Param,
   Post,
   Query,
+  Res,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
 
@@ -16,11 +21,55 @@ enum Sex {
   'any',
 }
 
+import { UserDocument } from '../users/schemas/users.schemas';
+import { DormAddDto, propsSearchDto } from './dorm.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
+import { Role } from 'src/auth/decorator/role.decorator';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage} from 'multer';
+
 @Controller('/dorms')
 @ApiTags('Dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
+  //https://medium.com/better-programming/nestjs-file-uploading-using-multer-f3021dfed733
+  @Post('upload')
+  @UseInterceptors(FilesInterceptor('image'))
+  async UploadImages(@UploadedFiles() files){
+    const response = [];
+    files.forEach(file => {
+    const fileReponse = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    response.push(fileReponse);
+    });
+    return response; 
+  } 
 
+  @Post('newdorm')
+  async AddDorm(@Body() dormBody:DormAddDto) {
+    const createdDorm = await this.DormService.insertDorm(
+      dormBody.name,
+      dormBody.owner, // 1.get user's id  from JWT 2.
+      dormBody.telephone,
+      dormBody.email,
+      dormBody.lineID,
+      dormBody.website,
+      dormBody.address,
+      dormBody.coordinate,
+      dormBody.utility,
+      dormBody.type,
+      dormBody.description,
+      dormBody.room,
+      dormBody.allowedSex,
+      dormBody.image,
+      dormBody.license,
+    );
+    return createdDorm;
+  }
+  
   @Get()
   async getAlldorm() {
     const dorms = await this.DormService.getAll();

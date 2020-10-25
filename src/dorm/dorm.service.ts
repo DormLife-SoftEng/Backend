@@ -27,6 +27,7 @@ export class DormService {
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,
   ) {}
 
+
   // Create room array
   addRoom(roomArray: RoomInterface[]) {
     var newRoomArray: any[] = [];
@@ -69,24 +70,26 @@ export class DormService {
   //Create new dorm
   async insertDorm(
     name: string,
-    owner: UserDocument,
+    owner: string,
     telephone: string,
     email: string,
     lineID: string,
     website: string,
     address: string,
-    coordinate: [number],
+    coordinate: number[],
     utilityArray: any,
     type: string,
     description: string,
     roomArray: any,
     allowedSex: string,
+    image: string[],
     license: string[],
   ) {
-    let generatedCode = Math.random() // need to change to the actual code
+    let generatedCode = Math.random() // change to the actual code
       .toString(36)
-      .substring(7);
+      .substring(7); 
 
+    // const owner = findOwnerbyID? --find owner from DB using UserService?? 
     const rooms = this.addRoom(roomArray);
     const utilities = this.addUtility(utilityArray);
     const newDorm = new this.DormModel({
@@ -108,6 +111,7 @@ export class DormService {
       description: description,
       room: rooms,
       allowedSex: allowedSex,
+      image: image,
       license: license,
     });
 
