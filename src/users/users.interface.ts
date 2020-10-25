@@ -14,7 +14,7 @@ export interface UserParsedDto {
 
 	hashedPassword: string;
 
-	PicProf: number;
+	PictureProfile: number;
 
 	refreshToken: string;
 

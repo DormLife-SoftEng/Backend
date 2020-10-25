@@ -13,7 +13,7 @@ export class UserRepository {
 	async create(createUserDto: UserParsedDto): Promise<UserDocument> {
 		// Parsing
 		createUserDto.createdOn = new Date().toString();
-		createUserDto.PicProf = Math.floor( Math.random() * 3 );
+		createUserDto.PictureProfile = Math.floor( Math.random() * 3 );
 		const createdUser = new this.userModel (createUserDto);
 		return createdUser.save()
 	}
