@@ -5,22 +5,25 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import {UsersController} from './users/users.controller';
+import { UsersController } from './users/users.controller';
 
 import { DormModule } from './dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
 import { AdminModule } from './admin/admin.module';
+import { LobbyModule } from './lobby/lobby.module';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://mongol:27017/DormLife'),
     AuthModule,
     UsersModule,
-	  DormModule,
+    DormModule,
     ReviewModule,
     AdminModule,
+    LobbyModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UsersController],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}

@@ -1,5 +1,16 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { DormService } from './dorm.service';
+import { UserDocument } from '../users/schemas/users.schemas';
+import { propsSearchDto } from './dorm.dto';
+
 import {ApiTags} from '@nestjs/swagger';
 enum Sex {
   'male',
@@ -7,59 +18,11 @@ enum Sex {
   'any',
 }
 
+
 @Controller('/dorms')
 @ApiTags('Dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
-
-  @Post('newdorm')
-  async addDorm(
-    @Body('name') dormName: string,
-    @Body('owner') dormowner: string,
-    @Body('contact')
-    dormcontact: {
-      telelphone: string;
-      email: string;
-      lineID: string;
-      website: string;
-    },
-    @Body('address')
-    dormaddress: {
-      address: string;
-      coordinate: [number];
-    },
-    @Body('utility')
-    dormutility: any,
-    @Body('type')
-    dormtype: string,
-    @Body('description')
-    dormdescription: string,
-    @Body('room')
-    dormroom: any,
-    @Body('allowedSex')
-    dormallowedSex: string,
-    @Body('license')
-    dormlicense: string[],
-  ) {
-    const genID = await this.DormService.insertDorm(
-      dormName,
-      dormowner,
-      dormcontact.telelphone,
-      dormcontact.email,
-      dormcontact.lineID,
-      dormcontact.website,
-      dormaddress.address,
-      dormaddress.coordinate,
-      dormutility,
-      dormtype,
-      dormdescription,
-      dormroom,
-      dormallowedSex,
-      dormlicense,
-    );
-
-    return { id: genID };
-  }
 
   @Get()
   async getAlldorm() {
@@ -90,18 +53,34 @@ export class DormController {
   }
 
   @Get(':id/rooms/:roomid')
-  getSingleRoom(@Param('id') dormID:string, @Param('roomid') roomID:string) {
+  getSingleRoom(@Param('id') dormID: string, @Param('roomid') roomID: string) {
     // console.log(roomID);
     return this.DormService.getDormRoom(dormID, roomID);
   }
 
   @Post()
   async queryDorm(
-    @Body('name') name: string,
-    @Body('address') address: any,
-    @Body('utility') utils: any,
-    @Body('room') rooms: any,
-    @Body('allowedSex') allowedSex: Sex,
+    // @Body() propsSearch: propsSearchDto,
+    @Query('name') name: string,
+    @Query('distance') distance: string,
+    @Query('rating') rating: string,
+    @Query('allowedSex') allowedSex: string,
+    @Query('price') price: string,
+    @Query('maxperson') maxPerson: string,
+    @Query('kitchen') kitchen: string,
+    @Query('type') dormType: string,
+    @Query('aircond') airCond: string,
+    @Query('bathroom') bathroom: string,
+    @Query('bedroom') bedroom: string,
+    @Query('convenienceStore') convenienceStore: string,
+    @Query('laundry') laundry: string,
+    @Query('parking') parking: string,
+    @Query('pet') pet: string,
+    @Query('internet') internet: string,
+    @Query('smoking') smoking: string,
+    @Query('fitness') fitness: string,
+    @Query('pool') pool: string,
+    @Query('cooking') cooking: string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
   ) {
@@ -121,16 +100,67 @@ export class DormController {
       stop = '50';
     }
 
-    const dorms = await this.DormService.getDormList(
-      name,
-      address.address,
-      address.coordinate,
-      utils,
-      rooms,
-      allowedSex,
-      offset,
-      stop
-    );
+    let propsSearch = {
+      name: name,
+      allowedSex: allowedSex,
+      type: dormType,
+      distance: parseInt(distance),
+      rating: parseInt(rating),
+      'room.price.amount': parseInt(price),
+      'room.capacity': parseInt(maxPerson),
+      'room.kitchen': parseInt(kitchen),
+      'room.aircond': parseInt(airCond),
+      'room.bathroom': parseInt(bathroom),
+      'room.bedroom': parseInt(bedroom),
+    };
+    let utilsSearch = {
+      convenienceStore: convenienceStore,
+      laundry: laundry,
+      parking: parking,
+      pet: pet,
+      internet: internet,
+      smoking: smoking,
+      fitness: fitness,
+      pool: pool,
+      cooking: cooking,
+    }
+
+    if (!name) {
+      delete propsSearch.name;
+    }
+    if (!distance) {
+      propsSearch.distance = -1;
+    }
+    if (!rating) {
+      propsSearch.rating = -1;
+    }
+    if (!allowedSex) {
+      delete propsSearch.allowedSex;
+    }
+    if (!dormType) {
+      delete propsSearch.type;
+    }
+    if (!price) {
+      propsSearch['room.price.amount'] = 99999999999999999999999999999999999;
+    }
+    if (!maxPerson) {
+      delete propsSearch['room.capacity'];
+    }
+    if (!kitchen) {
+      propsSearch['room.kitchen'] = -1;
+    }
+    if (!airCond) {
+      propsSearch['room.aircond'] = -1;
+    }
+    if (!bathroom) {
+      propsSearch['room.bathroom'] = -1;
+    }
+    if (!bedroom) {
+      propsSearch['room.bedroom'] = -1;
+    }
+
+    console.log(utilsSearch);
+    const dorms = await this.DormService.getDormList(propsSearch, utilsSearch, offset, stop);
     return dorms;
   }
 }
