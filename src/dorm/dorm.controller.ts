@@ -53,7 +53,7 @@ export class DormController {
       dormBody.image,
       dormBody.license,
     );
-    return createdDorm;
+    return {id: createdDorm};
   }
   
   @Get()

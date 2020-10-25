@@ -14,12 +14,6 @@ export class AppController {
   getAlive(){
     return this.appService.getAlive();
   }
-  
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file) {
-    console.log(file);
-  }
 
   @Post()
   @UseInterceptors(

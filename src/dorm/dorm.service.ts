@@ -20,7 +20,7 @@ export class DormService {
 
   // Create room array
   addRoom(roomArray: RoomInterface[]) {
-    var newRoomArray: any[] = [];
+    var newRoomArray = [];
 
     for (var i = 0; i < roomArray.length; i++) {
       const newRoom = new this.RoomModel({
@@ -80,6 +80,7 @@ export class DormService {
       .substring(7);
 
     // const owner = findOwnerbyID? --find owner from DB using UserService??
+    const path:string = './uploads/';
     const rooms = this.addRoom(roomArray);
     const utilities = this.addUtility(utilityArray);
     const newDorm = new this.DormModel({
@@ -101,8 +102,12 @@ export class DormService {
       description: description,
       room: rooms,
       allowedSex: allowedSex,
+      avgStar:0,
       image: image,
       license: license,
+      createdOn: Date.now(),
+      modifiedOn:Date.now(),
+      approved: "pending",
     });
 
     const result = await newDorm.save();
