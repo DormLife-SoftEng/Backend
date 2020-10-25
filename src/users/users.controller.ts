@@ -30,7 +30,7 @@ export class UsersController {
 				firstName: userDoc.name.firstName,
 				lastName: userDoc.name.lastName,
 			},
-			telelphone: userDoc.telephone,
+			telephone: userDoc.telephone,
 			email: userDoc.email,
 			email_verified: userDoc.email_verified,
 			profilePic: userDoc.PictureProfile,

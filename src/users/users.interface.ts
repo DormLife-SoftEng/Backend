@@ -37,7 +37,7 @@ export interface generalUserInfo {
 		lastName: string;
 	}
 
-	telelphone: string;
+	telephone: string;
 
 	email: string;
 
