@@ -1,6 +1,5 @@
-import { Prop, raw, Schema } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { User, UserDocument } from '../users/schemas/users.schemas';
+import { UserDocument } from '../users/schemas/users.schemas';
 
 enum approval {
   'approved',
