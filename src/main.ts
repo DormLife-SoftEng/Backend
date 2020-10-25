@@ -7,7 +7,7 @@ import {
 } from '@nestjs/platform-fastify';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 import * as FastifyFormBody from 'fastify-formbody';
-import fmp = require('fastify-multipart');
+const fmp = require('fastify-multipart');
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -17,8 +17,8 @@ async function bootstrap() {
  			);
 
   app.setGlobalPrefix('api/v1');
-  app.register(FastifyFormBody as any);
   app.register(fmp);
+  app.register(FastifyFormBody as any);
   app.enableCors();
   const options = new DocumentBuilder()
   	.setTitle('API Example')
