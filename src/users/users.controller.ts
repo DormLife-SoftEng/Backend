@@ -41,12 +41,4 @@ export class UsersController {
 		}
 	}
 
-	@Get('dorms')
-	@UseGuards(JwtAuthGuard)
-	@ApiOAuth2([])
-	async getUserOwnDorm(@Request() req) {
-		const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
-		const dormDocs: Dorm[] = await this.userServ.findDormById(userDoc);
-		return dormDocs;
-	}
 }

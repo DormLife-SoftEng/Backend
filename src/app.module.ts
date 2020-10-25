@@ -23,7 +23,7 @@ import { AppGateway } from './app.gateway';
     AdminModule,
     LobbyModule,
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController],
   providers: [AppService, AppGateway],
 })
 export class AppModule {}
