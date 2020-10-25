@@ -21,9 +21,9 @@ async function bootstrap() {
 		type: 'oauth2',
 		flows: {
 		  password: {
-			  authorizationUrl: 'https://9709679d-5057-4370-bd9f-dea62883954d-5000.apps.codespaces.githubusercontent.com/api/v1/oauth/verify-token',
-			tokenUrl: 'https://9709679d-5057-4370-bd9f-dea62883954d-5000.apps.codespaces.githubusercontent.com/api/v1/oauth/sign-in',
-			refreshUrl: 'https://9709679d-5057-4370-bd9f-dea62883954d-5000.apps.codespaces.githubusercontent.com/api/v1/oauth/refresh-token',
+			  authorizationUrl: 'http://localhost:5000/api/v1/oauth/verify-token',
+			tokenUrl: 'http://localhost:5000/api/v1/oauth/sign-in',
+			refreshUrl: 'http://localhost:5000/api/v1/oauth/refresh-token',
 			scopes: [],
 		  }
 		},
