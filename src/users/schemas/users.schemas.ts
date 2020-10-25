@@ -32,7 +32,7 @@ export class User {
 	@Prop({required: true})
 	userType: string;
 
-	@Prop({required: true, default: 0})
+	@Prop({required: true})
 	PictureProfile: number;
 
 	@Prop()
