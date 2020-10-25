@@ -8,11 +8,12 @@ import {JwtModule} from '@nestjs/jwt';
 import {jwtConstants} from './constants';
 import {JwtStrategy} from './strategies/jwt.strategy';
 import {UsersService} from 'src/users/users.service';
-import {UserRepository} from 'src/users/repositories/user.repository';
+import {DormModule} from 'src/dorm/dorm.module';
 
 @Module({
 	imports: [
 		UsersModule,
+		DormModule,
 		PassportModule.register({
 				defaultStrategy: 'jwt',
 				property: 'user',

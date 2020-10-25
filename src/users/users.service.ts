@@ -1,16 +1,21 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, InternalServerErrorException } from '@nestjs/common';
 import {UserRepository} from './repositories/user.repository';
-import {LoginUserDto} from './dto/login-user.dto';
 import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UserParsedDto} from './users.interface'
 import {validate} from 'class-validator';
+import {DormService} from 'src/dorm/dorm.service';
+import {Dorm} from 'src/dorm/dorm.model';
+import {addDorm} from 'src/dorm/dorm.dto';
 var bcrypt = require('bcryptjs');
 
 
 @Injectable()
 export class UsersService {
-	constructor(private userRepo: UserRepository) {}
+	constructor(
+		private userRepo: UserRepository,
+		private readonly dormServ: DormService,
+	) {}
 
 	private userDtoConversion(dto: CreateUserDto): UserParsedDto{
 		return {
@@ -53,6 +58,13 @@ export class UsersService {
 		// Is unique
 		const email = dto.email;
 		const query = await this.userRepo.findByEmail(email);
+		if (!dto.telephone) {
+			dto.telephone = '';
+		}
+
+		if (!dto.natId) {
+			dto.natId = '';
+		}
 
 		if (query) {
 			const errors = {email: 'This email has been registered.'};
@@ -75,5 +87,19 @@ export class UsersService {
 			const savedUser = await this.userRepo.create(newDto);
 			return savedUser._id;
 		}
+	}
+
+	async findDormById(owner: UserDocument): Promise<Dorm[]|undefined> {
+		try {
+			const dorm = await this.dormServ.getDormByOwner(owner);
+			return dorm;
+		} catch(err) {
+			console.log(err);
+			throw new InternalServerErrorException('Fatal: Unable to process the request');
+		}
+	}
+
+	async addDormWithOwner(owner: UserDocument, addDormDto: addDorm) {
+		// ?
 	}
 }

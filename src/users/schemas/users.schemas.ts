@@ -14,7 +14,7 @@ export class User {
 	@Prop()
 	telephone: string;
 
-	@Prop({ required: true })
+	@Prop()
 	natId: string;
 
 	@Prop({ required: true, unique: true, index: true})

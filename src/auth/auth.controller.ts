@@ -51,8 +51,4 @@ export class AuthController {
 		return req.user;
 	}
 
-	@Post('sign-up')
-	async userCreation(@Body() createUserDto: CreateUserDto) {
-		return this.userServ.create(createUserDto);
-	}
 }

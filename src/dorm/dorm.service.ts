@@ -5,11 +5,18 @@ import {
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+
 import { Dorm, UtilityInterface, RoomInterface, DormQuery } from './dorm.model';
 import { DormModule } from './dorm.module';
 import { UserDocument } from '../users/schemas/users.schemas';
 import { propsSearchDto } from './dorm.dto';
 import { arrayContains } from 'class-validator';
+enum Sex {
+  'male',
+  'female',
+  'any',
+}
+
 
 @Injectable()
 export class DormService {
@@ -105,7 +112,6 @@ export class DormService {
     });
 
     const result = await newDorm.save();
-
     return result.id as string;
   }
 
@@ -139,6 +145,11 @@ export class DormService {
       })),
       allowedSex: d.allowedSex,
     }));
+  }
+
+  async getDormByOwner(dormOwner: UserDocument): Promise<Dorm[]> {
+  	const dorm = await this.DormModel.find({owner: dormOwner}).exec();
+	return dorm;
   }
 
   //get specific dorm

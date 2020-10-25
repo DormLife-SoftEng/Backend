@@ -11,7 +11,16 @@ import { DormService } from './dorm.service';
 import { UserDocument } from '../users/schemas/users.schemas';
 import { propsSearchDto } from './dorm.dto';
 
+import {ApiTags} from '@nestjs/swagger';
+enum Sex {
+  'male',
+  'female',
+  'any',
+}
+
+
 @Controller('/dorms')
+@ApiTags('Dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
 

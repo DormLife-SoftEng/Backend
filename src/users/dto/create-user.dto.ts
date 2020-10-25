@@ -23,11 +23,8 @@ export class CreateUserDto {
 	readonly lastName: string;
 
 	@ApiProperty()
-	@IsNotEmpty()
-	@IsString()
 	@Expose()
-	@Matches(/[0-9]+/)
-	readonly telephone: string;
+	telephone: string;
 
 	@ApiProperty()
 	@IsNotEmpty()
@@ -55,13 +52,9 @@ export class CreateUserDto {
 	@IsNotEmpty()
 	@Expose()
 	@IsIn(allowedUsertype)
-	userType: string;
+	readonly userType: string;
 
 	@ApiProperty()
-	@IsNotEmpty()
 	@Expose()
-	@MinLength(13)
-	@MaxLength(13)
-	@Matches(/[0-9]+/)
 	natId: string;
 }

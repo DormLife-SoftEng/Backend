@@ -1,13 +1,17 @@
 import { IsArray, isNotEmpty, IsNotEmpty, IsNotEmptyObject, IsString, ValidateIf } from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
 
 export class TicketBodyDto {
   @IsNotEmptyObject()
+  @ApiProperty()
   target: any;
 
   @IsNotEmptyObject()
+  @ApiProperty()
   newdata: any;
 
   @IsNotEmptyObject()
+  @ApiProperty()
   @ValidateIf(elem => elem !== undefined)
   createdBy: {
     userId: string;
@@ -20,11 +24,13 @@ export class TicketBodyDto {
 
   @IsNotEmpty()
   @IsString()
+  @ApiProperty()
   status: string;
 }
 
 export class TicketIdDto {
   @IsNotEmpty()
   @IsString()
+  @ApiProperty()
   ticketId: string
 }
