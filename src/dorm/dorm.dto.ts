@@ -29,6 +29,8 @@ export class propsSearchDto {
   pool: string;
   cooking: string;
 
+ }
+
 export class addDorm {
 	@ApiProperty()
 	@IsNotEmpty()
