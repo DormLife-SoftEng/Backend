@@ -39,7 +39,7 @@ export class DormController {
   async AddDorm(@Body() dormBody:DormAddDto) {
     const createdDorm = await this.DormService.insertDorm(
       dormBody.name,
-      dormBody.owner, // 1.get user's id  from JWT 2.
+      dormBody.owner, // get user's id  from JWT
       dormBody.telephone,
       dormBody.email,
       dormBody.lineID,
