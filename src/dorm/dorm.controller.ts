@@ -34,7 +34,6 @@ import { diskStorage} from 'multer';
 export class DormController {
   constructor(private readonly DormService: DormService) {}
   
-
   @Post('newdorm')
   async AddDorm(@Body() dormBody:DormAddDto) {
     const createdDorm = await this.DormService.insertDorm(
