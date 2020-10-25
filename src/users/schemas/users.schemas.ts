@@ -32,8 +32,8 @@ export class User {
 	@Prop({required: true})
 	userType: string;
 
-	@Prop({required: true, default: 'profile1'})
-	PictureProfile: string;
+	@Prop({required: true, default: 0})
+	PictureProfile: number;
 
 	@Prop()
 	refreshToken: string;

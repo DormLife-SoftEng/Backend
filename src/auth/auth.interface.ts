@@ -4,7 +4,7 @@ export interface jwtPayload {
 		firstName: string;
 		lastName: string;
 	}
-	avatar: string;
+	avatar: number;
 	role: string;
 	token_type: string;
 }

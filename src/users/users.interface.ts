@@ -14,7 +14,7 @@ export interface UserParsedDto {
 
 	hashedPassword: string;
 
-	PicProf: string;
+	PicProf: number;
 
 	refreshToken: string;
 
@@ -42,6 +42,8 @@ export interface generalUserInfo {
 	email: string;
 
 	email_verified: boolean;
+
+	profilePic: number;
 
 	sex: string;
 

@@ -84,6 +84,7 @@ export class UsersService {
 			dto.password = await bcrypt.hash(dto.password, 10);
 			// Conversion
 			const newDto = this.userDtoConversion(dto);
+			newDto.PicProf = Math.floor(Math.random() * 3);
 			const savedUser = await this.userRepo.create(newDto);
 			return savedUser._id;
 		}

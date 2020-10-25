@@ -33,6 +33,7 @@ export class UsersController {
 			telelphone: userDoc.telephone,
 			email: userDoc.email,
 			email_verified: userDoc.email_verified,
+			profilePic: userDoc.PictureProfile,
 			sex: userDoc.sex,
 			createdOn: userDoc.createdOn,
 			modifiedOn: userDoc.modifiedOn,
