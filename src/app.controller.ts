@@ -1,8 +1,10 @@
-import { Controller, Get, HttpStatus, Res, HttpCode, Post, UseInterceptors, UploadedFiles, UploadedFile, Param } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Res,Req, HttpCode, Post, UseInterceptors, UploadedFiles, UploadedFile, Param } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { AppService } from './app.service';
 import {editFileName, imageFileFilter} from './file-upload.utils'
 import * as multer from 'multer';
+import fastify = require('fastify');
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -13,6 +15,12 @@ export class AppController {
     return this.appService.getAlive();
   }
   
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file) {
+    console.log(file);
+  }
+
   @Post()
   @UseInterceptors(
     FileInterceptor('image', {
