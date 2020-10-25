@@ -33,20 +33,7 @@ import { diskStorage} from 'multer';
 @ApiTags('Dorms')
 export class DormController {
   constructor(private readonly DormService: DormService) {}
-  //https://medium.com/better-programming/nestjs-file-uploading-using-multer-f3021dfed733
-  @Post('upload')
-  @UseInterceptors(FilesInterceptor('image'))
-  async UploadImages(@UploadedFiles() files){
-    const response = [];
-    files.forEach(file => {
-    const fileReponse = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    response.push(fileReponse);
-    });
-    return response; 
-  } 
+  
 
   @Post('newdorm')
   async AddDorm(@Body() dormBody:DormAddDto) {
