@@ -15,8 +15,10 @@ import {
   ReviewParamDto,
   reviewCodeDto,
 } from './review.validation';
+import {ApiTags} from '@nestjs/swagger';
 
 @Controller('/reviews')
+@ApiTags('Reviews')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 

@@ -13,5 +13,6 @@ import { DormSchema, RoomSchema, utilSchema } from './dorm.model';
   ],
   controllers: [DormController],
   providers: [DormService],
+  exports: [DormService],
 })
 export class DormModule {}

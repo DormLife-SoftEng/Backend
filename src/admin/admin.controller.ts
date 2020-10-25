@@ -11,8 +11,10 @@ import {
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { TicketBodyDto, TicketIdDto } from './admin.validation';
+import {ApiTags} from '@nestjs/swagger';
 
 @Controller('/tickets')
+@ApiTags('Admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
