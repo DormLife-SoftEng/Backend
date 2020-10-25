@@ -30,7 +30,7 @@ export class UsersService {
 			sex: dto.sex,
 			hashedPassword: dto.password,
 			userType: dto.userType,
-			PicProf: null,
+			PicProf: Math.floor(Math.random() * 3),
 			refreshToken: null,
 			createdOn: null,
 			modifiedOn: null,
