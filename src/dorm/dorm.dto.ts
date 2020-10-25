@@ -1,5 +1,7 @@
 import {ApiProperty} from "@nestjs/swagger";
 import {IsNotEmpty, Matches, IsString, IsNumberString, IsEmail, IsUrl} from "class-validator";
+import { UserDocument } from "src/users/schemas/users.schemas";
+import { RoomInterface, UtilityInterface } from "./dorm.model";
 
 export class addDorm {
 	@ApiProperty()
@@ -94,53 +96,53 @@ interface Utility {
 export class DormAddDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  readonly name: string;
 
   @IsString()
   @IsNotEmpty()
-  owner: string;
+  owner: UserDocument;
 
   @IsString()
   @IsNotEmpty()
-  telephone: string;
+  readonly telephone: string;
 
   @IsString()
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  readonly email: string;
 
   @IsString()
   @IsNotEmpty()
-  lineID: string;
+  readonly lineID: string;
 
   @IsString()
   @IsNotEmpty()
-  website: string;
+  readonly website: string;
 
   @IsString()
   @IsNotEmpty()
-  address: string;
+  readonly address: string;
 
   @IsNotEmpty()
-  coordinate: number[];
+  readonly coordinate: number[];
 
   @IsNotEmpty()
-  utility: Utility[];
-
-  @IsString()
-  @IsNotEmpty()
-  type: string;
+  readonly utilities: UtilityInterface[];
 
   @IsString()
   @IsNotEmpty()
-  description: string;
-
-  @IsNotEmpty()
-  room: Room[];
+  readonly type: string;
 
   @IsString()
   @IsNotEmpty()
-  allowedSex: string;
+  readonly description: string;
+
+  @IsNotEmpty()
+  rooms: RoomInterface[];
+
+  @IsString()
+  @IsNotEmpty()
+  readonly allowedSex: string;
 
   @IsNotEmpty()
   image: string[];

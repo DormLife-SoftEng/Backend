@@ -8,6 +8,7 @@ import {
   Post,
   Query,
   Res,
+  Request,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -28,31 +29,26 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorator/role.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage} from 'multer';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('/dorms')
 @ApiTags('Dorms')
 export class DormController {
-  constructor(private readonly DormService: DormService) {}
+  constructor(
+    private readonly DormService: DormService,
+    private readonly UserService: UsersService,
+    ) {}
   
   @Post('newdorm')
-  async AddDorm(@Body() dormBody:DormAddDto) {
-    const createdDorm = await this.DormService.insertDorm(
-      dormBody.name,
-      dormBody.owner, // get user's id  from JWT
-      dormBody.telephone,
-      dormBody.email,
-      dormBody.lineID,
-      dormBody.website,
-      dormBody.address,
-      dormBody.coordinate,
-      dormBody.utility,
-      dormBody.type,
-      dormBody.description,
-      dormBody.room,
-      dormBody.allowedSex,
-      dormBody.image,
-      dormBody.license,
-    );
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('owner')
+  async AddDorm(@Body() dormDto:DormAddDto, @Request() req) {
+    // Resolve User Info
+    const userDoc: UserDocument = await this.UserService.findById(req.user.userId);
+    dormDto.owner = userDoc;
+    // Insert to Dorm 
+    // TODO: Should not insert to dorm directly ? pending request instead.
+    const createdDorm = await this.DormService.insertDorm(dormDto);
     return createdDorm;
   }
   

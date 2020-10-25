@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Dorm, UtilityInterface, RoomInterface } from './dorm.model';
 import { UserDocument } from '../users/schemas/users.schemas';
+import { DormAddDto } from './dorm.dto';
 
 @Injectable()
 export class DormService {
@@ -59,50 +60,36 @@ export class DormService {
 
   //Create new dorm
   async insertDorm(
-    name: string,
-    owner: string,
-    telephone: string,
-    email: string,
-    lineID: string,
-    website: string,
-    address: string,
-    coordinate: number[],
-    utilityArray: any,
-    type: string,
-    description: string,
-    roomArray: any,
-    allowedSex: string,
-    image: string[],
-    license: string[],
+    dorm: DormAddDto
   ) {
     let generatedCode = Math.random() // change to the actual code
       .toString(36)
       .substring(7);
 
     // const owner = findOwnerbyID? --find owner from DB using UserService??
-    const rooms = this.addRoom(roomArray);
-    const utilities = this.addUtility(utilityArray);
+    const rooms = this.addRoom(dorm.rooms);
+    const utilities = this.addUtility(dorm.utilities);
     const newDorm = new this.DormModel({
-      name: name,
+      name: dorm.name,
       code: generatedCode,
-      owner: owner,
+      owner: dorm.owner,
       contact: {
-        telephone: telephone,
-        email: email,
-        lineID: lineID,
-        website: website,
+        telephone: dorm.telephone,
+        email: dorm.email,
+        lineID: dorm.lineID,
+        website: dorm.website,
       },
       address: {
-        address: address,
-        coordinate: coordinate,
+        address: dorm.address,
+        coordinate: dorm.coordinate,
       },
       utility: utilities,
-      type: type,
-      description: description,
+      type: dorm.type,
+      description: dorm.description,
       room: rooms,
-      allowedSex: allowedSex,
-      image: image,
-      license: license,
+      allowedSex: dorm.allowedSex,
+      image: dorm.image,
+      license: dorm.license,
     });
 
     const result = await newDorm.save();

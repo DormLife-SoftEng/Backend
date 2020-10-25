@@ -18,8 +18,10 @@ import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorator/role.decorator';
 import { LobbyService } from './lobby.service';
 import { createLobbyDto, lobbyIdDto, lobbyCodeDto, chatDto } from './lobby.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/lobbies')
+@ApiTags('Lobby')
 @UseGuards(JwtAuthGuard, RoleGuard)
 @Role('general')
 export class LobbyController {
