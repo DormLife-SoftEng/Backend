@@ -58,6 +58,13 @@ export class UsersService {
 		// Is unique
 		const email = dto.email;
 		const query = await this.userRepo.findByEmail(email);
+		if (!dto.telephone) {
+			dto.telephone = '';
+		}
+
+		if (!dto.natId) {
+			dto.natId = '';
+		}
 
 		if (query) {
 			const errors = {email: 'This email has been registered.'};

@@ -24,7 +24,7 @@ export class CreateUserDto {
 
 	@ApiProperty()
 	@Expose()
-	readonly telephone: string;
+	telephone: string;
 
 	@ApiProperty()
 	@IsNotEmpty()
@@ -52,7 +52,7 @@ export class CreateUserDto {
 	@IsNotEmpty()
 	@Expose()
 	@IsIn(allowedUsertype)
-	userType: string;
+	readonly userType: string;
 
 	@ApiProperty()
 	@Expose()
