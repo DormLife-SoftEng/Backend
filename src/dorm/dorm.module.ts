@@ -6,8 +6,8 @@ import { DormSchema, RoomSchema, utilSchema } from './dorm.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Dorm', schema: DormSchema }]),
     MongooseModule.forFeature([{ name: 'Room', schema: RoomSchema }]),
+  	MongooseModule.forFeature([{ name: 'Dorm', schema: DormSchema }]),
     MongooseModule.forFeature([{ name: 'Utility', schema: utilSchema }]),
   ],
   controllers: [DormController],

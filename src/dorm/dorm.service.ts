@@ -10,7 +10,8 @@ import { UserDocument } from '../users/schemas/users.schemas';
 @Injectable()
 export class DormService {
   constructor(
-    @InjectModel('Dorm') private readonly DormModel: Model<Dorm>,
+    @InjectModel('Dorm')
+	private readonly DormModel: Model<Dorm>,
     @InjectModel('Utility')
     private readonly UtilityModel: Model<UtilityInterface>,
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,
@@ -76,9 +77,9 @@ export class DormService {
   ) {
     let generatedCode = Math.random() // change to the actual code
       .toString(36)
-      .substring(7); 
+      .substring(7);
 
-    // const owner = findOwnerbyID? --find owner from DB using UserService?? 
+    // const owner = findOwnerbyID? --find owner from DB using UserService??
     const rooms = this.addRoom(roomArray);
     const utilities = this.addUtility(utilityArray);
     const newDorm = new this.DormModel({
@@ -219,7 +220,7 @@ export class DormService {
 
     console.log(myUtil);
     console.log(mySearch);
-    
+
     // return myUtil;
 
     let res = [];

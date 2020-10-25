@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  Inject,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -13,11 +14,11 @@ import { UserDocument } from '../users/schemas/users.schemas';
 @Injectable()
 export class AdminService {
   constructor(
-    @InjectModel('PendingAction')
+	@InjectModel('PendingAction')
     private readonly pendingActionModel: Model<PendingAction>,
-    @InjectModel('Dorm')
+	@InjectModel('Dorm')
     private readonly DormModel: Model<Dorm>,
-    @InjectModel('UserDocument')
+	@InjectModel('User')
     private readonly UserModel: Model<UserDocument>,
   ) {};
 
