@@ -13,7 +13,6 @@ import {DormModule} from 'src/dorm/dorm.module';
 @Module({
 	imports: [
 		UsersModule,
-		DormModule,
 		PassportModule.register({
 				defaultStrategy: 'jwt',
 				property: 'user',

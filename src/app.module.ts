@@ -5,7 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { UsersController } from './users/users.controller';
 
 import { DormModule } from './dorm/dorm.module';
 import { ReviewModule } from './review/review.module';
@@ -27,7 +26,7 @@ import { MulterModule } from '@nestjs/platform-express';
       dest:'./uploads'
     })
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController],
   providers: [AppService, AppGateway],
 })
 export class AppModule {}

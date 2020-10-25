@@ -4,9 +4,6 @@ import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UserParsedDto} from './users.interface'
 import {validate} from 'class-validator';
-import {DormService} from 'src/dorm/dorm.service';
-import {Dorm} from 'src/dorm/dorm.model';
-import {addDorm} from 'src/dorm/dorm.dto';
 var bcrypt = require('bcryptjs');
 
 
@@ -14,7 +11,6 @@ var bcrypt = require('bcryptjs');
 export class UsersService {
 	constructor(
 		private userRepo: UserRepository,
-		private readonly dormServ: DormService,
 	) {}
 
 	private userDtoConversion(dto: CreateUserDto): UserParsedDto{
@@ -89,17 +85,4 @@ export class UsersService {
 		}
 	}
 
-	async findDormById(owner: UserDocument): Promise<Dorm[]|undefined> {
-		try {
-			const dorm = await this.dormServ.getDormByOwner(owner);
-			return dorm;
-		} catch(err) {
-			console.log(err);
-			throw new InternalServerErrorException('Fatal: Unable to process the request');
-		}
-	}
-
-	async addDormWithOwner(owner: UserDocument, addDormDto: addDorm) {
-		// ?
-	}
 }
