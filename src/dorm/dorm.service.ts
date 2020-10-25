@@ -108,7 +108,6 @@ export class DormService {
     });
 
     const result = await newDorm.save();
-
     return result.id as string;
   }
 

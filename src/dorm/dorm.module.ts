@@ -1,4 +1,4 @@
-import { Module, Inject, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Mongoose } from 'mongoose';
 import { DormController } from './dorm.controller';
