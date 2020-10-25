@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { TicketBodyDto, TicketIdDto } from './admin.validation';
+import { TicketBodyDto, TicketIdDto } from './admin.dto';
 import {ApiTags} from '@nestjs/swagger';
 
 @Controller('/tickets')

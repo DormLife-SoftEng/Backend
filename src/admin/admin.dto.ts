@@ -2,6 +2,10 @@ import { IsArray, isNotEmpty, IsNotEmpty, IsNotEmptyObject, IsString, ValidateIf
 import {ApiProperty} from '@nestjs/swagger';
 
 export class TicketBodyDto {
+  @IsNotEmpty()
+  @IsString()
+  type: string
+
   @IsNotEmptyObject()
   @ApiProperty()
   target: any;
