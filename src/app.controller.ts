@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus, Res, HttpCode, Post, UseInterceptors, UploadedFiles, UploadedFile } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Res, HttpCode, Post, UseInterceptors, UploadedFiles, UploadedFile, Param } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { AppService } from './app.service';
 import {editFileName, imageFileFilter} from './file-upload.utils'
@@ -51,5 +51,9 @@ export class AppController {
       response.push(fileReponse);
     });
     return response;
+  }
+  @Get(':imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './uploads' });
   } 
 }
