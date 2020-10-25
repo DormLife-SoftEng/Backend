@@ -17,6 +17,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1');
   app.register(FastifyFormBody as any);
+  app.enableCors();
   const options = new DocumentBuilder()
   	.setTitle('API Example')
 	.setDescription('DormLife API description')
