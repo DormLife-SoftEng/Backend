@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const PendingActionSchema = new mongoose.Schema({
-  targetId: { type: String },
+  type: { type: String },
   target: {},
   newdata: {},
   createdOn: { type: Date },
@@ -17,7 +17,7 @@ export const PendingActionSchema = new mongoose.Schema({
 });
 
 export interface PendingAction extends mongoose.Document {
-  id: string;
+  type: string;
   target: any;
   newdata: any;
   createdOn: Date;
