@@ -15,9 +15,11 @@ export class AdminService {
   constructor(
     @InjectModel('PendingAction')
     private readonly pendingActionModel: Model<PendingAction>,
+    @InjectModel('Dorm')
     private readonly DormModel: Model<Dorm>,
+    @InjectModel('UserDocument')
     private readonly UserModel: Model<UserDocument>,
-  ) {}
+  ) {};
 
   async findTicket(stop: number): Promise<PendingAction[]> {
     let ticket;

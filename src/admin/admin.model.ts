@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 
+
 export const PendingActionSchema = new mongoose.Schema({
   type: { type: String },
   target: {},

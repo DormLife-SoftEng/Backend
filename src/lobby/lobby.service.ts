@@ -7,13 +7,11 @@ import {
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Lobby, LobbySchema } from './lobby.model';
-import { LobbyModule } from './lobby.module';
-import { chatDto, lobbyCodeDto, lobbyIdDto } from './lobby.dto';
+import { Lobby } from './lobby.model';
+import { lobbyCodeDto, lobbyIdDto } from './lobby.dto';
 import { DormService } from '../dorm/dorm.service';
 import { UserRepository } from '../users/repositories/user.repository';
 import { UsersService } from '../users/users.service';
-import { User } from '../users/schemas/users.schemas';
 
 @Injectable()
 export class LobbyService {
