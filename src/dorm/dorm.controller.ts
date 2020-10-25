@@ -12,6 +12,8 @@ import {
   UploadedFiles,
   UseGuards,
   UseInterceptors,
+  Inject,
+  Dependencies,
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
 
@@ -30,13 +32,15 @@ import { Role } from 'src/auth/decorator/role.decorator';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage} from 'multer';
 import { UsersService } from 'src/users/users.service';
+import { UserRepository } from 'src/users/repositories/user.repository';
+
 
 @Controller('/dorms')
 @ApiTags('Dorms')
 export class DormController {
   constructor(
     private readonly DormService: DormService,
-    private readonly UserService: UsersService,
+    private readonly userServ: UsersService,
     ) {}
   
   @Post('newdorm')
@@ -44,7 +48,7 @@ export class DormController {
   @Role('owner')
   async AddDorm(@Body() dormDto:DormAddDto, @Request() req) {
     // Resolve User Info
-    const userDoc: UserDocument = await this.UserService.findById(req.user.userId);
+    const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
     dormDto.owner = userDoc;
     // Insert to Dorm 
     // TODO: Should not insert to dorm directly ? pending request instead.

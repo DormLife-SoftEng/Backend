@@ -1,0 +1,1866 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dorm-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">dorm-app documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>LobbyService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/lobby/lobby.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#addChat">addChat</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteLobby">deleteLobby</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#findAllLobby">findAllLobby</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#findLobbyByDormId">findLobbyByDormId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#findLobbyByDormIdAndRoomId">findLobbyByDormIdAndRoomId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#findLobbyById">findLobbyById</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getAllLobbyList">getAllLobbyList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getChat">getChat</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getIdByCode">getIdByCode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getLobbyById">getLobbyById</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#joinLobbyID">joinLobbyID</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#kickMember">kickMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#leaveLobby">leaveLobby</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#postNewLobby">postNewLobby</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#setReady">setReady</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(lobbyModel: <a href="../interfaces/Lobby.html">Model<Lobby></a>, DormService: <a href="../injectables/DormService.html">DormService</a>, UsersService: <a href="../injectables/UsersService.html">UsersService</a>, UsersRepository: <a href="../injectables/UserRepository.html">UserRepository</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/lobby/lobby.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>lobbyModel</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/Lobby.html" target="_self" >Model&lt;Lobby&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>DormService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DormService.html" target="_self" >DormService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>UsersService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>UsersRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserRepository.html" target="_self" >UserRepository</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addChat"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            addChat
+                        </b>
+                        <a href="#addChat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addChat(lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>, chat: <a href="../classes/chatDto.html">chatDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="291"
+                            class="link-to-prism">src/lobby/lobby.service.ts:291</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>chat</td>
+                                    <td>
+                                                <code><a href="../classes/chatDto.html" target="_self" >chatDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteLobby"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            deleteLobby
+                        </b>
+                        <a href="#deleteLobby"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteLobby(lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="266"
+                            class="link-to-prism">src/lobby/lobby.service.ts:266</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findAllLobby"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            findAllLobby
+                        </b>
+                        <a href="#findAllLobby"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findAllLobby(stop: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/lobby/lobby.service.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>stop</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Lobby.html" target="_self" >Promise&lt;Lobby[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findLobbyByDormId"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            findLobbyByDormId
+                        </b>
+                        <a href="#findLobbyByDormId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findLobbyByDormId(stop: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, dormId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/lobby/lobby.service.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>stop</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>dormId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findLobbyByDormIdAndRoomId"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            findLobbyByDormIdAndRoomId
+                        </b>
+                        <a href="#findLobbyByDormIdAndRoomId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findLobbyByDormIdAndRoomId(stop: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, dormId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, roomId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/lobby/lobby.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>stop</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>dormId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>roomId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Lobby.html" target="_self" >Promise&lt;Lobby[]&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findLobbyById"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            findLobbyById
+                        </b>
+                        <a href="#findLobbyById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findLobbyById(lobbyId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">src/lobby/lobby.service.ts:78</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Lobby.html" target="_self" >Promise&lt;Lobby&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllLobbyList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getAllLobbyList
+                        </b>
+                        <a href="#getAllLobbyList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllLobbyList(offset: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, stop: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, dormId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, roomId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">src/lobby/lobby.service.ts:91</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>offset</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>stop</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>dormId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>roomId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getChat"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getChat
+                        </b>
+                        <a href="#getChat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getChat(lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="285"
+                            class="link-to-prism">src/lobby/lobby.service.ts:285</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIdByCode"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getIdByCode
+                        </b>
+                        <a href="#getIdByCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getIdByCode(lobbyCode: <a href="../classes/lobbyCodeDto.html">lobbyCodeDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">src/lobby/lobby.service.ts:192</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyCode</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyCodeDto.html" target="_self" >lobbyCodeDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/lobbyIdDto.html" target="_self" >Promise&lt;lobbyIdDto&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLobbyById"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            getLobbyById
+                        </b>
+                        <a href="#getLobbyById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getLobbyById(lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="178"
+                            class="link-to-prism">src/lobby/lobby.service.ts:178</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="joinLobbyID"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            joinLobbyID
+                        </b>
+                        <a href="#joinLobbyID"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>joinLobbyID(user, lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">src/lobby/lobby.service.ts:199</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="kickMember"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            kickMember
+                        </b>
+                        <a href="#kickMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>kickMember(user, lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, message: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="234"
+                            class="link-to-prism">src/lobby/lobby.service.ts:234</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>message</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="leaveLobby"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            leaveLobby
+                        </b>
+                        <a href="#leaveLobby"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>leaveLobby(user, lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">src/lobby/lobby.service.ts:215</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>user</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postNewLobby"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            postNewLobby
+                        </b>
+                        <a href="#postNewLobby"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>postNewLobby(dormId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, roomId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">src/lobby/lobby.service.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dormId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>roomId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setReady"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Async</span>
+                            setReady
+                        </b>
+                        <a href="#setReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setReady(lobbyId: <a href="../classes/lobbyIdDto.html">lobbyIdDto</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">src/lobby/lobby.service.ts:275</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>lobbyId</td>
+                                    <td>
+                                                <code><a href="../classes/lobbyIdDto.html" target="_self" >lobbyIdDto</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from &#x27;@nestjs/common&#x27;;
+import { Model } from &#x27;mongoose&#x27;;
+import { InjectModel } from &#x27;@nestjs/mongoose&#x27;;
+import { Lobby } from &#x27;./lobby.model&#x27;;
+import { chatDto, lobbyCodeDto, lobbyIdDto } from &#x27;./lobby.dto&#x27;;
+
+import { DormService } from &#x27;../dorm/dorm.service&#x27;;
+import { UserRepository } from &#x27;../users/repositories/user.repository&#x27;;
+import { UsersService } from &#x27;../users/users.service&#x27;;
+
+@Injectable()
+export class LobbyService {
+  constructor(
+    @InjectModel(&#x27;Lobby&#x27;) private readonly lobbyModel: Model&lt;Lobby&gt;,
+    private readonly DormService: DormService,
+    private readonly UsersService: UsersService,
+    private readonly UsersRepository: UserRepository,
+  ) {}
+
+  private async findAllLobby(stop: number): Promise&lt;Lobby[]&gt; {
+    let lobbies;
+    try {
+      lobbies &#x3D; await this.lobbyModel
+        .find()
+        .limit(stop)
+        .exec();
+    } catch (error) {
+      throw new NotFoundException(&#x27;Could not find any lobby.&#x27;);
+    }
+    if (!lobbies) {
+      throw new NotFoundException(&#x27;Could not find any lobby.&#x27;);
+    }
+    return lobbies;
+  }
+
+  private async findLobbyByDormId(stop: number, dormId: string) {
+    let lobbies;
+    try {
+      lobbies &#x3D; await this.lobbyModel
+        .find({ &#x27;dorm.id&#x27;: dormId })
+        .limit(stop)
+        .exec();
+    } catch (error) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    if (!lobbies) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    return lobbies;
+  }
+
+  private async findLobbyByDormIdAndRoomId(
+    stop: number,
+    dormId: string,
+    roomId: string,
+  ): Promise&lt;Lobby[]&gt; {
+    let lobbies;
+    try {
+      lobbies &#x3D; await this.lobbyModel
+        .find({ &#x27;dorm.id&#x27;: dormId, &#x27;dorm.room.id&#x27;: roomId })
+        .limit(stop)
+        .exec();
+    } catch (error) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    if (!lobbies) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    return lobbies;
+  }
+
+  private async findLobbyById(lobbyId: string): Promise&lt;Lobby&gt; {
+    let lobby;
+    try {
+      lobby &#x3D; await this.lobbyModel.find({ _id: lobbyId }).exec();
+    } catch (error) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    if (!lobby) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    return lobby;
+  }
+
+  async getAllLobbyList(
+    offset: string,
+    stop: string,
+    dormId: string,
+    roomId: string,
+  ) {
+    if (!(parseInt(offset) &#x3D;&#x3D;&#x3D; parseFloat(offset) || offset &#x3D;&#x3D;&#x3D; undefined)) {
+      throw new BadRequestException(&#x27;offset must be integer.&#x27;);
+    }
+
+    if (!(parseInt(stop) &#x3D;&#x3D;&#x3D; parseFloat(stop) || stop &#x3D;&#x3D;&#x3D; undefined)) {
+      throw new BadRequestException(&#x27;stop must be integer.&#x27;);
+    }
+
+    if (offset &#x3D;&#x3D;&#x3D; undefined) {
+      offset &#x3D; &#x27;0&#x27;;
+    }
+
+    if (stop &#x3D;&#x3D;&#x3D; undefined) {
+      stop &#x3D; &#x27;50&#x27;;
+    }
+
+    const _offset &#x3D; parseInt(offset);
+    const _stop &#x3D; parseInt(stop);
+
+    if (dormId &#x3D;&#x3D;&#x3D; undefined &amp;&amp; roomId &#x3D;&#x3D;&#x3D; undefined) {
+      const lobbies &#x3D; await this.findAllLobby(_stop);
+      return lobbies.slice(_offset).map(lobby &#x3D;&gt; ({
+        id: lobby.lobbyId,
+        expireOn: lobby.expireOn,
+        owner: lobby.owner,
+        code: lobby.code,
+        member: lobby.member,
+        maxMember: lobby.maxMember,
+        createdOn: lobby.createdOn,
+        modifiedOn: lobby.modifiedOn,
+      }));
+    } else if (dormId !&#x3D;&#x3D; undefined &amp;&amp; roomId &#x3D;&#x3D;&#x3D; undefined) {
+      const lobbies &#x3D; await this.findLobbyByDormId(_stop, dormId);
+      return lobbies.slice(_offset).map(lobby &#x3D;&gt; ({
+        id: lobby.lobbyId,
+        expireOn: lobby.expireOn,
+        owner: lobby.owner,
+        code: lobby.code,
+        member: lobby.member,
+        maxMember: lobby.maxMember,
+        createdOn: lobby.createdOn,
+        modifiedOn: lobby.modifiedOn,
+      }));
+    } else {
+      const lobbies &#x3D; await this.findLobbyByDormIdAndRoomId(
+        _stop,
+        dormId,
+        roomId,
+      );
+      return lobbies.slice(_offset).map(lobby &#x3D;&gt; ({
+        id: lobby.lobbyId,
+        expireOn: lobby.expireOn,
+        owner: lobby.owner,
+        code: lobby.code,
+        member: lobby.member,
+        maxMember: lobby.maxMember,
+        createdOn: lobby.createdOn,
+        modifiedOn: lobby.modifiedOn,
+      }));
+    }
+  }
+
+  async postNewLobby(dormId: string, roomId: string) {
+    const Dorm &#x3D; await this.DormService.getSingleDorm(dormId);
+    const Room &#x3D; await this.DormService.getDormRoom(dormId, roomId);
+    const User &#x3D; this.UsersService;
+    let d &#x3D; new Date();
+    d.setHours(d.getHours() + 14 * 24);
+    const newLobby &#x3D; new this.lobbyModel({
+      expireOn: d,
+      dorm: Dorm,
+      owner: User,
+      member: [User],
+      maxMember: Room.capacity,
+      createdOn: Date.now,
+      modifiedOn: Date.now,
+    });
+    const result &#x3D; await newLobby.save();
+    return result.id as string;
+  }
+
+  async getLobbyById(lobbyId: lobbyIdDto) {
+    const lobby &#x3D; await this.findLobbyById(lobbyId.lobbyId);
+    return {
+      id: lobby.lobbyId,
+      expireOn: lobby.expireOn,
+      owner: lobby.owner,
+      code: lobby.code,
+      member: lobby.member,
+      maxMember: lobby.maxMember,
+      createdOn: lobby.createdOn,
+      modifiedOn: lobby.modifiedOn,
+    };
+  }
+
+  async getIdByCode(lobbyCode: lobbyCodeDto): Promise&lt;lobbyIdDto&gt; {
+    const id &#x3D; await this.lobbyModel
+      .findOne({ code: lobbyCode.lobbyCode })
+      .exec();
+    return id;
+  }
+
+  async joinLobbyID(user, lobbyId: lobbyIdDto) {
+    let lobby;
+    lobby &#x3D; await this.findLobbyById(lobbyId.lobbyId);
+
+    for (let i &#x3D; 0; i &lt; lobby.blackList.length; i++) {
+      if (user._id &#x3D;&#x3D;&#x3D; lobby.blackList[i]._id) {
+        throw new ForbiddenException(lobby.blackList[i].message);
+      }
+    }
+
+    lobby.member.push(user);
+    lobby.save();
+
+    return { id: lobby._id };
+  }
+
+  async leaveLobby(user, lobbyId: lobbyIdDto) {
+    let lobby;
+    try {
+      lobby &#x3D; await this.lobbyModel.update(
+        { _id: lobbyId.lobbyId },
+        { $pull: { member: user } },
+      );
+    } catch (error) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    if (!lobby) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    return {
+      statusCode: 200,
+      message: &#x27;OK&#x27;,
+    };
+  }
+
+  async kickMember(user, lobbyId: lobbyIdDto, userId: string, message: string) {
+    let lobby;
+    try {
+      lobby &#x3D; await this.getLobbyById(lobbyId);
+
+      if (user.id &#x3D;&#x3D; lobby.owner.id) {
+        const user2kick &#x3D; await this.UsersRepository.findById(userId);
+
+        lobby &#x3D; await this.lobbyModel.update(
+          { _id: lobbyId.lobbyId },
+          {
+            $pull: { &#x27;member.user&#x27;: user2kick },
+            $push: { blackList: { user: user2kick, message: message } },
+          },
+        );
+      } else {
+        throw new UnauthorizedException(
+          &#x27;Only lobby owner can kick other member&#x27;,
+        );
+      }
+    } catch (error) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    if (!lobby) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+    return {
+      statusCode: 200,
+      message: &#x27;OK&#x27;,
+    };
+  }
+
+  async deleteLobby(lobbyId: lobbyIdDto) {
+    const result &#x3D; await this.lobbyModel
+      .deleteOne({ _id: lobbyId.lobbyId })
+      .exec();
+    if (result.n &#x3D;&#x3D;&#x3D; 0) {
+      throw new NotFoundException(&#x27;Could not find lobby.&#x27;);
+    }
+  }
+
+  async setReady(lobbyId: lobbyIdDto, userId: string) {
+    let lobby &#x3D; await this.findLobbyById(lobbyId.lobbyId);
+    for (let i &#x3D; 0; i &lt; lobby.member.length; i++) {
+      if (lobby.member[i].user._id &#x3D;&#x3D;&#x3D; userId) {
+        lobby.member[i].ready &#x3D; !lobby.member[i].ready;
+      }
+    }
+    lobby.save();
+  }
+
+  async getChat(lobbyId: lobbyIdDto) {
+    let lobby &#x3D; await this.findLobbyById(lobbyId.lobbyId);
+
+    return lobby.chat;
+  }
+
+  async addChat(lobbyId: lobbyIdDto, chat: chatDto) {
+    let lobby &#x3D; await this.findLobbyById(lobbyId.lobbyId);
+
+    lobby.chat.push(chat);
+    lobby.save();
+
+    return {
+      statusCode: 200,
+      message: &#x27;OK&#x27;,
+    };
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'LobbyService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

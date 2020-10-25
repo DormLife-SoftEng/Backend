@@ -7,15 +7,14 @@ import { UsersController } from './users.controller';
 import { DormModule } from 'src/dorm/dorm.module';
 @Module({
   imports: [
-    DormModule,
-	MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
   providers: [UsersService, UserRepository],
   controllers: [UsersController],
   exports: [
     UsersService,
-	UserRepository,
-	MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+	  UserRepository,
+	  MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
 })
 export class UsersModule {}

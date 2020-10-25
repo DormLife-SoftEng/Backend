@@ -12,7 +12,7 @@ import { DormAddDto } from './dorm.dto';
 export class DormService {
   constructor(
     @InjectModel('Dorm')
-	private readonly DormModel: Model<Dorm>,
+	  private readonly DormModel: Model<Dorm>,
     @InjectModel('Utility')
     private readonly UtilityModel: Model<UtilityInterface>,
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,

@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, InternalServerErrorException, Dependencies } from '@nestjs/common';
 import {UserRepository} from './repositories/user.repository';
 import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
@@ -8,6 +8,7 @@ var bcrypt = require('bcryptjs');
 
 
 @Injectable()
+@Dependencies(UserRepository)
 export class UsersService {
 	constructor(
 		private userRepo: UserRepository,
