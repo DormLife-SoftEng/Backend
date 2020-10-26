@@ -19,20 +19,13 @@ export class TicketBodyDto {
   newdata: any;
 
   @IsNotEmpty()
-  @IsDate()
-  createOn: Date;
+  // @IsDate()
+  createdOn: Date;
 
   @IsNotEmptyObject()
   @ApiProperty()
-  @ValidateIf(elem => elem !== undefined)
-  createdBy: {
-    userId: string;
-    name: {
-      firstname: string;
-      lastname: string;
-    };
-    profilePic: string;
-  };
+  // @ValidateIf(elem => elem !== undefined)
+  createdBy: any;
 
   @IsNotEmpty()
   @IsString()
