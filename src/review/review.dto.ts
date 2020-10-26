@@ -11,12 +11,14 @@ export class reviewCodeDto {
 
 export class ReviewBodyDto {
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
-  dorm: any;
+  dorm: string;
 
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
-  user: any;
+  user: string;
 
   @IsNotEmpty()
   @IsInt()

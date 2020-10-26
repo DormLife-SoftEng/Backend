@@ -178,6 +178,12 @@ export class AdminService {
 
       ticket.save();
       return ticket.id as string;
+    } 
+    else if(ticket.request == "add") {
+      let newDorm = new this.DormModel({
+        
+      })
+      const result = await newDorm.save();
     } else {
       throw new BadRequestException('request should be edit or delete');
     }

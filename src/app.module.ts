@@ -21,9 +21,7 @@ import { MulterModule } from '@nestjs/platform-express';
     ReviewModule,
     AdminModule,
     LobbyModule,
-    MulterModule.register({
-      dest:'./uploads'
-    })
+    
   ],
   controllers: [AppController],
   providers: [AppService],

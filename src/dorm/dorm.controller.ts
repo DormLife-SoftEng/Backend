@@ -16,6 +16,8 @@ import {
   Dependencies,
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
+import * as multer from 'multer';
+import {editFileName, imageFileFilter} from './file-upload.utils'
 
 import {ApiTags} from '@nestjs/swagger';
 enum Sex {
@@ -29,7 +31,7 @@ import { DormAddDto, propsSearchDto } from './dorm.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorator/role.decorator';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage} from 'multer';
 import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/repositories/user.repository';
@@ -49,11 +51,11 @@ export class DormController {
   async AddDorm(@Body() dormDto:DormAddDto, @Request() req) {
     // Resolve User Info
     const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
-    dormDto.owner = userDoc;
+    dormDto.owner = userDoc._id;
     // Insert to Dorm 
     // TODO: Should not insert to dorm directly ? pending request instead.
     const createdDorm = await this.DormService.insertDorm(dormDto);
-    return createdDorm;
+    return {pendingActionId:createdDorm};
   }
   
   @Get()
@@ -62,12 +64,13 @@ export class DormController {
     return dorms;
   }
 
+  //test
   @Post('/room')
   async addRoom(@Body('room') roomlist: any[]) {
     const rooms = await this.DormService.addRoom(roomlist);
     return rooms;
   }
-
+  //test
   @Post('util')
   async addUtil(@Body('util') util: any[]) {
     const utils = await this.DormService.addUtility(util);
@@ -195,4 +198,35 @@ export class DormController {
     const dorms = await this.DormService.getDormList(propsSearch, utilsSearch, offset, stop);
     return dorms;
   }
+
+  // returns array of images' path
+  @Post('images')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      {name:'image', maxCount:10},
+    ],{storage: multer.diskStorage({destination: './uploads',filename: editFileName,}),fileFilter: imageFileFilter}),
+  )
+  async uploadMultipleFiles(@UploadedFiles() files ) {
+    console.log(files.image);
+    const response = [];
+    const path = './uploads';
+    files.image.forEach(file => {
+      const fileReponse = {
+        originalname: file.originalname,
+        filename: file.filename,
+        ImagePath: `${path}${file.filename}`
+      };
+      response.push(fileReponse.ImagePath);
+    });
+
+    const result = {
+      image:response,
+    };
+    return result;
+  }
+  //show image
+  @Get(':imgpath')
+  seeUploadedFile(@Param('imgpath') image, @Res() res) {
+    return res.sendFile(image, { root: './uploads' });
+  } 
 }

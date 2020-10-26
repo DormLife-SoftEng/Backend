@@ -7,7 +7,7 @@ export const PendingActionSchema = new mongoose.Schema({
   target: {},
   newdata: {},
   createdOn: { type: Date },
-  createdBy: {},
+  createdBy: { type: String },
   status: { type: String },
 });
 
@@ -17,6 +17,6 @@ export interface PendingAction extends mongoose.Document {
   target: any;
   newdata: any;
   createdOn: Date;
-  createdBy: any;
+  createdBy: string;
   status: string;
 }

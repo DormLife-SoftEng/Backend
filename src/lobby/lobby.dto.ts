@@ -25,8 +25,8 @@ export class lobbyCodeDto {
 
 export class chatDto {
     @IsNotEmpty()
-    @IsObject()
-    user: UserDocument
+    @IsString()
+    user: string
 
     @IsNotEmpty()
     @IsString()

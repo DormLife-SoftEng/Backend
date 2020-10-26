@@ -1,17 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  ReviewBodyDto,
-  ReviewParamDto,
-  reviewCodeDto,
-} from './review.dto';
+import { ReviewBodyDto, ReviewParamDto, reviewCodeDto } from './review.dto';
 import { Review } from '../review/review.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Dorm } from 'src/dorm/dorm.model';
 
 @Injectable()
 export class ReviewService {
   constructor(
     @InjectModel('Review') private readonly reviewModel: Model<Review>,
+    @InjectModel('Dorm') private readonly dormModel: Model<Dorm>,
   ) {}
 
   private async findReviewByDormId(
@@ -21,7 +19,7 @@ export class ReviewService {
     let review;
     try {
       review = await this.reviewModel
-        .find({ 'dorm._id': dormId })
+        .find({ dorm: dormId })
         .limit(stop)
         .exec();
     } catch (error) {
@@ -33,14 +31,29 @@ export class ReviewService {
     return review;
   }
 
+  private async findDormIdByReviewCode(reviewCode: string): Promise<string> {
+    let dorm;
+    try {
+      dorm = await this.dormModel.find({ code: reviewCode }).exec();
+    } catch (error) {
+      throw new NotFoundException('Could not find dorm.')
+    }
+    if (!dorm) {
+      throw new NotFoundException('Could not find dorm.')
+    }
+
+    return dorm._id
+  }
+
   private async findReviewByReviewCode(
     reviewCode: string,
     userId: string,
   ): Promise<Review[]> {
     let review;
     try {
+      const dormId = await this.findDormIdByReviewCode(reviewCode);
       review = await this.reviewModel
-        .find({ 'dorm.code': reviewCode, 'user.userId': userId })
+        .find({ dorm: dormId, user: userId })
         .exec();
     } catch (error) {
       throw new NotFoundException('Could not find review.');
@@ -58,11 +71,12 @@ export class ReviewService {
   ): Promise<Review> {
     let review;
     try {
+      const dormId = await this.findDormIdByReviewCode(reviewCode.reviewCode);
       review = await this.reviewModel
         .findOneAndUpdate(
           {
-            'dorm.code': reviewCode.reviewCode,
-            'user.userId': userId,
+            dorm: dormId,
+            user: userId,
           },
           reviewBody,
           {
@@ -96,21 +110,17 @@ export class ReviewService {
       .slice(_offset);
   }
 
-  async getSingleReviewByReviewCode(
-    reviewCode: string,
-    userId: string,
-  ) {
+  async getSingleReviewByReviewCode(reviewCode: string, userId: string) {
     const review = await this.findReviewByReviewCode(reviewCode, userId);
-    return review
-      .map(review => ({
-        id: review.id,
-        dorm: review.dorm,
-        user: review.user,
-        star: review.star,
-        comment: review.comment,
-        image: review.image,
-        createdOn: review.createdOn,
-      }))
+    return review.map(review => ({
+      id: review.id,
+      dorm: review.dorm,
+      user: review.user,
+      star: review.star,
+      comment: review.comment,
+      image: review.image,
+      createdOn: review.createdOn,
+    }));
   }
 
   async addReview(reviewBody: ReviewBodyDto) {
@@ -140,7 +150,9 @@ export class ReviewService {
   }
 
   async deleteReview(reviewId: ReviewParamDto) {
-    const result = await this.reviewModel.deleteOne({ _id: reviewId.reviewId }).exec();
+    const result = await this.reviewModel
+      .deleteOne({ _id: reviewId.reviewId })
+      .exec();
     if (result.n === 0) {
       throw new NotFoundException('Could not find review.');
     }

@@ -100,7 +100,7 @@ export class DormAddDto {
 
   @IsString()
   @IsNotEmpty()
-  owner: UserDocument;
+  owner: string;
 
   @IsString()
   @IsNotEmpty()

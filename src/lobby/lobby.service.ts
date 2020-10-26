@@ -43,7 +43,7 @@ export class LobbyService {
     let lobbies;
     try {
       lobbies = await this.lobbyModel
-        .find({ 'dorm.id': dormId })
+        .find({ dorm: dormId })
         .limit(stop)
         .exec();
     } catch (error) {
@@ -63,7 +63,7 @@ export class LobbyService {
     let lobbies;
     try {
       lobbies = await this.lobbyModel
-        .find({ 'dorm.id': dormId, 'dorm.room.id': roomId })
+        .find({ dorm: dormId, room: roomId })
         .limit(stop)
         .exec();
     } catch (error) {
@@ -118,6 +118,8 @@ export class LobbyService {
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
         expireOn: lobby.expireOn,
+        dorm: lobby.dorm,
+        room: lobby.room,
         owner: lobby.owner,
         code: lobby.code,
         member: lobby.member,
@@ -130,6 +132,8 @@ export class LobbyService {
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
         expireOn: lobby.expireOn,
+        dorm: lobby.dorm,
+        room: lobby.room,
         owner: lobby.owner,
         code: lobby.code,
         member: lobby.member,
@@ -146,6 +150,8 @@ export class LobbyService {
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
         expireOn: lobby.expireOn,
+        dorm: lobby.dorm,
+        room: lobby.room,
         owner: lobby.owner,
         code: lobby.code,
         member: lobby.member,
@@ -157,14 +163,14 @@ export class LobbyService {
   }
 
   async postNewLobby(dormId: string, roomId: string) {
-    const Dorm = await this.DormService.getSingleDorm(dormId);
     const Room = await this.DormService.getDormRoom(dormId, roomId);
     const User = this.UsersService;
     let d = new Date();
     d.setHours(d.getHours() + 14 * 24);
     const newLobby = new this.lobbyModel({
       expireOn: d,
-      dorm: Dorm,
+      dorm: dormId,
+      room: roomId,
       owner: User,
       member: [User],
       maxMember: Room.capacity,
@@ -180,6 +186,8 @@ export class LobbyService {
     return {
       id: lobby.lobbyId,
       expireOn: lobby.expireOn,
+      dorm: lobby.dorm,
+      room: lobby.room,
       owner: lobby.owner,
       code: lobby.code,
       member: lobby.member,
@@ -201,12 +209,12 @@ export class LobbyService {
     lobby = await this.findLobbyById(lobbyId.lobbyId);
 
     for (let i = 0; i < lobby.blackList.length; i++) {
-      if (user._id === lobby.blackList[i]._id) {
+      if (user._id === lobby.blackList[i].user) {
         throw new ForbiddenException(lobby.blackList[i].message);
       }
     }
 
-    lobby.member.push(user);
+    lobby.member.push({user: user, ready: false});
     lobby.save();
 
     return { id: lobby._id };
@@ -236,14 +244,14 @@ export class LobbyService {
     try {
       lobby = await this.getLobbyById(lobbyId);
 
-      if (user.id == lobby.owner.id) {
+      if (user == lobby.owner) {
         const user2kick = await this.UsersRepository.findById(userId);
 
         lobby = await this.lobbyModel.update(
           { _id: lobbyId.lobbyId },
           {
             $pull: { 'member.user': user2kick },
-            $push: { blackList: { user: user2kick, message: message } },
+            $push: { blackList: { user: user2kick._id, message: message } },
           },
         );
       } else {
@@ -275,7 +283,7 @@ export class LobbyService {
   async setReady(lobbyId: lobbyIdDto, userId: string) {
     let lobby = await this.findLobbyById(lobbyId.lobbyId);
     for (let i = 0; i < lobby.member.length; i++) {
-      if (lobby.member[i].user._id === userId) {
+      if (lobby.member[i].user === userId) {
         lobby.member[i].ready = !lobby.member[i].ready;
       }
     }

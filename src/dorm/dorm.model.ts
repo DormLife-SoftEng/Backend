@@ -39,7 +39,7 @@ var contactSchema = new mongoose.Schema({
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
   code: { type: String },
-  owner: { }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  owner: {type: String }, //userId
   contact: contactSchema,
   address: {
     address: { type: String },

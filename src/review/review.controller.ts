@@ -32,10 +32,10 @@ export class ReviewController {
   @ApiQuery({ name: 'stop', required: false })
   async getReviewList(
     @Request() req,
-    @Query('dormId') dormId?: string,
-    @Query('reviewCode') reviewCode?: string,
-    @Query('offset') offset?: string,
-    @Query('stop') stop?: string,
+    @Query('dormId') dormId: string,
+    @Query('reviewCode') reviewCode: string,
+    @Query('offset') offset: string,
+    @Query('stop') stop: string,
   ) {
     if (
       (reviewCode === undefined && dormId === undefined) ||

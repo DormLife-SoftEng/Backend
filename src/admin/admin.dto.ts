@@ -12,20 +12,20 @@ export class TicketBodyDto {
 
   @IsNotEmptyObject()
   @ApiProperty()
-  target: any;
+  target: any; // dormId or userId
 
   @IsNotEmptyObject()
   @ApiProperty()
-  newdata: any;
+  newdata: any; //
 
   @IsNotEmpty()
   // @IsDate()
   createdOn: Date;
 
   @IsNotEmptyObject()
+  @IsString()
   @ApiProperty()
-  // @ValidateIf(elem => elem !== undefined)
-  createdBy: any;
+  createdBy: string; //userId
 
   @IsNotEmpty()
   @IsString()

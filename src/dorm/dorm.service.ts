@@ -7,6 +7,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Dorm, UtilityInterface, RoomInterface } from './dorm.model';
 import { UserDocument } from '../users/schemas/users.schemas';
 import { DormAddDto } from './dorm.dto';
+import {PendingAction} from '../admin/admin.model'
 
 @Injectable()
 export class DormService {
@@ -16,6 +17,7 @@ export class DormService {
     @InjectModel('Utility')
     private readonly UtilityModel: Model<UtilityInterface>,
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,
+    @InjectModel('PendingAction') private readonly PendingActionModel: Model<PendingAction>
   ) {}
 
 
@@ -66,13 +68,17 @@ export class DormService {
       .toString(36)
       .substring(7);
 
-    // const owner = findOwnerbyID? --find owner from DB using UserService??
     const rooms = this.addRoom(dorm.rooms);
     const utilities = this.addUtility(dorm.utilities);
-    const newDorm = new this.DormModel({
+    const newDorm = new this.PendingActionModel({
+      type: "dorm",
+      request:"add",
+      target: {},
+      newdata: {
+        //dorm part
       name: dorm.name,
       code: generatedCode,
-      owner: dorm.owner,
+      owner: dorm.owner, //ownerId
       contact: {
         telephone: dorm.telephone,
         email: dorm.email,
@@ -88,10 +94,19 @@ export class DormService {
       description: dorm.description,
       room: rooms,
       allowedSex: dorm.allowedSex,
+      avgStar:0,
       image: dorm.image,
       license: dorm.license,
+      createdOn:Date.now(),
+      modifiedOn: Date.now(),
+      approved: "pending",
+      approvedOn: null,
+      },
+      createdOn: Date.now(),
+      createdBy: dorm.owner,
+      status: "pending"
     });
-
+    
     const result = await newDorm.save();
     return result.id as string;
   }
