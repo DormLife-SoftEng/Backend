@@ -10,9 +10,18 @@ export const ReviewSchema = new mongoose.Schema({
   star: { type: Number },
   comment: { type: String },
   image: { type: [String] },
-  createdOn: { type: Date },
-});
+}, {timestamps: {createdAt: 'createOn', updatedAt: 'modifiedOn'}});
 
+export interface ReviewPrimitive {
+  dorm: Dorm;
+  user: {
+    userId: string;
+  };
+  star: number;
+  comment: string;
+  image: [string];
+  createdOn: string;
+}
 export interface Review extends mongoose.Document {
   id: string;
   dorm: Dorm;
@@ -22,5 +31,5 @@ export interface Review extends mongoose.Document {
   star: number;
   comment: string;
   image: [string];
-  createdOn: Date;
+  createdOn: string;
 }
