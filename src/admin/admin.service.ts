@@ -180,10 +180,39 @@ export class AdminService {
       return ticket.id as string;
     } 
     else if(ticket.request == "add") {
+      const dorm = ticket.newdata;
       let newDorm = new this.DormModel({
-        
+        name:dorm.name,
+        code:dorm.code,
+        owner: dorm.owner, //ownerId
+        contact: {
+          telephone: dorm.telephone,
+          email: dorm.email,
+          lineID: dorm.lineID,
+          website: dorm.website,
+        },
+        address: {
+         address: dorm.address,
+          coordinate: dorm.coordinate,
+        },
+        utility: dorm.utility,
+        type: dorm.type,
+        description: dorm.description,
+        room:dorm.room,
+        allowedSex: dorm.allowedSex,
+        avgStar:dorm.avgStar,
+        image: dorm.image,
+        license: dorm.license,
+        createdOn:dorm.createdOn,
+        modifiedOn: Date.now(),
+        approved: "approved",
+        approvedOn: Date.now(),
+
       })
       const result = await newDorm.save();
+      ticket.status="approved";
+      ticket.save();
+      return ticket.id as string;
     } else {
       throw new BadRequestException('request should be edit or delete');
     }
