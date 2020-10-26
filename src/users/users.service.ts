@@ -3,7 +3,6 @@ import {UserRepository} from './repositories/user.repository';
 import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UserParsedDto} from './users.interface'
-import {validate} from 'class-validator';
 var bcrypt = require('bcryptjs');
 
 
@@ -54,36 +53,33 @@ export class UsersService {
 	async create(dto: CreateUserDto): Promise<string | undefined> {
 		// Is unique
 		const email = dto.email;
-		const query = await this.userRepo.findByEmail(email);
-		if (!dto.telephone) {
-			dto.telephone = '';
-		}
-
-		if (!dto.natId) {
-			dto.natId = '';
-		}
-
-		if (query) {
-			const errors = {email: 'This email has been registered.'};
+    const query = await this.userRepo.findByEmail(email);
+    // validate
+    if (dto.userType === 'owner') {
+      try {
+        if (!dto.telephone && !dto.natId ) {
+          throw new Error('Missing required field');
+        }
+      } catch (err) {
+        const _err = {detail: err};
+        throw new HttpException({message: 'Input data validation failed', _err}, HttpStatus.BAD_REQUEST);
+      }
+    }
+		try{
+      if(query) {
+        throw new Error();
+      }
+		} catch (error) {
+      const errors = {detail: error};
 			throw new HttpException({message: 'Input data validation failed', errors},
 								    HttpStatus.BAD_REQUEST);
-		}
+    }
 
-		const errors = validate(CreateUserDto);
-
-		if ((await errors).length > 0) {
-			const _errors = {email: 'Invalid input.', detaiL: errors};
-			throw new HttpException({message: 'Input data validation failed', _errors},
-								    HttpStatus.BAD_REQUEST);
-		}
-		else {
-			// resolve password before saving.
-			dto.password = await bcrypt.hash(dto.password, 10);
-			// Conversion
-			const newDto = this.userDtoConversion(dto);
-			const savedUser = await this.userRepo.create(newDto);
-			return savedUser._id;
-		}
+    // resolve password before saving.
+    dto.password = await bcrypt.hash(dto.password, 10);
+    // Conversion
+    const newDto = this.userDtoConversion(dto);
+    const savedUser = await this.userRepo.create(newDto);
+    return savedUser._id;
 	}
-
 }

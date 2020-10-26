@@ -8,25 +8,21 @@ import {UserParsedDto} from "../users.interface";
 @Injectable()
 export class UserRepository {
 
-	constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+	constructor(@InjectModel("User") private readonly userModel: Model<UserDocument>) {}
 
 	async create(createUserDto: UserParsedDto): Promise<UserDocument> {
 		// Parsing
 		createUserDto.createdOn = new Date().toString();
 		createUserDto.PictureProfile = Math.floor( Math.random() * 3 );
-		const createdUser = new this.userModel (createUserDto);
+		const createdUser = new this.userModel(createUserDto);
 		return createdUser.save()
 	}
 
-	async findAll(): Promise<UserDocument[]> {
-		return this.userModel.find().exec();
-	}
-
 	async findByEmail(emailQuery: string): Promise<UserDocument> {
-		return this.userModel.findOne({email: emailQuery}).exec();
+		return this.userModel.findOne({email: emailQuery});
 	}
 
 	async findById(userId: string): Promise<UserDocument> {
-		return this.userModel.findById(userId).exec();
+		return this.userModel.findById(userId)
 	}
 }
