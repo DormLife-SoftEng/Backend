@@ -1,4 +1,4 @@
-import { Controller, Post, Request, HttpCode, HttpStatus, Body, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, Request, HttpCode, HttpStatus, Body, UseGuards, Get, Query } from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UsersService} from './users.service';
 import {ApiTags, ApiOAuth2} from '@nestjs/swagger';
@@ -41,4 +41,25 @@ export class UsersController {
 		}
 	}
 
+
+	@Get()
+	@UseGuards(JwtAuthGuard)
+	@ApiOAuth2([])
+	async getUserInfoByUserId(@Query('userId') userId: string) {
+		const user = await this.userServ.findById(userId);
+		return {
+			name: {
+				firstName: user.name.firstName,
+				lastName: user.name.lastName,
+			},
+			telephone: user.telephone,
+			email: user.email,
+			email_verified: user.email_verified,
+			profilePic: user.PictureProfile,
+			sex: user.sex,
+			createdOn: user.createdOn,
+			modifiedOn: user.modifiedOn,
+			userType: user.userType,
+		}
+	}
 }
