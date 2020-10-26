@@ -8,17 +8,24 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
+  Request
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
 import {
   ReviewBodyDto,
   ReviewParamDto,
   reviewCodeDto,
-} from './review.validation';
+} from './review.dto';
 import {ApiTags} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
+import { Role } from 'src/auth/decorator/role.decorator';
 
 @Controller('/reviews')
 @ApiTags('Reviews')
+@UseGuards(JwtAuthGuard, RoleGuard)
+@Role('general')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
@@ -28,7 +35,7 @@ export class ReviewController {
     @Query('reviewCode') reviewCode: string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
-    @Query('userId') userId: string, // mocked user id
+    @Request() req,
   ) {
     if (
       (reviewCode === undefined && dormId === undefined) ||
@@ -63,12 +70,12 @@ export class ReviewController {
       );
       return reviews;
     } else if (dormId === undefined) {
-      if (userId === undefined) {
+      if (req.user._id === undefined) {
         throw new BadRequestException('userId must be defined.');
       }
       const review = await this.reviewService.getSingleReviewByReviewCode(
         reviewCode,
-        userId
+        req.user._id
       );
       return review;
     }
@@ -83,13 +90,13 @@ export class ReviewController {
   @Patch()
   async editReview(
     @Query() reviewCode: reviewCodeDto,
-    @Query('userId') userId: string, // mocked user id
+    @Request() req,
     @Body() reviewBody: ReviewBodyDto,
   ) {
     const generatedId = await this.reviewService.editReview(
       reviewCode,
       reviewBody,
-      userId,
+      req.user._id,
     );
     return { id: generatedId };
   }

@@ -3,7 +3,7 @@ import {
   ReviewBodyDto,
   ReviewParamDto,
   reviewCodeDto,
-} from './review.validation';
+} from './review.dto';
 import { Review } from '../review/review.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';

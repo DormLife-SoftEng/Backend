@@ -12,13 +12,13 @@ export class createLobbyDto {
 }
 
 export class lobbyIdDto {
-    @IsNotEmpty()
+    // @IsNotEmpty()
     @IsString()
     lobbyId: string
 }
 
 export class lobbyCodeDto {
-    @IsNotEmpty()
+    // @IsNotEmpty()
     @IsString()
     lobbyCode: string
 }
