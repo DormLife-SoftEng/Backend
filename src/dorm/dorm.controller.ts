@@ -209,7 +209,7 @@ export class DormController {
   async uploadMultipleFiles(@UploadedFiles() files ) {
     console.log(files.image);
     const response = [];
-    const path = './uploads';
+    const path = './uploads/';
     files.image.forEach(file => {
       const fileReponse = {
         originalname: file.originalname,
