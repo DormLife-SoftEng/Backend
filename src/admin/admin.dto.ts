@@ -1,10 +1,14 @@
-import { IsArray, isNotEmpty, IsNotEmpty, IsNotEmptyObject, IsString, ValidateIf } from 'class-validator';
+import { IsArray, IsDate, isNotEmpty, IsNotEmpty, IsNotEmptyObject, IsString, ValidateIf } from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
 
 export class TicketBodyDto {
   @IsNotEmpty()
   @IsString()
   type: string
+  
+  @IsNotEmpty()
+  @IsString()
+  request: string
 
   @IsNotEmptyObject()
   @ApiProperty()
@@ -13,6 +17,10 @@ export class TicketBodyDto {
   @IsNotEmptyObject()
   @ApiProperty()
   newdata: any;
+
+  @IsNotEmpty()
+  @IsDate()
+  createOn: Date;
 
   @IsNotEmptyObject()
   @ApiProperty()

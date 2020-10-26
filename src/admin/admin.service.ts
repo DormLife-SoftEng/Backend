@@ -58,17 +58,12 @@ export class AdminService {
     return tickets
       .map(ticket => ({
         id: ticket.id,
+        request: ticket.request,
+        type: ticket.type,
         target: ticket.target,
         newdata: ticket.newdata,
         createdOn: ticket.createdOn,
-        createdBy: {
-          userId: ticket.createdBy.userId,
-          name: {
-            firstname: ticket.createdBy.name.firstname,
-            lastname: ticket.createdBy.name.lastname,
-          },
-          profilePic: ticket.createdBy.profilePic,
-        },
+        createdBy: ticket.createdBy,
         status: ticket.status,
       }))
       .slice(_offset);
@@ -76,18 +71,12 @@ export class AdminService {
 
   async addTicket(ticketBody: TicketBodyDto) {
     const newTicket = new this.pendingActionModel({
+      request: ticketBody.request,
       type: ticketBody.type,
       target: ticketBody.target,
       newdata: ticketBody.newdata,
       createdOn: Date.now(),
-      createdBy: {
-        userId: ticketBody.createdBy.userId,
-        name: {
-          firstname: ticketBody.createdBy.name.firstname,
-          lastname: ticketBody.createdBy.name.lastname,
-        },
-        profilePic: ticketBody.createdBy.profilePic,
-      },
+      createdBy: ticketBody.createdBy,
       status: ticketBody.status,
     });
     const result = await newTicket.save();
@@ -98,17 +87,12 @@ export class AdminService {
     const ticket = await this.findSingleTicket(ticketId);
     return {
       id: ticket.id,
+      request: ticket.request,
+      type: ticket.type,
       target: ticket.target,
       newdata: ticket.newdata,
       createdOn: ticket.createdOn,
-      createdBy: {
-        userId: ticket.createdBy.userId,
-        name: {
-          firstname: ticket.createdBy.name.firstname,
-          lastname: ticket.createdBy.name.lastname,
-        },
-        profilePic: ticket.createdBy.profilePic,
-      },
+      createdBy: ticket.createdBy,
       status: ticket.status,
     };
   }
