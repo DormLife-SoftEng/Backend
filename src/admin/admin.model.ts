@@ -3,6 +3,7 @@ import * as mongoose from 'mongoose';
 
 export const PendingActionSchema = new mongoose.Schema({
   type: { type: String },
+  request: { type: String },
   target: {},
   newdata: {},
   createdOn: { type: Date },
@@ -19,6 +20,7 @@ export const PendingActionSchema = new mongoose.Schema({
 
 export interface PendingAction extends mongoose.Document {
   type: string;
+  request: string;
   target: any;
   newdata: any;
   createdOn: Date;

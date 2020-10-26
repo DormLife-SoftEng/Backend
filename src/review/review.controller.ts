@@ -9,15 +9,11 @@ import {
   Post,
   Query,
   UseGuards,
-  Request
+  Request,
 } from '@nestjs/common';
 import { ReviewService } from './review.service';
-import {
-  ReviewBodyDto,
-  ReviewParamDto,
-  reviewCodeDto,
-} from './review.dto';
-import {ApiTags} from '@nestjs/swagger';
+import { ReviewBodyDto, ReviewParamDto, reviewCodeDto } from './review.dto';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorator/role.decorator';
@@ -30,12 +26,16 @@ export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
   @Get()
+  @ApiQuery({ name: 'dormId', required: false })
+  @ApiQuery({ name: 'reviewCode', required: false })
+  @ApiQuery({ name: 'offset', required: false })
+  @ApiQuery({ name: 'stop', required: false })
   async getReviewList(
-    @Query('dormId') dormId: string,
-    @Query('reviewCode') reviewCode: string,
-    @Query('offset') offset: string,
-    @Query('stop') stop: string,
     @Request() req,
+    @Query('dormId') dormId?: string,
+    @Query('reviewCode') reviewCode?: string,
+    @Query('offset') offset?: string,
+    @Query('stop') stop?: string,
   ) {
     if (
       (reviewCode === undefined && dormId === undefined) ||
@@ -75,7 +75,7 @@ export class ReviewController {
       }
       const review = await this.reviewService.getSingleReviewByReviewCode(
         reviewCode,
-        req.user._id
+        req.user._id,
       );
       return review;
     }

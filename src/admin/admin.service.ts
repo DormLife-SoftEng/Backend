@@ -14,13 +14,13 @@ import { UserDocument } from '../users/schemas/users.schemas';
 @Injectable()
 export class AdminService {
   constructor(
-	@InjectModel('PendingAction')
+    @InjectModel('PendingAction')
     private readonly pendingActionModel: Model<PendingAction>,
-	@InjectModel('Dorm')
+    @InjectModel('Dorm')
     private readonly DormModel: Model<Dorm>,
-	@InjectModel('User')
+    @InjectModel('User')
     private readonly UserModel: Model<UserDocument>,
-  ) {};
+  ) {}
 
   async findTicket(stop: number): Promise<PendingAction[]> {
     let ticket;
@@ -115,31 +115,88 @@ export class AdminService {
 
   async changeStatus(ticketId: TicketIdDto) {
     const ticket = await this.findSingleTicket(ticketId);
-    if (ticket.status === 'pending' || ticket.status === 'disapproved') {
-      ticket.status = 'approved';
-      //get target data
-      const target = ticket.target;
-      if (ticket.type === 'user') {
-        let user = await this.UserModel.findById(target._id);
-        user = ticket.newdata;
-        user.save();
-      } else if (ticket.type === 'dorm') {
-        let dorm = await this.DormModel.findById(target._id);
-        dorm = ticket.newdata;
-        dorm.save();
+    const target = ticket.target;
+    if (ticket.request === 'edit') {
+      if (ticket.status === 'pending' || ticket.status === 'disapproved') {
+        ticket.status = 'approved';
+        //get target data
+        if (ticket.type === 'user') {
+          let user;
+          try {
+            user = await this.UserModel.findById(target._id);
+          } catch (error) {
+            throw new NotFoundException('Could not find user.');
+          }
+          if (!user) {
+            throw new NotFoundException('Could not find user.');
+          }
+          user = ticket.newdata;
+          user.save();
+        } else if (ticket.type === 'dorm') {
+          let dorm;
+          try {
+            dorm = await this.DormModel.findById(target._id);
+          } catch (error) {
+            throw new NotFoundException('Could not find dorm.');
+          }
+          if (!dorm) {
+            throw new NotFoundException('Could not find dorm.');
+          }
+          dorm = ticket.newdata;
+          dorm.save();
+        } else {
+          throw new BadRequestException('type should be user or dorm');
+        }
+      } else if (ticket.status === 'approved') {
+        ticket.status = 'disapproved';
       } else {
-        throw new BadRequestException('type should be user or dorm');
+        throw new BadRequestException(
+          'Ticket should be pending or disapproved or approved.',
+        );
       }
-    } else if (ticket.status === 'approved') {
-      ticket.status = 'disapproved';
-    } else {
-      throw new BadRequestException(
-        'Ticket should be pending or disapproved or approved.',
-      );
-    }
 
-    ticket.save();
-    return ticket.id as string;
+      ticket.save();
+      return ticket.id as string;
+    } else if (ticket.request === 'delete') {
+      if (ticket.status === 'pending' || ticket.status === 'disapproved') {
+        ticket.status = 'approved';
+        // delete
+        if (ticket.type === 'user') {
+          let user;
+          try { 
+            user = await this.UserModel.findOneAndDelete({_id: target._id});
+          } catch (error) {
+            throw new NotFoundException('Could not find user.');
+          }
+          if (!user) {
+            throw new NotFoundException('Could not find user.');
+          }
+        } else if (ticket.type === 'dorm') {
+          let dorm;
+          try { 
+            dorm = await this.DormModel.findOneAndDelete({_id: target._id});
+          } catch (error) {
+            throw new NotFoundException('Could not find dorm.');
+          }
+          if (!dorm) {
+            throw new NotFoundException('Could not find dorm.');
+          }
+        } else {
+          throw new BadRequestException('type should be user or dorm');
+        }
+      } else if (ticket.status === 'approved') {
+        ticket.status = 'disapproved';
+      } else {
+        throw new BadRequestException(
+          'Ticket should be pending or disapproved or approved.',
+        );
+      }
+
+      ticket.save();
+      return ticket.id as string;
+    } else {
+      throw new BadRequestException('request should be edit or delete');
+    }
   }
 
   async deleteTicket(ticketId: TicketIdDto) {
