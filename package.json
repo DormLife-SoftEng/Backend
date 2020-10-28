@@ -2,7 +2,7 @@
   "name": "dorm-app",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Amrest Chinkamol",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -83,5 +83,17 @@
     "verbose": true,
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DormLife-SoftEng/Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DormLife-SoftEng/Backend/issues"
+  },
+  "homepage": "https://github.com/DormLife-SoftEng/Backend#readme"
 }
