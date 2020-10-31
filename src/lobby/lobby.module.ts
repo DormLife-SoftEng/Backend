@@ -5,6 +5,7 @@ import { LobbyService } from './lobby.service';
 import { LobbySchema } from './lobby.model';
 import { DormModule } from 'src/dorm/dorm.module';
 import { UsersModule } from 'src/users/users.module';
+import {LobbyRepository} from './repositories/lobby.repository';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { UsersModule } from 'src/users/users.module';
     UsersModule
   ],
   controllers: [LobbyController],
-  providers: [LobbyService],
+  providers: [LobbyService, LobbyRepository],
 })
 export class LobbyModule {}
