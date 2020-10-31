@@ -103,6 +103,7 @@ export class DormService {
     return dorm.map(d => ({
       id: d.id,
       name: d.name,
+      code:d.code,
       contact: {
         telephone:d.contact.telephone,
         email:d.contact.email,
