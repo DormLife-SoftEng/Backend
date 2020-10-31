@@ -5,6 +5,16 @@ import { UserDocument } from "src/users/schemas/users.schemas";
 import { DormAddDto } from "../dorm.dto";
 import { Dorm, UtilityInterface, RoomInterface } from "../dorm.model";
 
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 @Injectable()
 export class DormRepository {
   constructor (
@@ -279,6 +289,31 @@ export class DormRepository {
       }))
       .slice(Offset);
     return res;
+  }
+
+  async validateCode(reviewCode: string) {
+    const dorm = this.DormModel.findOne({code: reviewCode});
+    if(!dorm) return null;
+    else return dorm;
+  }
+
+  async genNewReviewCode(ownerId: string, dormId: string) {
+    let newcode = makeid(5);
+    while(this.validateCode(newcode)){
+      newcode = makeid(5);
+    }
+    // get dorm
+    try {
+      const dorm = await this.DormModel.findOne({owner: ownerId, _id: dormId});
+      if(dorm!) {
+        throw new Error('Owner Mismatch')
+      }
+      dorm.code = newcode;
+      dorm.save(); 
+      return newcode;
+    } catch (err) {
+      throw new NotFoundException(err);
+    }
   }
 
 }

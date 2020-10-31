@@ -29,4 +29,9 @@ export class DormService {
 
   getUserDorm = this.dormRepo.getDormByOwner;
 
+  async genNewReviewCode (owner: string, dormId: string) {
+    const code = await this.dormRepo.genNewReviewCode(owner, dormId);
+    return {'code': code};
+  }
+
 }

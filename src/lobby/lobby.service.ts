@@ -108,7 +108,7 @@ export class LobbyService {
     let d = new Date();
     d.setHours(d.getHours() + 14 * 24);
     let code = makeid(5);
-    while ( ! this.getIdByCode({lobbyCode: code})) {
+    while ( this.getIdByCode({lobbyCode: code})) {
       code = makeid(5);
     }
     const newLobby = new this.LobbyRepository.create(

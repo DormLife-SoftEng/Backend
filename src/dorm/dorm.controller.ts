@@ -16,6 +16,7 @@ import {
   Dependencies,
   Req,
   InternalServerErrorException,
+  Put,
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
 import * as multer from 'multer';
@@ -249,5 +250,13 @@ export class DormController {
   @Get('images/:imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
     return res.sendFile(image, { root: './uploads' });
-  } 
+  }
+
+  @Put(':id/reviewCode')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('owner')
+  async generateReviewCode(@Param('id') dormId, @Req() req) {
+    const res = await this.DormService.genNewReviewCode(req.user.userId, dormId)
+    return res;
+  }
 }
