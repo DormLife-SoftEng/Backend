@@ -93,11 +93,24 @@ export class LobbyService {
   }
 
   async postNewLobby(dormId: string, roomId: string) {
+    function makeid(length) {
+      var result           = '';
+      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for ( var i = 0; i < length; i++ ) {
+         result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+   }
     const Dorm = await this.DormService.getSingleDorm(dormId);
     const Room = await this.DormService.getDormRoom(dormId, roomId);
     const User = this.UsersService;
     let d = new Date();
     d.setHours(d.getHours() + 14 * 24);
+    let code = makeid(5);
+    while ( ! this.getIdByCode({lobbyCode: code})) {
+      code = makeid(5);
+    }
     const newLobby = new this.LobbyRepository.create(
       {
         expireOn: d,
@@ -105,9 +118,10 @@ export class LobbyService {
         owner: User,
         member: [User],
         maxMember: Room.capacity,
+        code: code,
         createdOn: Date.now,
         modifiedOn: Date.now,
-      } 
+      }
     )
     const result = await newLobby.save();
     return result.id as string;
