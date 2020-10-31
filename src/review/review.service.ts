@@ -5,78 +5,66 @@ import {
   reviewCodeDto,
 } from './review.dto';
 import { Review } from '../review/review.model';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { ReviewRepository } from './repositories/review.repositories';
 
 @Injectable()
 export class ReviewService {
   constructor(
-    @InjectModel('Review') private readonly reviewModel: Model<Review>,
+    private readonly reviewRepo: ReviewRepository,
   ) {}
 
   private async findReviewByDormId(
     dormId: string,
     stop: number,
-  ): Promise<Review[]> {
-    let review;
+  ): Promise<Review[] | undefined> {
     try {
-      review = await this.reviewModel
-        .find({ 'dorm._id': dormId })
-        .limit(stop)
-        .exec();
+      const query = { 'dorm._id': dormId };
+      const review = await this.reviewRepo.findWithPagination(query, stop);
+      if (!review) {
+        throw new Error('Empty Repository');
+      }
+      return review;
     } catch (error) {
       throw new NotFoundException('Could not find review.');
     }
-    if (!review) {
-      throw new NotFoundException('Could not find review.');
-    }
-    return review;
   }
 
   private async findReviewByReviewCode(
     reviewCode: string,
     userId: string,
-  ): Promise<Review[]> {
-    let review;
+  ): Promise<Review[] | undefined> {
     try {
-      review = await this.reviewModel
-        .find({ 'dorm.code': reviewCode, 'user.userId': userId })
-        .exec();
+      const query = { 'dorm.code': reviewCode, 'user.userId': userId };
+      const review = await this.reviewRepo.find(query);
+      if (!review) {
+        throw new Error('Empty Repository');
+      }
+      return review;
     } catch (error) {
       throw new NotFoundException('Could not find review.');
     }
-    if (!review) {
-      throw new NotFoundException('Could not find review.');
-    }
-    return review;
   }
 
-  private async findAnUpdateReview(
+  private async findAndUpdateReview(
     reviewCode: reviewCodeDto,
     reviewBody: ReviewBodyDto,
     userId: string,
-  ): Promise<Review> {
-    let review;
+  ): Promise<any | undefined> {
+    const query = {
+      'dorm.code': reviewCode.reviewCode,
+      'user.userId': userId,
+    };
+    const data = reviewBody;
+    const options = {new: true};
     try {
-      review = await this.reviewModel
-        .findOneAndUpdate(
-          {
-            'dorm.code': reviewCode.reviewCode,
-            'user.userId': userId,
-          },
-          reviewBody,
-          {
-            new: true,
-          },
-        )
-        .exec();
+      const review = await this.reviewRepo.findOneAndUpdate(query, data, options);
+      if (!review) {
+        throw new Error('Empty Repository');
+      }
+      return review;
     } catch (error) {
       throw new NotFoundException('Could not find review.');
     }
-    if (!review) {
-      throw new NotFoundException('Could not find review.');
-    }
-    return review;
   }
 
   async getReviewList(dormId: string, offset: string, stop: string) {
@@ -114,15 +102,7 @@ export class ReviewService {
   }
 
   async addReview(reviewBody: ReviewBodyDto) {
-    const newReview = new this.reviewModel({
-      dorm: reviewBody.dorm,
-      user: reviewBody.user,
-      star: reviewBody.star,
-      comment: reviewBody.comment,
-      image: reviewBody.image,
-      createdOn: Date.now(),
-    });
-    const result = await newReview.save();
+    const result = await this.reviewRepo.create(reviewBody);
     return result.id as string;
   }
 
@@ -131,7 +111,7 @@ export class ReviewService {
     reviewBody: ReviewBodyDto,
     userId: string,
   ) {
-    const review = await this.findAnUpdateReview(
+    const review = await this.findAndUpdateReview(
       reviewCode,
       reviewBody,
       userId,
@@ -140,9 +120,15 @@ export class ReviewService {
   }
 
   async deleteReview(reviewId: ReviewParamDto) {
-    const result = await this.reviewModel.deleteOne({ _id: reviewId.reviewId }).exec();
-    if (result.n === 0) {
-      throw new NotFoundException('Could not find review.');
+    const query = { _id: reviewId.reviewId };
+    const result = await this.reviewRepo.deleteOne(query);
+    try {
+      if (result.n === 0) {
+        throw new NotFoundException('Could not find review.');
+      }
+      return result;
+    } catch (err) {
+      throw err;
     }
   }
 }
