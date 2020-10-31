@@ -103,6 +103,12 @@ export class DormService {
     return dorm.map(d => ({
       id: d.id,
       name: d.name,
+      contact: {
+        telephone:d.contact.telephone,
+        email:d.contact.email,
+        lineID:d.contact.lineID,
+        website:d.contact.website,
+      },
       address: {
         address: d.address.address,
         coordinate: d.address.coordinate,
@@ -112,6 +118,12 @@ export class DormService {
         distance: res.distance,
         description: res.description,
       })),
+      type:d.type,
+      description:d.description,
+      allowedSex: d.allowedSex,
+      avgStar:d.avgStar,
+      image:d.image,
+      license:d.license,
       room: d.room.map(res => ({
         price: res.price,
         image: res.image,
@@ -124,7 +136,6 @@ export class DormService {
         description: res.description,
         allowedSex: res.allowedSex,
       })),
-      allowedSex: d.allowedSex,
     }));
   }
 
