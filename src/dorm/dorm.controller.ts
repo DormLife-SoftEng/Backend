@@ -14,6 +14,8 @@ import {
   UseInterceptors,
   Inject,
   Dependencies,
+  Req,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
 import * as multer from 'multer';
@@ -35,6 +37,8 @@ import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-expres
 import { diskStorage} from 'multer';
 import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/repositories/user.repository';
+import { query } from 'express';
+import { Dorm } from './dorm.model';
 
 
 @Controller('/dorms')
@@ -78,19 +82,19 @@ export class DormController {
   }
 
   @Get(':id')
-  getDorm(@Param('id') dormID: string) {
-    return this.DormService.getSingleDorm(dormID);
+  async getDorm(@Param('id') dormID: string) {
+    return await this.DormService.getSingleDorm(dormID);
   }
 
   @Get(':id/rooms')
-  getRoom(@Param('id') dormID: string) {
-    return this.DormService.getAllDormRoom(dormID);
+  async getRoom(@Param('id') dormID: string) {
+    return await this.DormService.getAllDormRoom(dormID);
   }
 
   @Get(':id/rooms/:roomid')
-  getSingleRoom(@Param('id') dormID: string, @Param('roomid') roomID: string) {
+  async getSingleRoom(@Param('id') dormID: string, @Param('roomid') roomID: string) {
     // console.log(roomID);
-    return this.DormService.getDormRoom(dormID, roomID);
+    return await this.DormService.getDormRoom(dormID, roomID);
   }
 
   @Post()
@@ -119,6 +123,7 @@ export class DormController {
     @Query('offset') offset: string,
     @Query('stop') stop: string,
   ) {
+    // Parsing
     if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
       throw new BadRequestException('offset must be integer.');
     }
@@ -194,11 +199,28 @@ export class DormController {
       propsSearch['room.bedroom'] = -1;
     }
 
-    console.log(utilsSearch);
+    // console.log(utilsSearch);
     const dorms = await this.DormService.getDormList(propsSearch, utilsSearch, offset, stop);
     return dorms;
   }
 
+  @Get('users')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('owner')
+  async getUserDorm(@Req() req): Promise<Dorm[] | undefined> {
+    // get userdoc
+    const userDoc = await this.userServ.findById(req.user.userId);
+    try {
+      if(!userDoc) {
+        throw new Error('Fatal: Exists user not found')
+      }
+    }
+    catch (err) {
+      throw new InternalServerErrorException();
+    }
+    const query = await this.DormService.getUserDorm(userDoc._id);
+    return query;
+  }
   // returns array of images' path
   @Post('images')
   @UseInterceptors(
@@ -224,7 +246,7 @@ export class DormController {
     return result;
   }
   //show image
-  @Get('image/:imgpath')
+  @Get('images/:imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
     return res.sendFile(image, { root: './uploads' });
   } 

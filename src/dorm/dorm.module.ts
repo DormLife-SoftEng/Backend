@@ -6,6 +6,7 @@ import { DormSchema, RoomSchema, utilSchema } from './dorm.model';
 import { UsersModule } from 'src/users/users.module';
 import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/repositories/user.repository';
+import { DormRepository } from './repositories/dorm.repository';
 
 @Module({
   imports: [
@@ -15,9 +16,10 @@ import { UserRepository } from 'src/users/repositories/user.repository';
     MongooseModule.forFeature([{ name: 'Utility', schema: utilSchema }]),
   ],
   controllers: [DormController],
-  providers: [DormService],
+  providers: [DormService, DormRepository],
   exports: [
     DormService,
+    DormRepository,
     MongooseModule.forFeature([{ name: 'Dorm', schema: DormSchema }]),],
 })
 export class DormModule {}
