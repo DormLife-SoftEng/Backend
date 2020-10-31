@@ -39,7 +39,7 @@ var contactSchema = new mongoose.Schema({
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
   code: { type: String },
-  owner: { }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  owner: { type: String}, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   contact: contactSchema,
   address: {
     address: { type: String },
@@ -98,7 +98,7 @@ export interface RoomInterface extends mongoose.Document {
 export interface Dorm extends mongoose.Document {
   id: string;
   name: string;
-  owner: UserDocument;
+  owner: string;
   code: string;
   contact: {
     telephone: string;

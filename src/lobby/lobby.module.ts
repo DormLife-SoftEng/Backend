@@ -5,11 +5,7 @@ import { LobbyService } from './lobby.service';
 import { LobbySchema } from './lobby.model';
 import { DormModule } from 'src/dorm/dorm.module';
 import { UsersModule } from 'src/users/users.module';
-<<<<<<< HEAD
 import { LobbyRepository } from './repositories/lobby.repository';
-=======
-import {LobbyRepository} from './repositories/lobby.repository';
->>>>>>> master
 
 @Module({
   imports: [
