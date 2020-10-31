@@ -209,12 +209,11 @@ export class DormController {
   async uploadMultipleFiles(@UploadedFiles() files ) {
     console.log(files.image);
     const response = [];
-    const path = './uploads/';
     files.image.forEach(file => {
       const fileReponse = {
         originalname: file.originalname,
         filename: file.filename,
-        ImagePath: `${path}${file.filename}`
+        ImagePath: `${file.filename}`
       };
       response.push(fileReponse.ImagePath);
     });
@@ -225,7 +224,7 @@ export class DormController {
     return result;
   }
   //show image
-  @Get(':imgpath')
+  @Get('images/:imgpath')
   seeUploadedFile(@Param('imgpath') image, @Res() res) {
     return res.sendFile(image, { root: './uploads' });
   } 

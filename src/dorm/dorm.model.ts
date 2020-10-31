@@ -101,9 +101,9 @@ export interface Dorm extends mongoose.Document {
   owner: UserDocument;
   code: string;
   contact: {
-    telelphone: string;
+    telephone: string;
     email: string;
-    lineOD: string;
+    lineID: string;
     website: string;
   };
   address: {
@@ -113,7 +113,9 @@ export interface Dorm extends mongoose.Document {
   utility: UtilityInterface[];
   room: RoomInterface[];
   allowedSex: string;
+  type:string,
   avgStar: number;
+  description:string,
   image:string[];
   license: string[];
   createdOn: Date;

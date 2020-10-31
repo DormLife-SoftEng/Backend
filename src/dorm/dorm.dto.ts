@@ -98,8 +98,6 @@ export class DormAddDto {
   @IsNotEmpty()
   readonly name: string;
 
-  @IsString()
-  @IsNotEmpty()
   owner: string;
 
   @IsString()
