@@ -192,8 +192,8 @@ export class AdminService {
           website: dorm.website,
         },
         address: {
-         address: dorm.address,
-          coordinate: dorm.coordinate,
+         address: dorm.address.address,
+          coordinate: dorm.address.coordinate,
         },
         utility: dorm.utility,
         type: dorm.type,
