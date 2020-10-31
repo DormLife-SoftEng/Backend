@@ -8,7 +8,7 @@ import { UserRepository } from './repositories/user.repository';
 import { UserParsedDto } from './users.interface';
 import { HttpException } from '@nestjs/common';
 
-class UserRepositoryMock {
+export class UserRepositoryMock {
   users: string[]
   userIds: string[]
   constructor() {

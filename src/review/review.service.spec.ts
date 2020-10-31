@@ -7,7 +7,7 @@ import { Review, ReviewPrimitive } from "./review.model";
 import { ReviewService } from "./review.service";
 
 
-class ReviewRepositoryMock {
+export class ReviewRepositoryMock {
   collection: any[];
   dto: any;
   constructor () {
