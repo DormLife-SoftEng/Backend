@@ -122,7 +122,7 @@ export class DormRepository {
     }));
   }
 
-  async getDormByOwner(dormOwner: UserDocument): Promise<Dorm[]> {
+  async getDormByOwner(dormOwner: string): Promise<Dorm[]> {
     const dorm = await this.DormModel
                 .find({owner: dormOwner})
                 // .exec();
