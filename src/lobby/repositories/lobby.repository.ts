@@ -9,9 +9,15 @@ export class LobbyRepository {
     ) {}
 
     create = this.lobbyModel;
-    findOne = this.lobbyModel.findOne;
-    update = this.lobbyModel.update;
-    deleteOne = this.lobbyModel.deleteOne;
+    async findOne(query) {
+      return await this.lobbyModel.findOne(query);
+    }
+    async update (query, data) {
+      return await this.lobbyModel.update(query, data);
+    }
+    async deleteOne(query) {
+      return await this.lobbyModel.deleteOne(query);
+    }
 
     async findAllLobby(stop: number): Promise<Lobby[]> {
         try {

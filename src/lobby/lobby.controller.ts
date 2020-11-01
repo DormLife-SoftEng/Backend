@@ -58,7 +58,7 @@ export class LobbyController {
   ) {
     const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
     const owner = userDoc._id;
-
+    console.log('Checkpoin Alpha')
     const generatedId = await this.lobbyService.postNewLobby(
       createNewLobbyQueryParam.dormId,
       createNewLobbyQueryParam.roomId,
