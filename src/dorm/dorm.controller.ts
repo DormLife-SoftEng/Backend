@@ -40,7 +40,6 @@ import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/repositories/user.repository';
 import { query } from 'express';
 import { Dorm } from './dorm.model';
-import { DormRepository } from './repositories/dorm.repository';
 
 
 @Controller('/dorms')
@@ -48,7 +47,6 @@ import { DormRepository } from './repositories/dorm.repository';
 export class DormController {
   constructor(
     private readonly DormService: DormService,
-    private readonly DormRepo: DormRepository,
     private readonly userServ: UsersService,
     ) {}
   
@@ -67,37 +65,37 @@ export class DormController {
   
   @Get()
   async getAlldorm() {
-    const dorms = await this.DormRepo.getAll();
+    const dorms = await this.DormService.getAll();
     return dorms;
   }
 
   //test
   @Post('/room')
   async addRoom(@Body('room') roomlist: any[]) {
-    const rooms = await this.DormRepo.addRoom(roomlist);
+    const rooms = await this.DormService.addRoom(roomlist);
     return rooms;
   }
   //test
   @Post('util')
   async addUtil(@Body('util') util: any[]) {
-    const utils = await this.DormRepo.addUtility(util);
+    const utils = await this.DormService.addUtility(util);
     return utils;
   }
 
   @Get(':id')
   async getDorm(@Param('id') dormID: string) {
-    return await this.DormRepo.getSingleDorm(dormID);
+    return await this.DormService.getSingleDorm(dormID);
   }
 
   @Get(':id/rooms')
   async getRoom(@Param('id') dormID: string) {
-    return await this.DormRepo.getAllDormRoom(dormID);
+    return await this.DormService.getAllDormRoom(dormID);
   }
 
   @Get(':id/rooms/:roomid')
   async getSingleRoom(@Param('id') dormID: string, @Param('roomid') roomID: string) {
     // console.log(roomID);
-    return await this.DormRepo.getDormRoom(dormID, roomID);
+    return await this.DormService.getDormRoom(dormID, roomID);
   }
 
   @Post()
@@ -203,7 +201,7 @@ export class DormController {
     }
 
     // console.log(utilsSearch);
-    const dorms = await this.DormRepo.getDormList(propsSearch, utilsSearch, offset, stop);
+    const dorms = await this.DormService.getDormList(propsSearch, utilsSearch, offset, stop);
     return dorms;
   }
 
@@ -221,7 +219,7 @@ export class DormController {
     catch (err) {
       throw new InternalServerErrorException();
     }
-    const query = await this.DormRepo.getDormByOwner(userDoc._id);
+    const query = await this.DormService.getUserDorm(userDoc._id);
     return query;
   }
   // returns array of images' path
