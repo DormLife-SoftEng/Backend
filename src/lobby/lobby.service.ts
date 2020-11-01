@@ -170,7 +170,7 @@ export class LobbyService {
       }
     }
 
-    lobby.member.push(user);
+    lobby.member.push({user:user,ready:false});
     lobby.save();
 
     return { id: lobby._id };
