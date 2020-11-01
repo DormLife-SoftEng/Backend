@@ -4,6 +4,7 @@ import { Model } from "mongoose";
 import { UserDocument } from "src/users/schemas/users.schemas";
 import { DormAddDto } from "../dorm.dto";
 import { Dorm, UtilityInterface, RoomInterface } from "../dorm.model";
+import { PendingAction} from '../../admin/admin.model'
 
 function makeid(length) {
   var result           = '';
@@ -23,6 +24,8 @@ export class DormRepository {
     @InjectModel('Utility')
     private readonly UtilityModel: Model<UtilityInterface>,
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,
+    @InjectModel('Room') private readonly PendingActionModel: Model<PendingAction>,
+
   ) {}
 
   addRoom(roomArray: RoomInterface[]) {
@@ -69,13 +72,17 @@ export class DormRepository {
       .toString(36)
       .substring(7);
 
-    // const owner = findOwnerbyID? --find owner from DB using UserService??
     const rooms = this.addRoom(dorm.rooms);
     const utilities = this.addUtility(dorm.utilities);
-    const newDorm = new this.DormModel({
+    const newDorm = new this.PendingActionModel({
+      type: "dorm",
+      request:"add",
+      target: {},
+      newdata: {
+        //dorm part
       name: dorm.name,
       code: generatedCode,
-      owner: dorm.owner,
+      owner: dorm.owner, //ownerId
       contact: {
         telephone: dorm.telephone,
         email: dorm.email,
@@ -91,22 +98,33 @@ export class DormRepository {
       description: dorm.description,
       room: rooms,
       allowedSex: dorm.allowedSex,
+      avgStar:0,
       image: dorm.image,
       license: dorm.license,
+      createdOn:Date.now(),
+      modifiedOn: Date.now(),
+      approved: "pending",
+      approvedOn: null,
+      },
+      createdOn: Date.now(),
+      createdBy: dorm.owner,
+      status: "pending"
     });
-
-    const result = await newDorm.save();
-    return result.id as string;
   }
 
   async getAll(): Promise<any> {
-    const dorm = await this.DormModel
-                      .find()
-                      // .exec();
+    const dorm = await this.DormModel.find().exec();
 
     return dorm.map(d => ({
       id: d.id,
       name: d.name,
+      code:d.code,
+      contact: {
+        telephone:d.contact.telephone,
+        email:d.contact.email,
+        lineID:d.contact.lineID,
+        website:d.contact.website,
+      },
       address: {
         address: d.address.address,
         coordinate: d.address.coordinate,
@@ -116,7 +134,14 @@ export class DormRepository {
         distance: res.distance,
         description: res.description,
       })),
+      type:d.type,
+      description:d.description,
+      allowedSex: d.allowedSex,
+      avgStar:d.avgStar,
+      image:d.image,
+      license:d.license,
       room: d.room.map(res => ({
+        id:res.id,
         price: res.price,
         image: res.image,
         name: res.name,
@@ -127,10 +152,9 @@ export class DormRepository {
         bedroom: res.bedroom,
         description: res.description,
         allowedSex: res.allowedSex,
-      })),
-      allowedSex: d.allowedSex,
-    }));
-  }
+    }))
+    }
+    ))}
 
   async getDormByOwner(dormOwner: string): Promise<Dorm[]> {
     const dorm = await this.DormModel

@@ -98,9 +98,7 @@ export class DormAddDto {
   @IsNotEmpty()
   readonly name: string;
 
-  @IsString()
-  @IsNotEmpty()
-  owner: UserDocument;
+  owner: string;
 
   @IsString()
   @IsNotEmpty()
@@ -111,12 +109,8 @@ export class DormAddDto {
   @IsEmail()
   readonly email: string;
 
-  @IsString()
-  @IsNotEmpty()
   readonly lineID: string;
 
-  @IsString()
-  @IsNotEmpty()
   readonly website: string;
 
   @IsString()
