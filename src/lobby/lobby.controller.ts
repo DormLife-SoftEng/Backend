@@ -81,9 +81,11 @@ export class LobbyController {
     @Query() id: lobbyIdDto,
     @Query() lobbyCode: lobbyCodeDto,
   ) {
-    if (id && lobbyCode) {
-      throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
-    }
+    // if (id && lobbyCode) {
+    //   console.log(lobbyCode)
+    //   console.log(id)
+    //   throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
+    // }
 
     if (lobbyCode) {
       const result = await this.lobbyService.joinLobbyID(req.user, id);
@@ -104,7 +106,7 @@ export class LobbyController {
   @Put(':id/kick')
   async kickMember(
     @Request() req,
-    @Param() id: lobbyIdDto,
+    @Param('id') id: lobbyIdDto,
     @Query('userId') userId: string,
     @Body('message') message: string,
   ) {
@@ -119,7 +121,8 @@ export class LobbyController {
 
   @Delete(':id/delete')
   async deleteLobby(@Param() id: lobbyIdDto) {
-    await this.lobbyService.deleteLobby(id);
+    const res = await this.lobbyService.deleteLobby(id);
+    console.log(res);
     return {
       statusCode: 200,
       message: 'OK',

@@ -14,7 +14,7 @@ export class LobbyRepository {
       return await this.lobbyModel.findOne(query);
     }
     async update (query, data) {
-      return await this.lobbyModel.update(query, data);
+      return await this.lobbyModel.updateOne(query, data);
     }
     async deleteOne(query) {
       return await this.lobbyModel.deleteOne(query);
@@ -66,9 +66,9 @@ export class LobbyRepository {
         }
       }
     
-      async findLobbyById(lobbyId: any): Promise<LobbySearch> {
+      async findLobbyById(lobbyId: lobbyIdDto): Promise<LobbySearch> {
         try {
-          const lobby = await this.lobbyModel.findOne({ _id: lobbyId.id });
+          const lobby = await this.lobbyModel.findOne({ _id: lobbyId });
           if (!lobby) {
             throw new Error('Empty Repository.');
           }

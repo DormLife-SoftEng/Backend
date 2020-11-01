@@ -279,9 +279,7 @@ export class DormController {
 
   @Get('reviews/:reviewCode')
   async getDormIdByReviewCode(@Param('reviewCode') reviewCode: string) {
-    // console.log("sdf")
     const dormId = await this.DormService.getDormIdByReviewCode(reviewCode);
-    console.log(dormId);
     return { id: dormId };
   }
 }

@@ -2,12 +2,13 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Lobby, LobbySearch } from './lobby.model';
+import { Lobby, LobbySearch, Member } from './lobby.model';
 import { chatDto, lobbyCodeDto, lobbyIdDto } from './lobby.dto';
 
 import { DormService } from '../dorm/dorm.service';
@@ -144,16 +145,6 @@ export class LobbyService {
   async getLobbyById(lobbyId: lobbyIdDto) {
     const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     return lobby
-    // return {
-    //   id: lobby.lobbyId,
-    //   expireOn: lobby.expireOn,
-    //   owner: lobby.owner,
-    //   code: lobby.code,
-    //   member: lobby.member,
-    //   maxMember: lobby.maxMember,
-    //   createdOn: lobby.createdOn,
-    //   modifiedOn: lobby.modifiedOn,
-    // };
   }
 
   async getIdByCode(lobbyCode: lobbyCodeDto): Promise<any> {
@@ -200,34 +191,52 @@ export class LobbyService {
   }
 
   async kickMember(user: any, lobbyId: lobbyIdDto, userId: string, message: string) {
-    let lobby;
     const userDoc = await this.UsersService.findById(user.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
     try {
-      lobby = await this.getLobbyById(lobbyId);
-
-      if (userDto.userId == lobby.owner.id) {
+      const lobby: LobbySearch = await this.getLobbyById(lobbyId);
+      if (!lobby) {
+        throw new NotFoundException('Could not find lobby.');
+      }
+      // console.log(`lobby ${lobby}`)
+      if (userDto.userId.toString() == lobby.owner.userId) {
         const _user2kick = await this.UsersRepository.findById(userId);
         const user2kick = this.UsersService.userDataToDtoConversion(_user2kick);
+        // const uplobby = await this.LobbyRepository.update(
+        //   { _id: lobbyId.lobbyId },
+        //   {
+        //     $pull: { 'member.user': user2kick },
+        //     $push: { blackList: { user: user2kick, message: message } },
+        //   },
+        // );
+        const uplobby = await this.LobbyRepository.findLobbyById(lobbyId);
+        for (var i=0;i<uplobby.member.length;i++) {
+          if (uplobby.member[i].user.userId.toString() != user2kick.userId) {
+            // newMember.push(uplobby.member[i])
+          }
+          else {
+            uplobby.member.splice(i,1)
+            uplobby.blackList.push({user:user2kick,message:message});
+            break
+          }
+        }
 
-        lobby = await this.LobbyRepository.update(
-          { _id: lobbyId.lobbyId },
-          {
-            $pull: { 'member.user': user2kick },
-            $push: { blackList: { user: user2kick, message: message } },
-          },
-        );
+        // console.log(uplobby.member)
+        // console.log(uplobby.blackList)
+        uplobby.save();
       } else {
         throw new UnauthorizedException(
           'Only lobby owner can kick other member',
         );
       }
     } catch (error) {
-      throw new NotFoundException('Could not find lobby.');
+      if (error instanceof UnauthorizedException || error instanceof NotFoundException) {
+        throw error;
+      }
+      console.log(error);
+      throw new InternalServerErrorException();
     }
-    if (!lobby) {
-      throw new NotFoundException('Could not find lobby.');
-    }
+    
     return {
       statusCode: 200,
       message: 'OK',
