@@ -109,8 +109,10 @@ export class DormAddDto {
   @IsEmail()
   readonly email: string;
 
+  @IsString()
   readonly lineID: string;
 
+  @IsString()
   readonly website: string;
 
   @IsString()
