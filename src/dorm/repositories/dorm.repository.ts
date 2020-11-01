@@ -89,21 +89,22 @@ export class DormRepository {
     approved: string,
     approvedOn: number,
   ) {
+    const contact = {
+      telephone: telephone,
+      email: email,
+      lineID: lineID,
+      website: website,
+    }
+    const addressObj = {
+      address: address,
+      coordinate: coordinate,
+    }
     const newDorm = new this.DormModel({
       name: name,
       code: code,
       owner: owner,
-      contact: {
-        telephone: telephone,
-        email: email,
-        lineID: lineID,
-        website: website,
-      },
-      address:{
-        address: address,
-        coordinate: coordinate,
-
-      },
+      contact: contact,
+      address:addressObj,
       utility: utility,
       type: type,
       description: description,
