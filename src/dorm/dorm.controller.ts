@@ -125,19 +125,19 @@ export class DormController {
     @Query('stop') stop: string,
   ) {
     // Parsing
-    if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
+    if (!(parseInt(offset) == parseFloat(offset) || !offset)) {
       throw new BadRequestException('offset must be integer.');
     }
 
-    if (!(parseInt(stop) === parseFloat(stop) || stop === undefined)) {
+    if (!(parseInt(stop) == parseFloat(stop) || !stop)) {
       throw new BadRequestException('stop must be integer.');
     }
 
-    if (offset === undefined) {
+    if (offset == undefined) {
       offset = '0';
     }
 
-    if (stop === undefined) {
+    if (stop == undefined) {
       stop = '50';
     }
 

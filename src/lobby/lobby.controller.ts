@@ -84,7 +84,7 @@ export class LobbyController {
     @Query() id: lobbyIdDto,
     @Query() lobbyCode: lobbyCodeDto,
   ) {
-    if (!id && !lobbyCode) {
+    if (id && lobbyCode) {
       throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
     }
 

@@ -250,7 +250,7 @@ export class DormRepository {
   }
 
   private utilChk(util: string, arr: any) {
-    if (util === undefined) {
+    if (!util) {
     } else {
       arr.push({ type: util });
     }
@@ -302,7 +302,7 @@ export class DormRepository {
         for (let k = 0; k < myUtil[i].utility.length; k++) {
           //check if filter in dorm
 
-          if (myUtil[i].utility[k].type === mySearch[j].type) {
+          if (myUtil[i].utility[k].type == mySearch[j].type) {
             filter_state = 1; //still check other filter
             break;
           }

@@ -32,26 +32,26 @@ export class LobbyService {
     dormId: string,
     roomId: string,
   ) {
-    if (!(parseInt(offset) === parseFloat(offset) || offset === undefined)) {
+    if (!(parseInt(offset) == parseFloat(offset) || !offset)) {
       throw new BadRequestException('offset must be integer.');
     }
 
-    if (!(parseInt(stop) === parseFloat(stop) || stop === undefined)) {
+    if (!(parseInt(stop) == parseFloat(stop) || !stop)) {
       throw new BadRequestException('stop must be integer.');
     }
 
-    if (offset === undefined) {
+    if (!offset) {
       offset = '0';
     }
 
-    if (stop === undefined) {
+    if (!stop) {
       stop = '50';
     }
 
     const _offset = parseInt(offset);
     const _stop = parseInt(stop);
 
-    if (dormId === undefined && roomId === undefined) {
+    if (!dormId && !roomId) {
       const lobbies = await this.LobbyRepository.findAllLobby(_stop);
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby._id,
@@ -66,7 +66,7 @@ export class LobbyService {
         createdOn: lobby.createdOn,
         modifiedOn: lobby.modifiedOn,
       }));
-    } else if (dormId !== undefined && roomId === undefined) {
+    } else if (dormId && roomId) {
       const lobbies = await this.LobbyRepository.findLobbyByDormId(_stop, dormId);
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby._id,
@@ -168,7 +168,7 @@ export class LobbyService {
     const User: generalUserInfo = this.UsersService.userDataToDtoConversion(UserDoc);
 
     for (let i = 0; i < lobby.blackList.length; i++) {
-      if (UserDoc._id === lobby.blackList[i].user._id) {
+      if (UserDoc._id == lobby.blackList[i].user._id) {
         throw new ForbiddenException(lobby.blackList[i].message);
       }
     }
@@ -237,7 +237,7 @@ export class LobbyService {
   async deleteLobby(lobbyId: lobbyIdDto) {
     const result = await this.LobbyRepository
       .deleteOne({ _id: lobbyId.lobbyId })
-    if (result.n === 0) {
+    if (result.n == 0) {
       throw new NotFoundException('Could not find lobby.');
     }
   }
@@ -245,8 +245,10 @@ export class LobbyService {
   async setReady(lobbyId: lobbyIdDto, userId: string) {
     let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     for (let i = 0; i < lobby.member.length; i++) {
-      if (lobby.member[i].user.userId === userId) {
-        lobby.member[i].ready = !lobby.member[i].ready;
+      if (lobby.member[i].user.userId == userId) {
+        console.log(lobby.member[i].ready)
+        lobby.member[i].ready = !(lobby.member[i].ready);
+        console.log(lobby.member[i].ready)
       }
     }
     lobby.save();
