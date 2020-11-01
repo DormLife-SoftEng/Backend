@@ -8,7 +8,7 @@ export const LobbySchema = new mongoose.Schema({
   room:RoomSchema,
   owner: {},
   code: { type: String },
-  member: { type: [{ user: User, ready: Boolean }] },
+  member: { type: [{ user: {}, ready: Boolean }] },
   blackList: { type: [{ user: {}, message: String }] },
   maxMember: { type: Number },
   createdOn: { type: Date },
