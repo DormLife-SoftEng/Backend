@@ -1,11 +1,11 @@
 import { NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { Lobby } from "../lobby.model";
+import { Lobby, LobbySearch } from "../lobby.model";
 
 export class LobbyRepository {
     constructor (
-      @InjectModel('Lobby') private readonly lobbyModel: Model<Lobby> 
+      @InjectModel('Lobby') private readonly lobbyModel: Model<LobbySearch> 
     ) {}
 
     create = this.lobbyModel;
@@ -19,7 +19,7 @@ export class LobbyRepository {
       return await this.lobbyModel.deleteOne(query);
     }
 
-    async findAllLobby(stop: number): Promise<Lobby[]> {
+    async findAllLobby(stop: number): Promise<LobbySearch[]> {
         try {
           const lobbies = await this.lobbyModel
             .find()
@@ -51,7 +51,7 @@ export class LobbyRepository {
         stop: number,
         dormId: string,
         roomId: string,
-      ): Promise<Lobby[]> {
+      ): Promise<LobbySearch[]> {
         try {
           const lobbies = await this.lobbyModel
             .find({ 'dorm.id': dormId, 'dorm.room.id': roomId })

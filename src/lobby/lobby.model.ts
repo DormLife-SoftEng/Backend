@@ -27,3 +27,17 @@ export interface Lobby extends mongoose.Document {
   modifiedOn: Date;
   chat: [{ user: UserDocument; message: string; time: Date }];
 }
+
+export interface LobbySearch extends mongoose.Document{
+  lobbyId: string;
+  expireOn: Date;
+  dorm:any,
+  owner: UserDocument;
+  code: string;
+  member: [{ user: UserDocument; ready: boolean }];
+  blackList: [{ user: UserDocument; message: string }];
+  maxMember: number;
+  createdOn: Date;
+  modifiedOn: Date;
+  chat: [{ user: UserDocument; message: string; time: Date }];
+}
