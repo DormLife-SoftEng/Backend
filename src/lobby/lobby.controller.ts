@@ -94,7 +94,7 @@ export class LobbyController {
       return result;
     } else {
       const id = await this.lobbyService.getIdByCode(lobbyCode);
-      const result = await this.lobbyService.joinLobbyID(req.user, id);
+      const result = await this.lobbyService.joinLobbyID(req.user, {lobbyId:id});
       return result;
     }
   }

@@ -30,7 +30,7 @@ export interface Lobby extends mongoose.Document {
 }
 
 export interface LobbySearch extends mongoose.Document{
-  lobbyId: string;
+  id: string;
   expireOn: Date;
   dorm:Dorm;
   room:RoomInterface;

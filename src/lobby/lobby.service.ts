@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Lobby } from './lobby.model';
+import { Lobby, LobbySearch } from './lobby.model';
 import { chatDto, lobbyCodeDto, lobbyIdDto } from './lobby.dto';
 
 import { DormService } from '../dorm/dorm.service';
@@ -53,7 +53,7 @@ export class LobbyService {
     if (dormId === undefined && roomId === undefined) {
       const lobbies = await this.LobbyRepository.findAllLobby(_stop);
       return lobbies.slice(_offset).map(lobby => ({
-        id: lobby.lobbyId,
+        id: lobby._id,
         dormName:lobby.dorm.name,
         roomId: lobby.room._id,
         room:lobby.room.name,
@@ -68,7 +68,7 @@ export class LobbyService {
     } else if (dormId !== undefined && roomId === undefined) {
       const lobbies = await this.LobbyRepository.findLobbyByDormId(_stop, dormId);
       return lobbies.slice(_offset).map(lobby => ({
-        id: lobby.lobbyId,
+        id: lobby._id,
         dormName:lobby.dorm.name,
         roomId: lobby.room._id,
         room:lobby.room.name,
@@ -87,7 +87,7 @@ export class LobbyService {
         roomId,
       );
       return lobbies.slice(_offset).map(lobby => ({
-        id: lobby.lobbyId,
+        id: lobby._id,
         dormName:lobby.dorm.name,
         room:lobby.room.name,
         roomId: lobby.room._id,
@@ -155,10 +155,10 @@ export class LobbyService {
     // };
   }
 
-  async getIdByCode(lobbyCode: lobbyCodeDto): Promise<lobbyIdDto> {
+  async getIdByCode(lobbyCode: lobbyCodeDto): Promise<string> {
     const id = await this.LobbyRepository
       .findOne({ code: lobbyCode.lobbyCode })
-    return id;
+    return id._id;
   }
 
   async joinLobbyID(user, lobbyId: lobbyIdDto) {
