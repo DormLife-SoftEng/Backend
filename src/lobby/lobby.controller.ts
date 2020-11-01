@@ -38,9 +38,6 @@ export class LobbyController {
     @Query('dormId') dormId: string,
     @Query('roomId') roomId: string,
   ) {
-    if (!dormId && !roomId) {
-      throw new BadRequestException('dormId must be defined.');
-    }
     const lobbiesList = await this.lobbyService.getAllLobbyList(
       offset,
       stop,
