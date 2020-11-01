@@ -158,8 +158,9 @@ export class LobbyController {
   }
 
   @Post(':id/chat')
-  async addChat(@Param() id: lobbyIdDto, @Body() chat: chatDto) {
-    const res = await this.lobbyService.addChat(id, chat);
+  async addChat(@Param() id: lobbyIdDto, @Body() chat: chatDto, @Request() req) {
+    
+    const res = await this.lobbyService.addChat(id, chat, req.user);
 
     return res
   }

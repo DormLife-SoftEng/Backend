@@ -1,13 +1,17 @@
 import { IsDate, IsNotEmpty, IsObject, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { UserDocument } from 'src/users/schemas/users.schemas';
+import { generalUserInfo } from 'src/users/users.interface';
 
 export class createLobbyDto {
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     dormId: string
 
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     roomId: string
 }
 
@@ -26,13 +30,15 @@ export class lobbyCodeDto {
 export class chatDto {
     @IsNotEmpty()
     @IsObject()
-    user: UserDocument
+    user: generalUserInfo
 
     @IsNotEmpty()
     @IsString()
+    @ApiProperty()
     message: string
 
     @IsNotEmpty()
     @IsDate()
+    @ApiProperty()
     time: Date
 }

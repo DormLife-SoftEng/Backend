@@ -35,12 +35,12 @@ export interface LobbySearch extends mongoose.Document{
   expireOn: Date;
   dorm:Dorm;
   room:RoomInterface;
-  owner: UserDocument;
+  owner: generalUserInfo;
   code: string;
   member: [{ user: generalUserInfo; ready: boolean }];
-  blackList: [{ user: UserDocument; message: string }];
+  blackList: [{ user: generalUserInfo; message: string }];
   maxMember: number;
   createdOn: Date;
   modifiedOn: Date;
-  chat: [{ user: UserDocument; message: string; time: Date }];
+  chat: [{ user: generalUserInfo; message: string; time: Date }];
 }

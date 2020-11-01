@@ -168,7 +168,7 @@ export class LobbyService {
     const User: generalUserInfo = this.UsersService.userDataToDtoConversion(UserDoc);
 
     for (let i = 0; i < lobby.blackList.length; i++) {
-      if (UserDoc._id == lobby.blackList[i].user._id) {
+      if (UserDoc._id == lobby.blackList[i].user.userId) {
         throw new ForbiddenException(lobby.blackList[i].message);
       }
     }
@@ -260,9 +260,11 @@ export class LobbyService {
     return lobby.chat;
   }
 
-  async addChat(lobbyId: lobbyIdDto, chat: chatDto) {
-    let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
-
+  async addChat(lobbyId: lobbyIdDto, chat: chatDto, userInfo: any) {
+    const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
+    const userDoc =  await this.UsersService.findById(userInfo.userId);
+    const userDto = this.UsersService.userDataToDtoConversion(userDoc);
+    chat.user = userDto;
     lobby.chat.push(chat);
     lobby.save();
 
