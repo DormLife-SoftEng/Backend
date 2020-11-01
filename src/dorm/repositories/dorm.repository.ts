@@ -93,12 +93,17 @@ export class DormRepository {
       name: name,
       code: code,
       owner: owner,
-      telephone: telephone,
-      email: email,
-      lineID: lineID,
-      website: website,
-      address: address,
-      coordinate: coordinate,
+      contact: {
+        telephone: telephone,
+        email: email,
+        lineID: lineID,
+        website: website,
+      },
+      address:{
+        address: address,
+        coordinate: coordinate,
+
+      },
       utility: utility,
       type: type,
       description: description,
