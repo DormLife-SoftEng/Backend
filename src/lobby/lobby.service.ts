@@ -92,7 +92,7 @@ export class LobbyService {
     }
   }
 
-  async postNewLobby(dormId: string, roomId: string) {
+  async postNewLobby(dormId: string, roomId: string,owner: string) {
     function makeid(length) {
       var result           = '';
       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -104,7 +104,7 @@ export class LobbyService {
    }
     const Dorm = await this.DormService.getSingleDorm(dormId);
     const Room = await this.DormService.getDormRoom(dormId, roomId);
-    const User = this.UsersService;
+    const User = owner;
     let d = new Date();
     d.setHours(d.getHours() + 14 * 24);
     let code = makeid(5);
@@ -119,8 +119,8 @@ export class LobbyService {
         member: [User],
         maxMember: Room.capacity,
         code: code,
-        createdOn: Date.now,
-        modifiedOn: Date.now,
+        createdOn: Date.now(),
+        modifiedOn: Date.now(),
       }
     )
     const result = await newLobby.save();

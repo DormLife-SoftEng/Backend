@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
   Inject,
+  OnModuleInit,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -10,18 +11,22 @@ import { PendingAction } from './admin.model';
 import { TicketBodyDto, TicketIdDto } from './admin.dto';
 import { Dorm } from '../dorm/dorm.model';
 import { UserDocument } from '../users/schemas/users.schemas';
+import { ModuleRef } from '@nestjs/core';
+import { DormRepository } from 'src/dorm/repositories/dorm.repository';
 
 @Injectable()
-export class AdminService {
+export class AdminService implements OnModuleInit {
+  private DormRepo: DormRepository
   constructor(
+    private moduleRef: ModuleRef,
     @InjectModel('PendingAction')
     private readonly pendingActionModel: Model<PendingAction>,
-    @InjectModel('Dorm')
-    private readonly DormModel: Model<Dorm>,
     @InjectModel('User')
     private readonly UserModel: Model<UserDocument>,
   ) {}
-
+  async onModuleInit() {
+    this.DormRepo = await this.moduleRef.get(DormRepository);
+  }
   async findTicket(stop: number): Promise<PendingAction[]> {
     let ticket;
     try {
@@ -119,7 +124,7 @@ export class AdminService {
         } else if (ticket.type === 'dorm') {
           let dorm;
           try {
-            dorm = await this.DormModel.findById(target._id);
+            dorm = await this.DormRepo.getSingleDorm(target._id);
           } catch (error) {
             throw new NotFoundException('Could not find dorm.');
           }
@@ -158,7 +163,7 @@ export class AdminService {
         } else if (ticket.type === 'dorm') {
           let dorm;
           try { 
-            dorm = await this.DormModel.findOneAndDelete({_id: target._id});
+            dorm = await this.DormRepo.getDormAndDelete(target._id);
           } catch (error) {
             throw new NotFoundException('Could not find dorm.');
           }

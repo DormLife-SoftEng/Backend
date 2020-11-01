@@ -19,13 +19,17 @@ import { Role } from 'src/auth/decorator/role.decorator';
 import { LobbyService } from './lobby.service';
 import { createLobbyDto, lobbyIdDto, lobbyCodeDto, chatDto } from './lobby.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { UserDocument } from 'src/users/schemas/users.schemas';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('/lobbies')
 @ApiTags('Lobby')
 @UseGuards(JwtAuthGuard, RoleGuard)
 @Role('general')
 export class LobbyController {
-  constructor(private readonly lobbyService: LobbyService) {}
+  constructor(private readonly lobbyService: LobbyService,
+    private readonly userServ: UsersService,
+    ) {}
 
   @Get()
   async getAllLobbyList(
@@ -52,9 +56,13 @@ export class LobbyController {
     @Request() req,
     @Query() createNewLobbyQueryParam: createLobbyDto,
   ) {
+    const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
+    const owner = userDoc._id;
+
     const generatedId = await this.lobbyService.postNewLobby(
       createNewLobbyQueryParam.dormId,
       createNewLobbyQueryParam.roomId,
+      owner
     );
     return { id: generatedId };
   }

@@ -24,7 +24,7 @@ export class DormRepository {
     @InjectModel('Utility')
     private readonly UtilityModel: Model<UtilityInterface>,
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,
-    @InjectModel('Room') private readonly PendingActionModel: Model<PendingAction>,
+    @InjectModel('PendingAction') private readonly PendingActionModel: Model<PendingAction>,
 
   ) {}
 
@@ -338,6 +338,11 @@ export class DormRepository {
     } catch (err) {
       throw new NotFoundException(err);
     }
+  }
+
+  async getDormAndDelete(dormId): Promise<Dorm | undefined> {
+    const dorm = await this.DormModel.findByIdAndDelete(dormId);
+    return dorm;
   }
 
 }
