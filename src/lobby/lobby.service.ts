@@ -141,7 +141,7 @@ export class LobbyService {
   }
 
   async getLobbyById(lobbyId: lobbyIdDto) {
-    const lobby = await this.LobbyRepository.findLobbyById(lobbyId.lobbyId);
+    const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     return {
       id: lobby.lobbyId,
       expireOn: lobby.expireOn,
@@ -162,7 +162,7 @@ export class LobbyService {
 
   async joinLobbyID(user, lobbyId: lobbyIdDto) {
     let lobby;
-    lobby = await this.LobbyRepository.findLobbyById(lobbyId.lobbyId);
+    lobby = await this.LobbyRepository.findLobbyById(lobbyId);
 
     for (let i = 0; i < lobby.blackList.length; i++) {
       if (user._id === lobby.blackList[i]._id) {
@@ -236,7 +236,7 @@ export class LobbyService {
   }
 
   async setReady(lobbyId: lobbyIdDto, userId: string) {
-    let lobby = await this.LobbyRepository.findLobbyById(lobbyId.lobbyId);
+    let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     for (let i = 0; i < lobby.member.length; i++) {
       if (lobby.member[i].user._id === userId) {
         lobby.member[i].ready = !lobby.member[i].ready;
@@ -246,13 +246,13 @@ export class LobbyService {
   }
 
   async getChat(lobbyId: lobbyIdDto) {
-    let lobby = await this.LobbyRepository.findLobbyById(lobbyId.lobbyId);
+    let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
 
     return lobby.chat;
   }
 
   async addChat(lobbyId: lobbyIdDto, chat: chatDto) {
-    let lobby = await this.LobbyRepository.findLobbyById(lobbyId.lobbyId);
+    let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
 
     lobby.chat.push(chat);
     lobby.save();

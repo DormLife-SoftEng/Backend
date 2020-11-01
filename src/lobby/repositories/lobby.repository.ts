@@ -1,6 +1,7 @@
 import { NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { lobbyIdDto } from "../lobby.dto";
 import { Lobby, LobbySearch } from "../lobby.model";
 
 export class LobbyRepository {
@@ -65,7 +66,7 @@ export class LobbyRepository {
         }
       }
     
-      async findLobbyById(lobbyId: string): Promise<Lobby> {
+      async findLobbyById(lobbyId: lobbyIdDto): Promise<LobbySearch> {
         try {
           const lobby = await this.lobbyModel.findOne({ _id: lobbyId });
           if (!lobby) {
