@@ -20,9 +20,9 @@ import {
 } from '@nestjs/common';
 import { DormService } from './dorm.service';
 import * as multer from 'multer';
-import {editFileName, imageFileFilter} from './file-upload.utils'
+import { editFileName, imageFileFilter } from './file-upload.utils';
 
-import {ApiTags} from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 enum Sex {
   'male',
   'female',
@@ -34,13 +34,16 @@ import { DormAddDto, propsSearchDto } from './dorm.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorator/role.decorator';
-import { FileFieldsInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage} from 'multer';
+import {
+  FileFieldsInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 import { UsersService } from 'src/users/users.service';
 import { UserRepository } from 'src/users/repositories/user.repository';
 import { query } from 'express';
 import { Dorm } from './dorm.model';
-
+import { reviewCodeDto } from 'src/review/review.dto';
 
 @Controller('/dorms')
 @ApiTags('Dorms')
@@ -48,21 +51,21 @@ export class DormController {
   constructor(
     private readonly DormService: DormService,
     private readonly userServ: UsersService,
-    ) {}
-  
+  ) {}
+
   @Post('newdorm')
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role('owner')
-  async AddDorm(@Body() dormDto:DormAddDto, @Request() req) {
+  async AddDorm(@Body() dormDto: DormAddDto, @Request() req) {
     // Resolve User Info
     const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
     dormDto.owner = userDoc._id;
-    // Insert to Dorm 
+    // Insert to Dorm
     // TODO: Should not insert to dorm directly ? pending request instead.
     const createdDorm = await this.DormService.insertDorm(dormDto);
-    return {pendingActionId:createdDorm};
+    return { pendingActionId: createdDorm };
   }
-  
+
   @Get()
   async getAlldorm() {
     const dorms = await this.DormService.getAll();
@@ -93,7 +96,10 @@ export class DormController {
   }
 
   @Get(':id/rooms/:roomid')
-  async getSingleRoom(@Param('id') dormID: string, @Param('roomid') roomID: string) {
+  async getSingleRoom(
+    @Param('id') dormID: string,
+    @Param('roomid') roomID: string,
+  ) {
     // console.log(roomID);
     return await this.DormService.getDormRoom(dormID, roomID);
   }
@@ -164,7 +170,7 @@ export class DormController {
       fitness: fitness,
       pool: pool,
       cooking: cooking,
-    }
+    };
 
     if (!name) {
       delete propsSearch.name;
@@ -201,7 +207,12 @@ export class DormController {
     }
 
     // console.log(utilsSearch);
-    const dorms = await this.DormService.getDormList(propsSearch, utilsSearch, offset, stop);
+    const dorms = await this.DormService.getDormList(
+      propsSearch,
+      utilsSearch,
+      offset,
+      stop,
+    );
     return dorms;
   }
 
@@ -212,11 +223,10 @@ export class DormController {
     // get userdoc
     const userDoc = await this.userServ.findById(req.user.userId);
     try {
-      if(!userDoc) {
-        throw new Error('Fatal: Exists user not found')
+      if (!userDoc) {
+        throw new Error('Fatal: Exists user not found');
       }
-    }
-    catch (err) {
+    } catch (err) {
       throw new InternalServerErrorException();
     }
     const query = await this.DormService.getUserDorm(userDoc._id);
@@ -225,24 +235,28 @@ export class DormController {
   // returns array of images' path
   @Post('images')
   @UseInterceptors(
-    FileFieldsInterceptor([
-      {name:'image', maxCount:10},
-    ],{storage: multer.diskStorage({destination: './uploads',filename: editFileName,}),fileFilter: imageFileFilter}),
+    FileFieldsInterceptor([{ name: 'image', maxCount: 10 }], {
+      storage: multer.diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
   )
-  async uploadMultipleFiles(@UploadedFiles() files ) {
+  async uploadMultipleFiles(@UploadedFiles() files) {
     console.log(files.image);
     const response = [];
     files.image.forEach(file => {
       const fileReponse = {
         originalname: file.originalname,
         filename: file.filename,
-        ImagePath: `${file.filename}`
+        ImagePath: `${file.filename}`,
       };
       response.push(fileReponse.ImagePath);
     });
 
     const result = {
-      image:response,
+      image: response,
     };
     return result;
   }
@@ -256,7 +270,16 @@ export class DormController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   @Role('owner')
   async generateReviewCode(@Param('id') dormId, @Req() req) {
-    const res = await this.DormService.genNewReviewCode(req.user.userId, dormId)
+    const res = await this.DormService.genNewReviewCode(
+      req.user.userId,
+      dormId,
+    );
     return res;
+  }
+
+  @Get(':reviewCode')
+  async getDomIdByReviewCode(@Param() reviewCode: reviewCodeDto) {
+    const dormId = await this.DormService.getDormIdByReviewCode(reviewCode);
+    return { id: dormId };
   }
 }
