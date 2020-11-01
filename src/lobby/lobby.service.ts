@@ -198,21 +198,13 @@ export class LobbyService {
       if (!lobby) {
         throw new NotFoundException('Could not find lobby.');
       }
-      // console.log(`lobby ${lobby}`)
       if (userDto.userId.toString() == lobby.owner.userId) {
         const _user2kick = await this.UsersRepository.findById(userId);
         const user2kick = this.UsersService.userDataToDtoConversion(_user2kick);
-        // const uplobby = await this.LobbyRepository.update(
-        //   { _id: lobbyId.lobbyId },
-        //   {
-        //     $pull: { 'member.user': user2kick },
-        //     $push: { blackList: { user: user2kick, message: message } },
-        //   },
-        // );
+     
         const uplobby = await this.LobbyRepository.findLobbyById(lobbyId);
         for (var i=0;i<uplobby.member.length;i++) {
           if (uplobby.member[i].user.userId.toString() != user2kick.userId) {
-            // newMember.push(uplobby.member[i])
           }
           else {
             uplobby.member.splice(i,1)
@@ -221,8 +213,6 @@ export class LobbyService {
           }
         }
 
-        // console.log(uplobby.member)
-        // console.log(uplobby.blackList)
         uplobby.save();
       } else {
         throw new UnauthorizedException(
