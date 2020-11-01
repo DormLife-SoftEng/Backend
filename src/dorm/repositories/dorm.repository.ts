@@ -168,10 +168,10 @@ export class DormRepository {
       name: d.name,
       code: d.code,
       contact: {
-        telephone: d.contact.telephone,
-        email: d.contact.email,
-        lineID: d.contact.lineID,
-        website: d.contact.website,
+        telephone: d.contact?.telephone,
+        email: d.contact?.email,
+        lineID: d.contact?.lineID,
+        website: d.contact?.website,
       },
       address: {
         address: d.address.address,
