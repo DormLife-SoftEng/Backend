@@ -38,7 +38,7 @@ export class LobbyController {
     @Query('dormId') dormId: string,
     @Query('roomId') roomId: string,
   ) {
-    if (dormId === undefined && roomId !== undefined) {
+    if (!dormId && !roomId) {
       throw new BadRequestException('dormId must be defined.');
     }
     const lobbiesList = await this.lobbyService.getAllLobbyList(
@@ -88,7 +88,7 @@ export class LobbyController {
       throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
     }
 
-    if (lobbyCode !== undefined) {
+    if (lobbyCode) {
       const result = await this.lobbyService.joinLobbyID(req.user, id);
       return result;
     } else {
