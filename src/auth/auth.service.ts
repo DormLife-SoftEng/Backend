@@ -42,7 +42,7 @@ export class AuthService {
 			role: user.userType,
 			token_type: 'Bearer'
 		};
-		const access_options = {secret: jwtConstants.secret, expiresIn: '15m'};
+		const access_options = {secret: jwtConstants.secret, expiresIn: '14d'};
 		const access_token: string = this.jwtServ.sign(payload, access_options);
 		const refresh_token = await this.getRefreshToken(payload);
 		user.refreshToken = refresh_token;
