@@ -179,6 +179,36 @@ export class AdminService {
 
       ticket.save();
       return ticket.id as string;
+    } 
+    else if(ticket.request == "add") {
+      const dorm = ticket.newdata;
+      let newDorm = this.DormRepo.AddDorm(
+        dorm.name,
+        dorm.code,
+        dorm.owner, //ownerId
+        dorm.telephone,
+        dorm.email,
+        dorm.lineID,
+        dorm.website,
+        dorm.address.address,
+        dorm.address.coordinate,
+        dorm.utility,
+        dorm.type,
+        dorm.description,
+        dorm.room,
+        dorm.allowedSex,
+        dorm.avgStar,
+        dorm.image,
+        dorm.license,
+        dorm.createdOn,
+        Date.now(),
+        "approved",
+        Date.now(),
+
+      )
+      ticket.status="approved";
+      ticket.save();
+      return ticket.id as string;
     } else {
       throw new BadRequestException('request should be edit or delete');
     }

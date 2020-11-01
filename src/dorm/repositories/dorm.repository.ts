@@ -1,31 +1,32 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { UserDocument } from "src/users/schemas/users.schemas";
-import { DormAddDto } from "../dorm.dto";
-import { Dorm, UtilityInterface, RoomInterface } from "../dorm.model";
-import { PendingAction} from '../../admin/admin.model'
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UserDocument } from 'src/users/schemas/users.schemas';
+import { DormAddDto } from '../dorm.dto';
+import { Dorm, UtilityInterface, RoomInterface } from '../dorm.model';
+import { PendingAction } from '../../admin/admin.model';
 
 function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  var characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
 }
 
 @Injectable()
 export class DormRepository {
-  constructor (
+  constructor(
     @InjectModel('Dorm')
     private readonly DormModel: Model<Dorm>,
     @InjectModel('Utility')
     private readonly UtilityModel: Model<UtilityInterface>,
     @InjectModel('Room') private readonly RoomModel: Model<RoomInterface>,
-    @InjectModel('PendingAction') private readonly PendingActionModel: Model<PendingAction>,
-
+    @InjectModel('PendingAction')
+    private readonly PendingActionModel: Model<PendingAction>,
   ) {}
 
   addRoom(roomArray: RoomInterface[]) {
@@ -65,9 +66,56 @@ export class DormRepository {
     return newUtilArray;
   }
 
-  async insertDorm(
-    dorm: DormAddDto
+  async AddDorm(
+    name: string,
+    code: string,
+    owner: string,
+    telephone: string,
+    email: string,
+    lineID: string,
+    website: string,
+    address: string,
+    coordinate: number[],
+    utility: UtilityInterface[],
+    type: string,
+    description: string,
+    room: RoomInterface[],
+    allowedSex: string,
+    avgStar: number,
+    image: string[],
+    license: string[],
+    createdOn: number,
+    modifiedOn: number,
+    approved: string,
+    approvedOn: number,
   ) {
+    const newDorm = new this.DormModel({
+      name: name,
+      code: code,
+      owner: owner,
+      telephone: telephone,
+      email: email,
+      lineID: lineID,
+      website: website,
+      address: address,
+      coordinate: coordinate,
+      utility: utility,
+      type: type,
+      description: description,
+      room: room,
+      allowedSex: allowedSex,
+      avgStar: avgStar,
+      image: image,
+      license: license,
+      createdOn: createdOn,
+      modifiedOn: modifiedOn,
+      approved: approved,
+      approvedOn: approvedOn,
+    })
+    const result = await newDorm.save();
+  }
+
+  async insertDorm(dorm: DormAddDto) {
     let generatedCode = Math.random() // change to the actual code
       .toString(36)
       .substring(7);
@@ -75,40 +123,40 @@ export class DormRepository {
     const rooms = this.addRoom(dorm.rooms);
     const utilities = this.addUtility(dorm.utilities);
     const newDorm = new this.PendingActionModel({
-      type: "dorm",
-      request:"add",
+      type: 'dorm',
+      request: 'add',
       target: {},
       newdata: {
         //dorm part
-      name: dorm.name,
-      code: generatedCode,
-      owner: dorm.owner, //ownerId
-      contact: {
-        telephone: dorm.telephone,
-        email: dorm.email,
-        lineID: dorm.lineID,
-        website: dorm.website,
-      },
-      address: {
-        address: dorm.address,
-        coordinate: dorm.coordinate,
-      },
-      utility: utilities,
-      type: dorm.type,
-      description: dorm.description,
-      room: rooms,
-      allowedSex: dorm.allowedSex,
-      avgStar:0,
-      image: dorm.image,
-      license: dorm.license,
-      createdOn:Date.now(),
-      modifiedOn: Date.now(),
-      approved: "pending",
-      approvedOn: null,
+        name: dorm.name,
+        code: generatedCode,
+        owner: dorm.owner, //ownerId
+        contact: {
+          telephone: dorm.telephone,
+          email: dorm.email,
+          lineID: dorm.lineID,
+          website: dorm.website,
+        },
+        address: {
+          address: dorm.address,
+          coordinate: dorm.coordinate,
+        },
+        utility: utilities,
+        type: dorm.type,
+        description: dorm.description,
+        room: rooms,
+        allowedSex: dorm.allowedSex,
+        avgStar: 0,
+        image: dorm.image,
+        license: dorm.license,
+        createdOn: Date.now(),
+        modifiedOn: Date.now(),
+        approved: 'pending',
+        approvedOn: null,
       },
       createdOn: Date.now(),
       createdBy: dorm.owner,
-      status: "pending"
+      status: 'pending',
     });
   }
 
@@ -118,12 +166,12 @@ export class DormRepository {
     return dorm.map(d => ({
       id: d.id,
       name: d.name,
-      code:d.code,
+      code: d.code,
       contact: {
-        telephone:d.contact.telephone,
-        email:d.contact.email,
-        lineID:d.contact.lineID,
-        website:d.contact.website,
+        telephone: d.contact.telephone,
+        email: d.contact.email,
+        lineID: d.contact.lineID,
+        website: d.contact.website,
       },
       address: {
         address: d.address.address,
@@ -134,14 +182,14 @@ export class DormRepository {
         distance: res.distance,
         description: res.description,
       })),
-      type:d.type,
-      description:d.description,
+      type: d.type,
+      description: d.description,
       allowedSex: d.allowedSex,
-      avgStar:d.avgStar,
-      image:d.image,
-      license:d.license,
+      avgStar: d.avgStar,
+      image: d.image,
+      license: d.license,
       room: d.room.map(res => ({
-        id:res.id,
+        id: res.id,
         price: res.price,
         image: res.image,
         name: res.name,
@@ -152,15 +200,14 @@ export class DormRepository {
         bedroom: res.bedroom,
         description: res.description,
         allowedSex: res.allowedSex,
-    }))
-    }
-    ))}
+      })),
+    }));
+  }
 
   async getDormByOwner(dormOwner: string): Promise<Dorm[]> {
-    const dorm = await this.DormModel
-                .find({owner: dormOwner})
-                // .exec();
-	return dorm;
+    const dorm = await this.DormModel.find({ owner: dormOwner });
+    // .exec();
+    return dorm;
   }
 
   //get specific dorm
@@ -209,11 +256,14 @@ export class DormRepository {
     }
   }
 
-  private async findDormList(propsSearch, utilsSearch, stop: string): Promise<any> {
+  private async findDormList(
+    propsSearch,
+    utilsSearch,
+    stop: string,
+  ): Promise<any> {
     const Stop = parseInt(stop);
-    const dorms = await this.DormModel.find(propsSearch)
-      .limit(Stop)
-      // .exec();
+    const dorms = await this.DormModel.find(propsSearch).limit(Stop);
+    // .exec();
     // console.log(dorms);
 
     const myUtil = dorms.map(res => ({
@@ -241,13 +291,16 @@ export class DormRepository {
     // return myUtil;
 
     let res = [];
-    for (let i = 0; i < myUtil.length; i++) { //for each dorm
+    for (let i = 0; i < myUtil.length; i++) {
+      //for each dorm
       let dorm_state = 1; //will store this dorm
 
-      for (let j = 0; j < mySearch.length; j++) { //for each filter
+      for (let j = 0; j < mySearch.length; j++) {
+        //for each filter
         let filter_state = 0; //won't search in this dorm any more
 
-        for (let k = 0; k < myUtil[i].utility.length; k++) { //check if filter in dorm
+        for (let k = 0; k < myUtil[i].utility.length; k++) {
+          //check if filter in dorm
 
           if (myUtil[i].utility[k].type === mySearch[j].type) {
             filter_state = 1; //still check other filter
@@ -255,15 +308,18 @@ export class DormRepository {
           }
         }
 
-        if (!filter_state) { //set state to skip this dorm
+        if (!filter_state) {
+          //set state to skip this dorm
           dorm_state = 0;
           break;
         }
       }
 
-      if (!dorm_state) { //skip this dorm
+      if (!dorm_state) {
+        //skip this dorm
         continue;
-      } else { //store this dorm
+      } else {
+        //store this dorm
         res.push(dorms[i]);
       }
     }
@@ -277,7 +333,9 @@ export class DormRepository {
 
     propsSearch.distance = { $gte: propsSearch.distance };
     propsSearch.rating = { $gte: propsSearch.rating };
-    propsSearch['room.price.amount'] = { $lte: propsSearch['room.price.amount'] };
+    propsSearch['room.price.amount'] = {
+      $lte: propsSearch['room.price.amount'],
+    };
     propsSearch['room.kitchen'] = { $gte: propsSearch['room.kitchen'] };
     propsSearch['room.aircond'] = { $gte: propsSearch['room.aircond'] };
     propsSearch['room.bathroom'] = { $gte: propsSearch['room.bathroom'] };
@@ -316,24 +374,27 @@ export class DormRepository {
   }
 
   async validateCode(reviewCode: string) {
-    const dorm = this.DormModel.findOne({code: reviewCode});
-    if(!dorm) return null;
+    const dorm = this.DormModel.findOne({ code: reviewCode });
+    if (!dorm) return null;
     else return dorm;
   }
 
   async genNewReviewCode(ownerId: string, dormId: string) {
     let newcode = makeid(5);
-    while(this.validateCode(newcode)){
+    while (this.validateCode(newcode)) {
       newcode = makeid(5);
     }
     // get dorm
     try {
-      const dorm = await this.DormModel.findOne({owner: ownerId, _id: dormId});
-      if(dorm!) {
-        throw new Error('Owner Mismatch')
+      const dorm = await this.DormModel.findOne({
+        owner: ownerId,
+        _id: dormId,
+      });
+      if (dorm!) {
+        throw new Error('Owner Mismatch');
       }
       dorm.code = newcode;
-      dorm.save(); 
+      dorm.save();
       return newcode;
     } catch (err) {
       throw new NotFoundException(err);
@@ -344,5 +405,4 @@ export class DormRepository {
     const dorm = await this.DormModel.findByIdAndDelete(dormId);
     return dorm;
   }
-
 }
