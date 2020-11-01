@@ -155,10 +155,10 @@ export class LobbyService {
     // };
   }
 
-  async getIdByCode(lobbyCode: lobbyCodeDto): Promise<string> {
+  async getIdByCode(lobbyCode: lobbyCodeDto): Promise<any> {
     const id = await this.LobbyRepository
       .findOne({ code: lobbyCode.lobbyCode })
-    return id._id;
+    return id;
   }
 
   async joinLobbyID(user, lobbyId: lobbyIdDto) {
