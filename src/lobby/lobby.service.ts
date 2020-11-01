@@ -142,16 +142,17 @@ export class LobbyService {
 
   async getLobbyById(lobbyId: lobbyIdDto) {
     const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
-    return {
-      id: lobby.lobbyId,
-      expireOn: lobby.expireOn,
-      owner: lobby.owner,
-      code: lobby.code,
-      member: lobby.member,
-      maxMember: lobby.maxMember,
-      createdOn: lobby.createdOn,
-      modifiedOn: lobby.modifiedOn,
-    };
+    return lobby
+    // return {
+    //   id: lobby.lobbyId,
+    //   expireOn: lobby.expireOn,
+    //   owner: lobby.owner,
+    //   code: lobby.code,
+    //   member: lobby.member,
+    //   maxMember: lobby.maxMember,
+    //   createdOn: lobby.createdOn,
+    //   modifiedOn: lobby.modifiedOn,
+    // };
   }
 
   async getIdByCode(lobbyCode: lobbyCodeDto): Promise<lobbyIdDto> {
