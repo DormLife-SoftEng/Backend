@@ -1,6 +1,7 @@
 import {
   Injectable,
 } from '@nestjs/common';
+import { reviewCodeDto } from 'src/review/review.dto';
 import { DormAddDto } from './dorm.dto';
 import { RoomInterface, UtilityInterface } from './dorm.model';
 import { DormRepository } from './repositories/dorm.repository';
@@ -53,4 +54,8 @@ export class DormService {
     return {'code': code};
   }
 
+  async getDormIdByReviewCode (reviewCode: reviewCodeDto) {
+    const dorm = await this.dormRepo.validateCode(reviewCode.reviewCode);
+    return dorm._id;
+  }
 }
