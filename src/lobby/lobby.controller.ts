@@ -57,12 +57,11 @@ export class LobbyController {
     @Query() createNewLobbyQueryParam: createLobbyDto,
   ) {
     const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
-    const owner = userDoc;
     console.log('Checkpoin Alpha')
     const generatedId = await this.lobbyService.postNewLobby(
       createNewLobbyQueryParam.dormId,
       createNewLobbyQueryParam.roomId,
-      owner
+      userDoc
     );
     return { id: generatedId };
   }
@@ -85,7 +84,7 @@ export class LobbyController {
     @Query() id: lobbyIdDto,
     @Query() lobbyCode: lobbyCodeDto,
   ) {
-    if (id !== undefined && lobbyCode !== undefined) {
+    if (!id && !lobbyCode) {
       throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
     }
 

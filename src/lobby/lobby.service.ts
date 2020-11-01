@@ -15,6 +15,7 @@ import { UserRepository } from '../users/repositories/user.repository';
 import { UsersService } from '../users/users.service';
 import { LobbyRepository } from './repositories/lobby.repository';
 import { UserDocument } from 'src/users/schemas/users.schemas';
+import { generalUserInfo } from '../users/users.interface';
 
 @Injectable()
 export class LobbyService {
@@ -114,7 +115,7 @@ export class LobbyService {
    }
     const Dorm = await this.DormService.getSingleDorm(dormId);
     const Room = await this.DormService.getDormRoom(dormId, roomId);
-    const User = owner;
+    const User = this.UsersService.userDataToDtoConversion(owner);
     let d = new Date();
     d.setHours(d.getHours() + 14 * 24);
     let code = makeid(5);
@@ -161,28 +162,30 @@ export class LobbyService {
     return id;
   }
 
-  async joinLobbyID(user, lobbyId: lobbyIdDto) {
-    let lobby;
-    lobby = await this.LobbyRepository.findLobbyById(lobbyId);
+  async joinLobbyID(user: any, lobbyId: lobbyIdDto) {
+    const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
+    const UserDoc = await this.UsersService.findById(user.userId);
+    const User: generalUserInfo = this.UsersService.userDataToDtoConversion(UserDoc);
 
     for (let i = 0; i < lobby.blackList.length; i++) {
-      if (user._id === lobby.blackList[i]._id) {
+      if (UserDoc._id === lobby.blackList[i].user._id) {
         throw new ForbiddenException(lobby.blackList[i].message);
       }
     }
-
-    lobby.member.push({user:user,ready:false});
+    lobby.member.push({user:User ,ready:false});
     lobby.save();
 
     return { id: lobby._id };
   }
 
-  async leaveLobby(user, lobbyId: lobbyIdDto) {
+  async leaveLobby(user: any, lobbyId: lobbyIdDto) {
     let lobby;
+    const UserDoc = await this.UsersService.findById(user.userId);
+    const UserDto = this.UsersService.userDataToDtoConversion(UserDoc);
     try {
       lobby = await this.LobbyRepository.update(
         { _id: lobbyId.lobbyId },
-        { $pull: { member: user } },
+        { $pull: { member: UserDto } },
       );
     } catch (error) {
       throw new NotFoundException('Could not find lobby.');
@@ -196,13 +199,16 @@ export class LobbyService {
     };
   }
 
-  async kickMember(user, lobbyId: lobbyIdDto, userId: string, message: string) {
+  async kickMember(user: any, lobbyId: lobbyIdDto, userId: string, message: string) {
     let lobby;
+    const userDoc = await this.UsersService.findById(user.userId);
+    const userDto = this.UsersService.userDataToDtoConversion(userDoc);
     try {
       lobby = await this.getLobbyById(lobbyId);
 
-      if (user.id == lobby.owner.id) {
-        const user2kick = await this.UsersRepository.findById(userId);
+      if (userDto.userId == lobby.owner.id) {
+        const _user2kick = await this.UsersRepository.findById(userId);
+        const user2kick = this.UsersService.userDataToDtoConversion(_user2kick);
 
         lobby = await this.LobbyRepository.update(
           { _id: lobbyId.lobbyId },
@@ -239,7 +245,7 @@ export class LobbyService {
   async setReady(lobbyId: lobbyIdDto, userId: string) {
     let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     for (let i = 0; i < lobby.member.length; i++) {
-      if (lobby.member[i].user._id === userId) {
+      if (lobby.member[i].user.userId === userId) {
         lobby.member[i].ready = !lobby.member[i].ready;
       }
     }

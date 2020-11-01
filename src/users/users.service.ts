@@ -2,7 +2,8 @@ import { Injectable, HttpException, HttpStatus, InternalServerErrorException, De
 import {UserRepository} from './repositories/user.repository';
 import {UserDocument} from './schemas/users.schemas';
 import {CreateUserDto} from './dto/create-user.dto';
-import {UserParsedDto} from './users.interface'
+import {UserParsedDto} from './users.interface';
+import {generalUserInfo} from './users.interface';
 var bcrypt = require('bcryptjs');
 
 
@@ -32,6 +33,24 @@ export class UsersService {
 			modifiedOn: null,
 
 		}
+	}
+
+	userDataToDtoConversion(userDoc: UserDocument): generalUserInfo{
+		const reducedDto: generalUserInfo = {
+			userId: userDoc._id,
+			name: {
+				firstName: userDoc.name.firstName,
+				lastName: userDoc.name.lastName,
+			},
+			telephone: userDoc.telephone,
+			email: userDoc.email,
+			email_verified: userDoc.email_verified,
+			PictureProfile: userDoc.PictureProfile,
+			sex: userDoc.sex,
+			createdOn: userDoc.createdOn,
+			userType: userDoc.userType,
+		}
+		return reducedDto;
 	}
 
 	async find(email: string): Promise<UserDocument | undefined> {

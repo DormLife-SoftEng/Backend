@@ -32,6 +32,8 @@ export interface UserRegisterRes {
 }
 
 export interface generalUserInfo {
+	userId: string;
+
 	name: {
 		firstName: string;
 		lastName: string;
@@ -43,13 +45,11 @@ export interface generalUserInfo {
 
 	email_verified: boolean;
 
-	profilePic: number;
+	PictureProfile: number;
 
 	sex: string;
 
 	createdOn: string;
-
-	modifiedOn: string;
 
 	userType: string;
 }

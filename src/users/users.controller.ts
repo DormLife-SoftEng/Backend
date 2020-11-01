@@ -26,6 +26,7 @@ export class UsersController {
 	async getUserInfo(@Request() req): Promise<generalUserInfo> {
 		const userDoc = await this.userServ.findById(req.user.userId);
 		return {
+			userId: userDoc._id,
 			name: {
 				firstName: userDoc.name.firstName,
 				lastName: userDoc.name.lastName,
@@ -33,10 +34,9 @@ export class UsersController {
 			telephone: userDoc.telephone,
 			email: userDoc.email,
 			email_verified: userDoc.email_verified,
-			profilePic: userDoc.PictureProfile,
+			PictureProfile: userDoc.PictureProfile,
 			sex: userDoc.sex,
 			createdOn: userDoc.createdOn,
-			modifiedOn: userDoc.modifiedOn,
 			userType: userDoc.userType,
 		}
 	}

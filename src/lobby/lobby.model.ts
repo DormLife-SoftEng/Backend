@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { generalUserInfo } from 'src/users/users.interface';
 import { DormSchema, Dorm, RoomInterface, RoomSchema } from '../dorm/dorm.model';
 import { User, UserDocument } from '../users/schemas/users.schemas';
 
@@ -36,7 +37,7 @@ export interface LobbySearch extends mongoose.Document{
   room:RoomInterface;
   owner: UserDocument;
   code: string;
-  member: [{ user: UserDocument; ready: boolean }];
+  member: [{ user: generalUserInfo; ready: boolean }];
   blackList: [{ user: UserDocument; message: string }];
   maxMember: number;
   createdOn: Date;

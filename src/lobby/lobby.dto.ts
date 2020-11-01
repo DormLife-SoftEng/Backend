@@ -19,7 +19,7 @@ export class lobbyIdDto {
 
 export class lobbyCodeDto {
     // @IsNotEmpty()
-    @IsString()
+    // @IsString()
     lobbyCode: string
 }
 
