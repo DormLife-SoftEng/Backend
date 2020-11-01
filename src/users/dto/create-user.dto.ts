@@ -47,7 +47,5 @@ export class CreateUserDto {
 	readonly userType: string;
 
 	@ApiProperty()
-	@Matches(/[1-9][0-9]+/)
-	@Length(13, 13)
 	readonly natId?: string;
 }
