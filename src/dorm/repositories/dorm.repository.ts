@@ -158,6 +158,7 @@ export class DormRepository {
       createdBy: dorm.owner,
       status: 'pending',
     });
+    newDorm.save();
   }
 
   async getAll(): Promise<any> {
