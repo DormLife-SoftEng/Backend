@@ -374,6 +374,7 @@ export class DormRepository {
   }
 
   async validateCode(reviewCode: string) {
+    // console.log(reviewCode);
     const dorm = await this.DormModel.findOne({ code: reviewCode });
     if (!dorm) return null;
     else return dorm;

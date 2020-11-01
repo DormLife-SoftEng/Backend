@@ -277,9 +277,11 @@ export class DormController {
     return res;
   }
 
-  @Get(':reviewCode')
-  async getDomIdByReviewCode(@Param() reviewCode: reviewCodeDto) {
+  @Get('reviews/:reviewCode')
+  async getDormIdByReviewCode(@Param('reviewCode') reviewCode: string) {
+    // console.log("sdf")
     const dormId = await this.DormService.getDormIdByReviewCode(reviewCode);
+    console.log(dormId);
     return { id: dormId };
   }
 }

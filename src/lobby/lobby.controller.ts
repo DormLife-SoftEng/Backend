@@ -153,7 +153,7 @@ export class LobbyController {
   @Get(':id/chat')
   async getChat(@Param() id: lobbyIdDto) {
     const chat = await this.lobbyService.getChat(id);
-
+    
     return chat;
   }
 

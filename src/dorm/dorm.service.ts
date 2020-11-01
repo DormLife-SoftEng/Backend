@@ -54,8 +54,9 @@ export class DormService {
     return {'code': code};
   }
 
-  async getDormIdByReviewCode (reviewCode: reviewCodeDto) {
-    const dorm = await this.dormRepo.validateCode(reviewCode.reviewCode);
+  async getDormIdByReviewCode (reviewCode: string) {
+    // console.log(reviewCode)
+    const dorm = await this.dormRepo.validateCode(reviewCode);
     return dorm._id;
   }
 }
