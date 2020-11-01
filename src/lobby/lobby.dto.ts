@@ -28,8 +28,6 @@ export class lobbyCodeDto {
 }
 
 export class chatDto {
-    @IsNotEmpty()
-    @IsObject()
     user: generalUserInfo
 
     @IsNotEmpty()
@@ -37,8 +35,5 @@ export class chatDto {
     @ApiProperty()
     message: string
 
-    @IsNotEmpty()
-    @IsDate()
-    @ApiProperty()
-    time: Date
+    time: string
 }

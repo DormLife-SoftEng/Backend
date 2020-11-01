@@ -42,5 +42,5 @@ export interface LobbySearch extends mongoose.Document{
   maxMember: number;
   createdOn: Date;
   modifiedOn: Date;
-  chat: [{ user: generalUserInfo; message: string; time: Date }];
+  chat: [{ user: generalUserInfo; message: string; time: string }];
 }

@@ -265,8 +265,10 @@ export class LobbyService {
     const userDoc =  await this.UsersService.findById(userInfo.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
     chat.user = userDto;
+    chat.time = Date();
     lobby.chat.push(chat);
     lobby.save();
+    console.log(chat)
 
     return {
       statusCode: 200,
