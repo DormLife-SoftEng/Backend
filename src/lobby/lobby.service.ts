@@ -54,6 +54,8 @@ export class LobbyService {
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
         dormName:lobby.dorm.name,
+        roomId: lobby.room._id,
+        room:lobby.room.name,
         expireOn: lobby.expireOn,
         owner: lobby.owner,
         code: lobby.code,
@@ -67,6 +69,8 @@ export class LobbyService {
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
         dormName:lobby.dorm.name,
+        roomId: lobby.room._id,
+        room:lobby.room.name,
         expireOn: lobby.expireOn,
         owner: lobby.owner,
         code: lobby.code,
@@ -84,6 +88,8 @@ export class LobbyService {
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
         dormName:lobby.dorm.name,
+        room:lobby.room.name,
+        roomId: lobby.room._id,
         expireOn: lobby.expireOn,
         owner: lobby.owner,
         code: lobby.code,
@@ -120,6 +126,7 @@ export class LobbyService {
       {
         expireOn: d,
         dorm: Dorm,
+        room:Room,
         owner: User,
         member: [User],
         maxMember: Room.capacity,

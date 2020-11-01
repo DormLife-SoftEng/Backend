@@ -1,10 +1,11 @@
 import * as mongoose from 'mongoose';
-import { DormSchema, Dorm } from '../dorm/dorm.model';
+import { DormSchema, Dorm, RoomInterface, RoomSchema } from '../dorm/dorm.model';
 import { UserDocument } from '../users/schemas/users.schemas';
 
 export const LobbySchema = new mongoose.Schema({
   expireOn: { type: Date },
   dorm: DormSchema,
+  room:RoomSchema,
   owner: {},
   code: { type: String },
   member: { type: [{ user: {}, ready: Boolean }] },
@@ -31,7 +32,8 @@ export interface Lobby extends mongoose.Document {
 export interface LobbySearch extends mongoose.Document{
   lobbyId: string;
   expireOn: Date;
-  dorm:Dorm,
+  dorm:Dorm;
+  room:RoomInterface;
   owner: UserDocument;
   code: string;
   member: [{ user: UserDocument; ready: boolean }];
