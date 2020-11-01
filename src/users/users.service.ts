@@ -65,14 +65,14 @@ export class UsersService {
         throw new HttpException({message: 'Input data validation failed', _err}, HttpStatus.BAD_REQUEST);
       }
     }
-		try{
+  	try {
       if(query) {
         throw new Error();
       }
 		} catch (error) {
       const errors = {detail: error};
 			throw new HttpException({message: 'Input data validation failed', errors},
-								    HttpStatus.BAD_REQUEST);
+                HttpStatus.BAD_REQUEST);
     }
 
     // resolve password before saving.
