@@ -1,6 +1,8 @@
 import {
   Injectable,
 } from '@nestjs/common';
+import { DormAddDto } from './dorm.dto';
+import { RoomInterface, UtilityInterface } from './dorm.model';
 import { DormRepository } from './repositories/dorm.repository';
 
 @Injectable()
@@ -9,25 +11,42 @@ export class DormService {
     private readonly dormRepo: DormRepository,
   ) {}
 
-  // Override
 
-  insertDorm = this.dormRepo.insertDorm;
+  async insertDorm (dorm: DormAddDto) {
+    return await this.dormRepo.insertDorm(dorm);
+  }
 
-  getAll = this.dormRepo.getAll;
+  async getAll () {
+    return await this.dormRepo.getAll();
+  }
 
-  addRoom = this.dormRepo.addRoom;
+  async addRoom (roomArray: RoomInterface[]) {
+    return await this.dormRepo.addRoom(roomArray);
+  }
 
-  addUtility = this.dormRepo.addUtility;
+  async addUtility(utilArray: UtilityInterface[]) {
+    return await this.dormRepo.addUtility(utilArray);
+  }
 
-  getSingleDorm = this.dormRepo.getSingleDorm;
+  async getSingleDorm (dormId: string) {
+    return await this.dormRepo.getSingleDorm(dormId);
+  }
 
-  getAllDormRoom = this.dormRepo.getAllDormRoom;
+  async getAllDormRoom (dormId: string) {
+    return await this.dormRepo.getAllDormRoom(dormId);
+  }
 
-  getDormRoom = this.dormRepo.getDormRoom;
+  async getDormRoom (dormId: string , roomId: string) {
+    return await this.dormRepo.getDormRoom(dormId, roomId);
+  }
 
-  getDormList = this.dormRepo.getDormList;
+  async getDormList (propsearch: any, utilsearch:any, offset: string, stop: string) {
+    return await this.dormRepo.getDormList(propsearch, utilsearch, offset, stop);
+  }
 
-  getUserDorm = this.dormRepo.getDormByOwner;
+  async getUserDorm (dormOwnerId: string) {
+    return await this.dormRepo.getDormByOwner(dormOwnerId);
+  }
 
   async genNewReviewCode (owner: string, dormId: string) {
     const code = await this.dormRepo.genNewReviewCode(owner, dormId);
