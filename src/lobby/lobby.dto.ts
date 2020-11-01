@@ -13,7 +13,7 @@ export class createLobbyDto {
 
 export class lobbyIdDto {
     // @IsNotEmpty()
-    @IsString()
+    // @IsString()
     lobbyId: string
 }
 
