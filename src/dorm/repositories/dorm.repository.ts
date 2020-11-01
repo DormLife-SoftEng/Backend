@@ -118,6 +118,7 @@ export class DormRepository {
       approved: approved,
       approvedOn: approvedOn,
     })
+    console.log(newDorm);
     const result = await newDorm.save();
   }
 

@@ -29,18 +29,16 @@ export const RoomSchema = new mongoose.Schema({
   allowedSex: { type: String, enum: ['any', 'male', 'female'] },
 });
 
-var contactSchema = new mongoose.Schema({
-  telephone: { type: String },
-  email: { type: String },
-  lineID: { type: String },
-  website: { type: String },
-});
-
 export const DormSchema = new mongoose.Schema({
   name: { type: String },
   code: { type: String },
-  owner: { type: String}, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  contact: contactSchema,
+  owner: { type: String }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  contact: {
+    telephone: {type: String },
+    email: { type: String },
+    lineId: { type: String },
+    website: { type: String },
+  },
   address: {
     address: { type: String },
     coordinate: {
