@@ -143,7 +143,8 @@ export class LobbyService {
   }
 
   async getLobbyById(lobbyId: lobbyIdDto) {
-    const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
+    const lobbyIdObj = {id:lobbyId} 
+    const lobby = await this.LobbyRepository.findLobbyById(lobbyIdObj);
     return lobby
   }
 
@@ -191,6 +192,7 @@ export class LobbyService {
   }
 
   async kickMember(user: any, lobbyId: lobbyIdDto, userId: string, message: string) {
+    // console.log(lobbyId)
     const userDoc = await this.UsersService.findById(user.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
     try {
@@ -201,8 +203,8 @@ export class LobbyService {
       if (userDto.userId.toString() == lobby.owner.userId) {
         const _user2kick = await this.UsersRepository.findById(userId);
         const user2kick = this.UsersService.userDataToDtoConversion(_user2kick);
-     
-        const uplobby = await this.LobbyRepository.findLobbyById(lobbyId);
+        const lobby2get = {id:lobbyId}
+        const uplobby = await this.LobbyRepository.findLobbyById(lobby2get);
         for (var i=0;i<uplobby.member.length;i++) {
           if (uplobby.member[i].user.userId.toString() != user2kick.userId) {
           }
