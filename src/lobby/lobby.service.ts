@@ -143,8 +143,8 @@ export class LobbyService {
   }
 
   async getLobbyById(lobbyId: lobbyIdDto) {
-    const lobbyIdObj = {id:lobbyId} 
-    const lobby = await this.LobbyRepository.findLobbyById(lobbyIdObj);
+    const lobbyIdObj = {id:lobbyId} //ksdjfsdf 
+    const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     return lobby
   }
 
@@ -196,7 +196,9 @@ export class LobbyService {
     const userDoc = await this.UsersService.findById(user.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
     try {
-      const lobby: LobbySearch = await this.getLobbyById(lobbyId);
+      // console.log(lobbyId)
+      const lobbytmp = {id:lobbyId}
+      const lobby: LobbySearch = await this.LobbyRepository.findLobbyById(lobbytmp);
       if (!lobby) {
         throw new NotFoundException('Could not find lobby.');
       }
