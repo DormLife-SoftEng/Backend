@@ -9,6 +9,7 @@ import {UsersModule} from 'src/users/users.module';
 @Module({
   imports: [ 
     forwardRef(() => UsersModule),
+    forwardRef( () => DormModule),
     MongooseModule.forFeature([{name: 'PendingAction', schema: PendingActionSchema}])
   ],
   controllers: [AdminController],

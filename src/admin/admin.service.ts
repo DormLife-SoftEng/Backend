@@ -15,18 +15,14 @@ import { ModuleRef } from '@nestjs/core';
 import { DormRepository } from 'src/dorm/repositories/dorm.repository';
 
 @Injectable()
-export class AdminService implements OnModuleInit {
-  private DormRepo: DormRepository
+export class AdminService {
   constructor(
-    private moduleRef: ModuleRef,
+    private readonly DormRepo: DormRepository,
     @InjectModel('PendingAction')
     private readonly pendingActionModel: Model<PendingAction>,
     @InjectModel('User')
     private readonly UserModel: Model<UserDocument>,
   ) {}
-  async onModuleInit() {
-    this.DormRepo = await this.moduleRef.get(DormRepository);
-  }
   async findTicket(stop: number): Promise<PendingAction[]> {
     let ticket;
     try {
