@@ -53,7 +53,7 @@ export class LobbyService {
       const lobbies = await this.LobbyRepository.findAllLobby(_stop);
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
-        dormName:lobby.dorm.dormName,
+        dormName:lobby.dorm.name,
         expireOn: lobby.expireOn,
         owner: lobby.owner,
         code: lobby.code,
@@ -66,7 +66,7 @@ export class LobbyService {
       const lobbies = await this.LobbyRepository.findLobbyByDormId(_stop, dormId);
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
-        dormName:lobby.dorm.dormName,
+        dormName:lobby.dorm.name,
         expireOn: lobby.expireOn,
         owner: lobby.owner,
         code: lobby.code,
@@ -83,7 +83,7 @@ export class LobbyService {
       );
       return lobbies.slice(_offset).map(lobby => ({
         id: lobby.lobbyId,
-        dormName:lobby.dorm.dormName,
+        dormName:lobby.dorm.name,
         expireOn: lobby.expireOn,
         owner: lobby.owner,
         code: lobby.code,
