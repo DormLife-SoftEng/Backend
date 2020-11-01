@@ -14,6 +14,7 @@ import { DormService } from '../dorm/dorm.service';
 import { UserRepository } from '../users/repositories/user.repository';
 import { UsersService } from '../users/users.service';
 import { LobbyRepository } from './repositories/lobby.repository';
+import { UserDocument } from 'src/users/schemas/users.schemas';
 
 @Injectable()
 export class LobbyService {
@@ -101,7 +102,7 @@ export class LobbyService {
     }
   }
 
-  async postNewLobby(dormId: string, roomId: string,owner: string) {
+  async postNewLobby(dormId: string, roomId: string,owner: UserDocument) {
     function makeid(length) {
       var result           = '';
       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -128,7 +129,7 @@ export class LobbyService {
         dorm: Dorm,
         room:Room,
         owner: User,
-        member: [User],
+        member: [{user:User,ready:true}],
         maxMember: Room.capacity,
         code: code,
         createdOn: Date.now(),

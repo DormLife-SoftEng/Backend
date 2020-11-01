@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { DormSchema, Dorm, RoomInterface, RoomSchema } from '../dorm/dorm.model';
-import { UserDocument } from '../users/schemas/users.schemas';
+import { User, UserDocument } from '../users/schemas/users.schemas';
 
 export const LobbySchema = new mongoose.Schema({
   expireOn: { type: Date },
@@ -8,7 +8,7 @@ export const LobbySchema = new mongoose.Schema({
   room:RoomSchema,
   owner: {},
   code: { type: String },
-  member: { type: [{ user: {}, ready: Boolean }] },
+  member: { type: [{ user: User, ready: Boolean }] },
   blackList: { type: [{ user: {}, message: String }] },
   maxMember: { type: Number },
   createdOn: { type: Date },

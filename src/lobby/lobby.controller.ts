@@ -57,7 +57,7 @@ export class LobbyController {
     @Query() createNewLobbyQueryParam: createLobbyDto,
   ) {
     const userDoc: UserDocument = await this.userServ.findById(req.user.userId);
-    const owner = userDoc._id;
+    const owner = userDoc;
     console.log('Checkpoin Alpha')
     const generatedId = await this.lobbyService.postNewLobby(
       createNewLobbyQueryParam.dormId,
