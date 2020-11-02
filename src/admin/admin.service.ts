@@ -148,8 +148,8 @@ export class AdminService {
         // delete
         if (ticket.type === 'user') {
           let user;
-          try { 
-            user = await this.UserModel.findOneAndDelete({_id: target._id});
+          try {
+            user = await this.UserModel.findOneAndDelete({ _id: target._id });
           } catch (error) {
             throw new NotFoundException('Could not find user.');
           }
@@ -158,7 +158,7 @@ export class AdminService {
           }
         } else if (ticket.type === 'dorm') {
           let dorm;
-          try { 
+          try {
             dorm = await this.DormRepo.getDormAndDelete(target._id);
           } catch (error) {
             throw new NotFoundException('Could not find dorm.');
@@ -179,36 +179,42 @@ export class AdminService {
 
       ticket.save();
       return ticket.id as string;
-    } 
-    else if(ticket.request == "add") {
-      const dorm = ticket.newdata;
-      let newDorm = this.DormRepo.AddDorm(
-        dorm.name,
-        dorm.code,
-        dorm.owner, //ownerId
-        dorm.telephone,
-        dorm.email,
-        dorm.lineID,
-        dorm.website,
-        dorm.address.address,
-        dorm.address.coordinate,
-        dorm.utility,
-        dorm.type,
-        dorm.description,
-        dorm.room,
-        dorm.allowedSex,
-        dorm.avgStar,
-        dorm.image,
-        dorm.license,
-        dorm.createdOn,
-        Date.now(),
-        "approved",
-        Date.now(),
-
-      )
-      ticket.status="approved";
-      ticket.save();
-      return ticket.id as string;
+    } else if (ticket.request == 'add') {
+      if (ticket.status === 'pending' || ticket.status === 'disapproved') {
+        const dorm = ticket.newdata;
+        let newDorm = this.DormRepo.AddDorm(
+          dorm.name,
+          dorm.code,
+          dorm.owner, //ownerId
+          dorm.telephone,
+          dorm.email,
+          dorm.lineID,
+          dorm.website,
+          dorm.address.address,
+          dorm.address.coordinate,
+          dorm.utility,
+          dorm.type,
+          dorm.description,
+          dorm.room,
+          dorm.allowedSex,
+          dorm.avgStar,
+          dorm.image,
+          dorm.license,
+          dorm.createdOn,
+          Date.now(),
+          'approved',
+          Date.now(),
+        );
+        ticket.status = 'approved';
+        ticket.save();
+        return ticket.id as string;
+      } else if (ticket.status === 'approved') {
+        ticket.status = 'disapproved';
+      } else {
+        throw new BadRequestException(
+          'Ticket should be pending or disapproved or approved.',
+        );
+      }
     } else {
       throw new BadRequestException('request should be edit, add or delete');
     }
