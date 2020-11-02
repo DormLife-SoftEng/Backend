@@ -181,7 +181,8 @@ export class AdminService {
       return ticket.id as string;
     } 
     else if(ticket.request == "add") {
-      const dorm = ticket.newdata;
+      if (ticket.status == "pending") {
+        const dorm = ticket.newdata;
       let newDorm = this.DormRepo.AddDorm(
         dorm.name,
         dorm.code,
@@ -209,6 +210,10 @@ export class AdminService {
       ticket.status="approved";
       ticket.save();
       return ticket.id as string;
+      }
+      else if (ticket.status == "approved") {
+        
+      }
     } else {
       throw new BadRequestException('request should be edit or delete');
     }
