@@ -210,7 +210,7 @@ export class AdminService {
       ticket.save();
       return ticket.id as string;
     } else {
-      throw new BadRequestException('request should be edit or delete');
+      throw new BadRequestException('request should be edit, add or delete');
     }
   }
 
