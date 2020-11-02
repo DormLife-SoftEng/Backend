@@ -14,21 +14,21 @@ export class TicketBodyDto {
   @ApiProperty()
   target: any;
 
-  @IsNotEmptyObject()
+  // @IsNotEmptyObject()
   @ApiProperty()
   newdata: any;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   // @IsDate()
   createdOn: Date;
 
-  @IsNotEmptyObject()
+  // @IsNotEmptyObject()
   @ApiProperty()
   // @ValidateIf(elem => elem !== undefined)
   createdBy: any;
 
-  @IsNotEmpty()
-  @IsString()
+  // @IsNotEmpty()
+  // @IsString()
   @ApiProperty()
   status: string;
 }
