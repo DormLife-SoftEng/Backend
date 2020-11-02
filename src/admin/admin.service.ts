@@ -180,7 +180,7 @@ export class AdminService {
       ticket.save();
       return ticket.id as string;
     } else if (ticket.request == 'add') {
-      if (ticket.status === 'pending' || ticket.status === 'disapproved') {
+      if (ticket.status === 'pending') {
         const dorm = ticket.newdata;
         let newDorm = this.DormRepo.AddDorm(
           dorm.name,
@@ -209,7 +209,7 @@ export class AdminService {
         ticket.save();
         return ticket.id as string;
       } else if (ticket.status === 'approved') {
-        ticket.status = 'disapproved';
+        
       } else {
         throw new BadRequestException(
           'Ticket should be pending or disapproved or approved.',
