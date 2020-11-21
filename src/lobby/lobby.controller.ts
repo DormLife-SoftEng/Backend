@@ -65,9 +65,7 @@ export class LobbyController {
 
   @Get(':id')
   async getSpecificLobby(@Request() req, @Param('id') lobbyId: string) {
-    console.log(`This is lobbyId parameters ${lobbyId}`);
     const lobby = await this.lobbyService.getLobbyById(lobbyId);
-    console.log(`lobby data = ${lobby}`)
     return lobby;
   }
 
@@ -88,7 +86,7 @@ export class LobbyController {
     //   console.log(id)
     //   throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
     // }
-    console.log(lobbyCode)
+    console.log(`This is data: ${id},  ${lobbyCode}`)
 
     if (!lobbyCode) {
       const result = await this.lobbyService.joinLobbyID(req.user, id);
@@ -134,7 +132,7 @@ export class LobbyController {
   }
 
   @Patch(':id/ready')
-  async setReady(@Param() id: string, @Request() req) {
+  async setReady(@Param('id') id: string, @Request() req) {
     await this.lobbyService.setReady(id, req.user.userId);
     return {
       statusCode: 200,
@@ -161,14 +159,14 @@ export class LobbyController {
   }
 
   @Get(':id/chat')
-  async getChat(@Param() id: string) {
+  async getChat(@Param('id') id: string) {
     const chat = await this.lobbyService.getChat(id);
     
     return chat;
   }
 
   @Post(':id/chat')
-  async addChat(@Param() id: string, @Body() chat: chatDto, @Request() req) {
+  async addChat(@Param('id') id: string, @Body() chat: chatDto, @Request() req) {
     
     const res = await this.lobbyService.addChat(id, chat, req.user);
 
