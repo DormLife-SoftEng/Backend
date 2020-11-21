@@ -200,17 +200,17 @@ export class LobbyService {
     const userDoc = await this.UsersService.findById(user.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
     try {
-      // console.log(lobbyId)
-      const lobbytmp = {id:lobbyId}
-      const lobby: LobbySearch = await this.LobbyRepository.findLobbyById(lobbytmp);
+      console.log(lobbyId)
+      const lobby: LobbySearch = await this.LobbyRepository.findLobbyById(lobbyId);
+      console.log(`lobby ${lobby}`)
       if (!lobby) {
         throw new NotFoundException('Could not find lobby.');
       }
       if (userDto.userId.toString() == lobby.owner.userId) {
         const _user2kick = await this.UsersRepository.findById(userId);
         const user2kick = this.UsersService.userDataToDtoConversion(_user2kick);
-        const lobby2get = {id:lobbyId}
-        const uplobby = await this.LobbyRepository.findLobbyById(lobby2get);
+        const lobby2get = lobbyId
+        const uplobby = await this.LobbyRepository.findLobbyById(lobbyId);
         for (var i=0;i<uplobby.member.length;i++) {
           if (uplobby.member[i].user.userId.toString() != user2kick.userId) {
           }

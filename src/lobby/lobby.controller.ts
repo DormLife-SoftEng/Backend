@@ -112,6 +112,7 @@ export class LobbyController {
     @Query('userId') userId: string,
     @Body('message') message: string,
   ) {
+    console.log(`id ${id}`)
     const result = await this.lobbyService.kickMember(
       req.user,
       id,
