@@ -136,7 +136,7 @@ export class AdminService {
         ticket.status = 'disapproved';
       } else {
         throw new BadRequestException(
-          'Ticket should be pending or disapproved or approved.',
+          `Ticket should be pending or disapproved or approved. Got ${ticket.status} instead.`,
         );
       }
 
