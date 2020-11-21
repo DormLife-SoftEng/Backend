@@ -176,8 +176,8 @@ export class LobbyService {
     const UserDto = this.UsersService.userDataToDtoConversion(UserDoc);
     try {
       lobby = await this.LobbyRepository.update(
-        { _id: lobbyId.lobbyId },
-        { $pull: { member: UserDto } },
+        { _id: lobbyId },
+        { $pull: { member: {user:UserDto} } },
       );
     } catch (error) {
       throw new NotFoundException('Could not find lobby.');

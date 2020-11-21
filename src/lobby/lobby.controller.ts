@@ -98,7 +98,7 @@ export class LobbyController {
   }
 
   @Put(':id/leave')
-  async leaveLobby(@Request() req, @Param() id: lobbyIdDto) {
+  async leaveLobby(@Request() req, @Param('id') id: lobbyIdDto) {
     const result = await this.lobbyService.leaveLobby(req.user, id);
     return result;
   }
