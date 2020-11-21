@@ -6,11 +6,13 @@ import {
 } from './review.dto';
 import { Review } from '../review/review.model';
 import { ReviewRepository } from './repositories/review.repositories';
+import { UserRepository } from 'src/users/repositories/user.repository';
 
 @Injectable()
 export class ReviewService {
   constructor(
     private readonly reviewRepo: ReviewRepository,
+    private readonly UserRep: UserRepository
   ) {}
 
   private async findReviewByDormId(
@@ -72,15 +74,22 @@ export class ReviewService {
     const _stop = parseInt(stop);
     const review = await this.findReviewByDormId(dormId, _stop);
     return review
-      .map(review => ({
+      .map(async review => {
+        const userdetails = await this.UserRep.findById(review.user.userId)
+        return ({
         id: review.id,
         dorm: review.dorm,
-        user: review.user,
+        user: {
+          userId:review.user.userId,
+          firstName: userdetails.name.firstName,
+          lastName: userdetails.name.lastName,
+          PictureProfile: userdetails.PictureProfile
+        },
         star: review.star,
         comment: review.comment,
         image: review.image,
         createdOn: review.createdOn,
-      }))
+      })})
       .slice(_offset);
   }
 
