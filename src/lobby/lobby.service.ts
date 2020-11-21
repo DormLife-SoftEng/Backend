@@ -150,12 +150,12 @@ export class LobbyService {
 
   async getIdByCode(lobbyCode: lobbyCodeDto): Promise<any> {
     const id = await this.LobbyRepository
-      .findOne({ code: lobbyCode.lobbyCode })
+      .findOne({ code: lobbyCode })
     return id;
   }
 
   async joinLobbyID(user: any, lobbyId: lobbyIdDto) {
-    const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
+    const lobby = await this.LobbyRepository.findLobbyById({id:lobbyId});
     const UserDoc = await this.UsersService.findById(user.userId);
     const User: generalUserInfo = this.UsersService.userDataToDtoConversion(UserDoc);
 

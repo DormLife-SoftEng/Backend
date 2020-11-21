@@ -74,12 +74,12 @@ export class LobbyController {
     const lobbyId = await this.lobbyService.getIdByCode(lobbyCode);
     return { lobbyId: lobbyId };
   }
-
+  generalUserInfo
   @Put('/join')
   async joinLobbyID(
     @Request() req,
-    @Query() id: lobbyIdDto,
-    @Query() lobbyCode: lobbyCodeDto,
+    @Query('id') id: lobbyIdDto,
+    @Query('lobbyCode') lobbyCode: lobbyCodeDto,
   ) {
     // if (id && lobbyCode) {
     //   console.log(lobbyCode)
@@ -87,12 +87,12 @@ export class LobbyController {
     //   throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
     // }
 
-    if (lobbyCode) {
+    if (!lobbyCode) {
       const result = await this.lobbyService.joinLobbyID(req.user, id);
       return result;
     } else {
       const id = await this.lobbyService.getIdByCode(lobbyCode);
-      const result = await this.lobbyService.joinLobbyID(req.user, {lobbyId:id});
+      const result = await this.lobbyService.joinLobbyID(req.user, id);
       return result;
     }
   }
