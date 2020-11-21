@@ -69,28 +69,30 @@ export class ReviewService {
     }
   }
 
+
+
   async getReviewList(dormId: string, offset: string, stop: string) {
     const _offset = parseInt(offset);
     const _stop = parseInt(stop);
     const review = await this.findReviewByDormId(dormId, _stop);
-    return review
-      .map(async review => {
-        const userdetails = await this.UserRep.findById(review.user.userId)
-        return ({
-        id: review.id,
-        dorm: review.dorm,
-        user: {
-          userId:review.user.userId,
-          firstName: userdetails.name.firstName,
-          lastName: userdetails.name.lastName,
-          PictureProfile: userdetails.PictureProfile
-        },
-        star: review.star,
-        comment: review.comment,
-        image: review.image,
-        createdOn: review.createdOn,
-      })})
-      .slice(_offset);
+    const reviews:Review[] = await Promise.all(review.map(async review => {
+      const userdetails = await this.UserRep.findById(review.user.userId)
+      return {
+      id: review.id,
+      dorm: review.dorm,
+      user: {
+        userId:review.user.userId,
+        firstName: userdetails.name.firstName,
+        lastName: userdetails.name.lastName,
+        PictureProfile: userdetails.PictureProfile
+      },
+      star: review.star,
+      comment: review.comment,
+      image: review.image,
+      createdOn: review.createdOn,
+    }}))
+    return reviews.slice(_offset)
+      
   }
 
   async getSingleReviewByReviewCode(
