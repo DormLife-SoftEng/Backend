@@ -64,13 +64,15 @@ export class LobbyController {
   }
 
   @Get(':id')
-  async getSpecificLobby(@Request() req, @Param() lobbyId: lobbyIdDto) {
+  async getSpecificLobby(@Request() req, @Param('id') lobbyId: string) {
+    console.log(`This is lobbyId parameters ${lobbyId}`);
     const lobby = await this.lobbyService.getLobbyById(lobbyId);
+    console.log(`lobby data = ${lobby}`)
     return lobby;
   }
 
   @Get('/codes')
-  async getIdByCode(@Request() req, @Query() lobbyCode: lobbyCodeDto) {
+  async getIdByCode(@Request() req, @Query() lobbyCode: string) {
     const lobbyId = await this.lobbyService.getIdByCode(lobbyCode);
     return { lobbyId: lobbyId };
   }
@@ -78,14 +80,15 @@ export class LobbyController {
   @Put('/join')
   async joinLobbyID(
     @Request() req,
-    @Query('id') id: lobbyIdDto,
-    @Query('lobbyCode') lobbyCode: lobbyCodeDto,
+    @Query('id') id: string,
+    @Query('lobbyCode') lobbyCode: string,
   ) {
     // if (id && lobbyCode) {
     //   console.log(lobbyCode)
     //   console.log(id)
     //   throw new BadRequestException('Only one of lobbyCode or lobbyId should be defined at the time.');
     // }
+    console.log(lobbyCode)
 
     if (!lobbyCode) {
       const result = await this.lobbyService.joinLobbyID(req.user, id);
@@ -98,7 +101,8 @@ export class LobbyController {
   }
 
   @Put(':id/leave')
-  async leaveLobby(@Request() req, @Param('id') id: lobbyIdDto) {
+  async leaveLobby(@Request() req, @Param('id') id: string) {
+    console.log(id)
     const result = await this.lobbyService.leaveLobby(req.user, id);
     return result;
   }
@@ -106,7 +110,7 @@ export class LobbyController {
   @Put(':id/kick')
   async kickMember(
     @Request() req,
-    @Param('id') id: lobbyIdDto,
+    @Param('id') id: string,
     @Query('userId') userId: string,
     @Body('message') message: string,
   ) {
@@ -120,7 +124,7 @@ export class LobbyController {
   }
 
   @Delete(':id/delete')
-  async deleteLobby(@Param('id') id: lobbyIdDto) {
+  async deleteLobby(@Param('id') id: string) {
     const res = await this.lobbyService.deleteLobby(id);
     console.log(res);
     return {
@@ -130,7 +134,7 @@ export class LobbyController {
   }
 
   @Patch(':id/ready')
-  async setReady(@Param() id: lobbyIdDto, @Request() req) {
+  async setReady(@Param() id: string, @Request() req) {
     await this.lobbyService.setReady(id, req.user.userId);
     return {
       statusCode: 200,
@@ -139,8 +143,11 @@ export class LobbyController {
   }
 
   @Delete(':id/close')
-  async closeLobby(@Param('id') id: lobbyIdDto) {
+  async closeLobby(@Param('id') id: string) {
+    console.log(`this is id ${id}`)
     const lobby = await this.lobbyService.getLobbyById(id);
+    console.log("hee")
+    console.log(id)
     for (let i = 0; i < lobby.member.length; i++) {
       if (lobby.member[i].ready === false) {
         throw new PreconditionFailedException('All user should be ready.');
@@ -154,14 +161,14 @@ export class LobbyController {
   }
 
   @Get(':id/chat')
-  async getChat(@Param() id: lobbyIdDto) {
+  async getChat(@Param() id: string) {
     const chat = await this.lobbyService.getChat(id);
     
     return chat;
   }
 
   @Post(':id/chat')
-  async addChat(@Param() id: lobbyIdDto, @Body() chat: chatDto, @Request() req) {
+  async addChat(@Param() id: string, @Body() chat: chatDto, @Request() req) {
     
     const res = await this.lobbyService.addChat(id, chat, req.user);
 

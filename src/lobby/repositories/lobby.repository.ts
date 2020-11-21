@@ -68,7 +68,7 @@ export class LobbyRepository {
     
       async findLobbyById(lobbyId): Promise<LobbySearch> {
         try {
-          const lobby = await this.lobbyModel.findOne({ _id: lobbyId.id});
+          const lobby = await this.lobbyModel.findOne({ _id: lobbyId});
           if (!lobby) {
             throw new Error('Empty Repository.');
           }

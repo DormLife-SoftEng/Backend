@@ -119,10 +119,11 @@ export class LobbyService {
     const User = this.UsersService.userDataToDtoConversion(owner);
     let d = new Date();
     d.setHours(d.getHours() + 14 * 24);
-    let code = makeid(5);
+    let code = makeid(5) 
     console.log('Checkpoint Beta')
-    while (await this.getIdByCode({lobbyCode: code})) {
-      console.log(`Checkpoint Delta ${ await this.getIdByCode({lobbyCode: code})}`);
+    console.log(code)
+    while (await this.getIdByCode(code)) {
+      console.log(`Checkpoint Delta ${ await this.getIdByCode(code)}`);
       code = makeid(5);
     }
     const newLobby = new this.LobbyRepository.create(
@@ -142,19 +143,20 @@ export class LobbyService {
     return result.id as string;
   }
 
-  async getLobbyById(lobbyId: lobbyIdDto) {
-    const lobbyIdObj = {id:lobbyId} //ksdjfsdf 
+  async getLobbyById(lobbyId: string) {
+    console.log(`getLobbyById : ${lobbyId}`)
     const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     return lobby
   }
 
-  async getIdByCode(lobbyCode: lobbyCodeDto): Promise<any> {
+  async getIdByCode(lobbyCode: string): Promise<any> {
+    console.log(lobbyCode)
     const id = await this.LobbyRepository
       .findOne({ code: lobbyCode })
     return id;
   }
 
-  async joinLobbyID(user: any, lobbyId: lobbyIdDto) {
+  async joinLobbyID(user: any, lobbyId: string) {
     const lobby = await this.LobbyRepository.findLobbyById({id:lobbyId});
     const UserDoc = await this.UsersService.findById(user.userId);
     const User: generalUserInfo = this.UsersService.userDataToDtoConversion(UserDoc);
@@ -170,15 +172,18 @@ export class LobbyService {
     return { id: lobby._id };
   }
 
-  async leaveLobby(user: any, lobbyId: lobbyIdDto) {
+  async leaveLobby(user: any, lobbyId: string) {
     let lobby;
     const UserDoc = await this.UsersService.findById(user.userId);
     const UserDto = this.UsersService.userDataToDtoConversion(UserDoc);
+    console.log(UserDto)
     try {
       lobby = await this.LobbyRepository.update(
         { _id: lobbyId },
         { $pull: { member: {user:UserDto} } },
+        
       );
+      console.log(lobby)
     } catch (error) {
       throw new NotFoundException('Could not find lobby.');
     }
@@ -191,7 +196,7 @@ export class LobbyService {
     };
   }
 
-  async kickMember(user: any, lobbyId: lobbyIdDto, userId: string, message: string) {
+  async kickMember(user: any, lobbyId: string, userId: string, message: string) {
     // console.log(lobbyId)
     const userDoc = await this.UsersService.findById(user.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
@@ -237,15 +242,15 @@ export class LobbyService {
     };
   }
 
-  async deleteLobby(lobbyId: lobbyIdDto) {
+  async deleteLobby(lobbyId: string) {
     const result = await this.LobbyRepository
-      .deleteOne({ _id: lobbyId })
+      .deleteOne({ _id: lobbyId})
     if (result.n == 0) {
       throw new NotFoundException('Could not find lobby.');
     }
   }
 
-  async setReady(lobbyId: lobbyIdDto, userId: string) {
+  async setReady(lobbyId: string, userId: string) {
     let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     for (let i = 0; i < lobby.member.length; i++) {
       if (lobby.member[i].user.userId == userId) {
@@ -257,13 +262,13 @@ export class LobbyService {
     lobby.save();
   }
 
-  async getChat(lobbyId: lobbyIdDto) {
+  async getChat(lobbyId: string) {
     let lobby = await this.LobbyRepository.findLobbyById(lobbyId);
 
     return lobby.chat;
   }
 
-  async addChat(lobbyId: lobbyIdDto, chat: chatDto, userInfo: any) {
+  async addChat(lobbyId: string, chat: chatDto, userInfo: any) {
     const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     const userDoc =  await this.UsersService.findById(userInfo.userId);
     const userDto = this.UsersService.userDataToDtoConversion(userDoc);
