@@ -101,8 +101,8 @@ export class ReviewService {
       }))
   }
 
-  async addReview(reviewBody: ReviewBodyDto) {
-    const result = await this.reviewRepo.create(reviewBody);
+  async addReview(reviewBody: ReviewBodyDto,userid:string) {
+    const result = await this.reviewRepo.create(reviewBody,userid);
     return result.id as string;
   }
 

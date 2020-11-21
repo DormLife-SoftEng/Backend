@@ -15,10 +15,6 @@ export class ReviewBodyDto {
   dorm: any;
 
   @IsNotEmpty()
-  @ApiProperty()
-  user: any;
-
-  @IsNotEmpty()
   @IsInt()
   @ApiProperty()
   star: number;

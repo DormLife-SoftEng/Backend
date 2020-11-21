@@ -11,8 +11,8 @@ export class ReviewRepository {
         @InjectModel('Review') private readonly reviewModel: Model<Review>
         ) {}
 
-    async create(reviewBody: ReviewBodyDto, options?:ModelOptions, fn?: any): Promise<Review | undefined> {
-        const dto: ReviewPrimitive = {...reviewBody, createdOn: new Date().toString()};
+    async create(reviewBody: ReviewBodyDto,user: string, options?:ModelOptions, fn?: any): Promise<Review | undefined> {
+        const dto: ReviewPrimitive = {...reviewBody, user:{userId:user},createdOn: new Date().toString()};
         const document = new this.reviewModel(dto);
         const result = await document.save(options, fn);
         return result;
