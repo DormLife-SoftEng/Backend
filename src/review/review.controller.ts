@@ -82,9 +82,9 @@ export class ReviewController {
   }
 
   @Post()
-  async addReview(@Body() reviewBody: ReviewBodyDto,@Request() req) {
-    const userid = req.user._id
-    const generatedId = await this.reviewService.addReview(reviewBody,userid);
+  async addReview(@Body() reviewBody: ReviewBodyDto, @Request() req) {
+    const userid = req.user.userId
+    const generatedId = await this.reviewService.addReview(reviewBody, userid);
     return { id: generatedId };
   }
 

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, ModelOptions, MongooseFilterQuery, Query } from "mongoose";
+import { DormService } from "src/dorm/dorm.service";
 import { ReviewBodyDto } from "../review.dto";
 import { Review, ReviewPrimitive } from "../review.model";
 
@@ -8,11 +9,14 @@ import { Review, ReviewPrimitive } from "../review.model";
 @Injectable()
 export class ReviewRepository {
     constructor (
-        @InjectModel('Review') private readonly reviewModel: Model<Review>
+        @InjectModel('Review') private readonly reviewModel: Model<Review>,
+        private readonly DormService: DormService
         ) {}
 
-    async create(reviewBody: ReviewBodyDto,user: string, options?:ModelOptions, fn?: any): Promise<Review | undefined> {
-        const dto: ReviewPrimitive = {...reviewBody, user:{userId:user},createdOn: new Date().toString()};
+    async create(reviewBody: ReviewBodyDto, user:string,options?:ModelOptions, fn?: any): Promise<Review | undefined> {
+        const dto: ReviewPrimitive = {...reviewBody,user:{userId:user}, createdOn: new Date().toString()};
+        const dormId = dto.dorm.id
+        dto.dorm = await this.DormService.getSingleDorm(dormId)
         const document = new this.reviewModel(dto);
         const result = await document.save(options, fn);
         return result;
