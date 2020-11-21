@@ -270,7 +270,9 @@ export class DormRepository {
     stop: string,
   ): Promise<any> {
     const Stop = parseInt(stop);
+    console.log(propsSearch)
     const dorms = await this.DormModel.find(propsSearch).limit(Stop);
+    console.log(`find ${dorms.length}`)
     // .exec();
     // console.log(dorms);
 
@@ -339,8 +341,8 @@ export class DormRepository {
   async getDormList(propsSearch, utilsSearch, offset: string, stop: string) {
     const Offset = parseInt(offset);
 
-    propsSearch.distance = { $gte: propsSearch.distance };
-    propsSearch.rating = { $gte: propsSearch.rating };
+    // propsSearch.distance = { $gte: propsSearch.distance };
+    propsSearch.avgStar = { $gte: propsSearch.avgStar };
     propsSearch['room.price.amount'] = {
       $lte: propsSearch['room.price.amount'],
     };

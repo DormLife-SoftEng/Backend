@@ -69,6 +69,7 @@ export class DormController {
   @Get()
   async getAlldorm() {
     const dorms = await this.DormService.getAll();
+    console.log(dorms.length)
     return dorms;
   }
 
@@ -108,8 +109,8 @@ export class DormController {
   async queryDorm(
     // @Body() propsSearch: propsSearchDto,
     @Query('name') name: string,
-    @Query('distance') distance: string,
-    @Query('rating') rating: string,
+    // @Query('distance') distance: string,
+    @Query('avgStar') avgStar: string,
     @Query('allowedSex') allowedSex: string,
     @Query('price') price: string,
     @Query('maxperson') maxPerson: string,
@@ -151,8 +152,8 @@ export class DormController {
       name: name,
       allowedSex: allowedSex,
       type: dormType,
-      distance: parseInt(distance),
-      rating: parseInt(rating),
+      // distance: parseInt(distance),
+      avgStar: parseInt(avgStar),
       'room.price.amount': parseInt(price),
       'room.capacity': parseInt(maxPerson),
       'room.kitchen': parseInt(kitchen),
@@ -175,11 +176,11 @@ export class DormController {
     if (!name) {
       delete propsSearch.name;
     }
-    if (!distance) {
-      propsSearch.distance = -1;
-    }
-    if (!rating) {
-      propsSearch.rating = -1;
+    // if (!distance) {
+    //   propsSearch.distance = -1;
+    // }
+    if (!avgStar) {
+      propsSearch.avgStar = -1;
     }
     if (!allowedSex) {
       delete propsSearch.allowedSex;
@@ -213,6 +214,7 @@ export class DormController {
       offset,
       stop,
     );
+    console.log(dorms.length)
     return dorms;
   }
 
