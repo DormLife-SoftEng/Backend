@@ -75,7 +75,7 @@ export class ReviewService {
     const _offset = parseInt(offset);
     const _stop = parseInt(stop);
     const review = await this.findReviewByDormId(dormId, _stop);
-    const reviews:Review[] = await Promise.all(review.map(async review => {
+    const reviews = await Promise.all(review.map(async review => {
       const userdetails = await this.UserRep.findById(review.user.userId)
       return {
       id: review.id,
