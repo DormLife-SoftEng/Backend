@@ -120,7 +120,7 @@ export class LobbyController {
   }
 
   @Delete(':id/delete')
-  async deleteLobby(@Param() id: lobbyIdDto) {
+  async deleteLobby(@Param('id') id: lobbyIdDto) {
     const res = await this.lobbyService.deleteLobby(id);
     console.log(res);
     return {
@@ -139,7 +139,7 @@ export class LobbyController {
   }
 
   @Delete(':id/close')
-  async closeLobby(@Param() id: lobbyIdDto) {
+  async closeLobby(@Param('id') id: lobbyIdDto) {
     const lobby = await this.lobbyService.getLobbyById(id);
     for (let i = 0; i < lobby.member.length; i++) {
       if (lobby.member[i].ready === false) {

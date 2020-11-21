@@ -239,7 +239,7 @@ export class LobbyService {
 
   async deleteLobby(lobbyId: lobbyIdDto) {
     const result = await this.LobbyRepository
-      .deleteOne({ _id: lobbyId.lobbyId })
+      .deleteOne({ _id: lobbyId })
     if (result.n == 0) {
       throw new NotFoundException('Could not find lobby.');
     }
