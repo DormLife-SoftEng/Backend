@@ -55,7 +55,11 @@ export class ReviewRepository {
   async updateStar(dormId:string) {
     const dorm = await this.DormService.getSingleDorm(dormId)
     const reviews = await this.reviewModel.find({'dorm.dormId': dormId})
-
+    if (reviews.length == 0) {
+      dorm.avgStar = 0
+      dorm.save()
+      return 0
+    }
     var total = 0
     for (var i = 0; i < reviews.length; i++) {
       total = total + reviews[i].star

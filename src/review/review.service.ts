@@ -137,7 +137,11 @@ export class ReviewService {
     const review = await this.reviewRepo.findOne(query);
     const result = await this.reviewRepo.deleteOne(query); 
     try {
-      if (result.n === 0) {
+      if (result.n == 0) {
+        const dorm = await this.DormService.getSingleDorm(review.dorm.dormId)
+        dorm.avgStar = 0
+        dorm.save()
+        console.log(dorm.avgStar)
         throw new NotFoundException('Could not find review.');
       }
       const newStar = await this.reviewRepo.updateStar(review.dorm.dormId)
