@@ -45,7 +45,7 @@ export class LobbyController {
       roomId,
     );
     var newLobbyList = []
-    for (var i = 0;i < lobbiesList;i++) {
+    for (var i = 0;i < lobbiesList.length;i++) {
       if (lobbiesList[i].member.length != lobbiesList[i].maxMember) {
         newLobbyList.push(lobbiesList[i])
       }
