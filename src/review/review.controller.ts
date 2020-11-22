@@ -87,6 +87,8 @@ export class ReviewController {
   }
 
   @Get('users')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
   @ApiQuery({ name: 'dormId', required: false })
   @ApiQuery({ name: 'reviewCode', required: false })
   @ApiQuery({ name: 'offset', required: false })
