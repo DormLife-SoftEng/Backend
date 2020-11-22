@@ -129,6 +129,8 @@ export class ReviewService {
       reviewBody,
       userId,
     );
+    const newStar = await this.reviewRepo.updateStar(reviewBody.dorm.dormId)
+    console.log(newStar)
     return review.id as string;
   }
 
