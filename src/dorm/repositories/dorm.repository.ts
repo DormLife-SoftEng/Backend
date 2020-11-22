@@ -129,7 +129,7 @@ export class DormRepository {
       owner: owner,
       contact: contact,
       address:addressObj,
-      distance: distance,
+      distance: this.distanceCal(addressObj.coordinate[0],addressObj.coordinate[1]),//jhgfhgfhg
       utility: utility,
       type: type,
       description: description,
