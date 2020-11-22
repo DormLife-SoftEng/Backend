@@ -17,15 +17,16 @@ export class ReviewRepository {
         const dto: ReviewPrimitive = {...reviewBody,user:{userId:user}, createdOn: new Date().toString()};
         const dormId = dto.dorm.id
         dto.dorm = await this.DormService.getSingleDorm(dormId)
-        const document = new this.reviewModel(dto);
         
         //debug zone
         const dorm = await this.DormService.getSingleDorm(dormId)
         const query = { 'dorm._id': dormId };
         const reviews = await this.find(query)
         const count = reviews.length
+        console.log(count)
         //end of debug zone
         
+        const document = new this.reviewModel(dto);
         const result = await document.save(options, fn);
         this.updateReviewScore(dto.dorm.id, dto.star,count)
         return result;
