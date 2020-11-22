@@ -32,23 +32,39 @@ export class ReviewRepository {
 
     const document = new this.reviewModel(dto);
     const result = await document.save(options, fn);
-    this.updateReviewScore(dto.dorm.dormId, dto.star, count);
+    // this.updateReviewScore(dto.dorm.dormId, dto.star, count);
+    const newStar = await this.updateStar(dto.dorm.dormId)
+    console.log(newStar)
     return result;
   }
 
-  async updateReviewScore(
-    dormId: string,
-    incStar: number,
-    reviewsCount: number,
-  ) {
-    const dorm = await this.DormService.getSingleDorm(dormId);
-    const query = { 'dorm.dormId': dormId };
-    const reviews = await this.find(query);
-    const oldStar = dorm.avgStar * reviewsCount;
-    const newCount = reviews.length;
-    const newStar = (oldStar + incStar) / newCount;
-    dorm.avgStar = newStar;
-    dorm.save();
+  // async updateReviewScore(
+  //   dormId: string,
+  //   incStar: number,
+  //   reviewsCount: number,
+  // ) {
+  //   const dorm = await this.DormService.getSingleDorm(dormId);
+  //   const query = { 'dorm.dormId': dormId };
+  //   const reviews = await this.find(query);
+  //   const oldStar = dorm.avgStar * reviewsCount;
+  //   const newCount = reviews.length;
+  //   const newStar = (oldStar + incStar) / newCount;
+  //   dorm.avgStar = newStar;
+  //   dorm.save();
+  // }
+  //new update
+  async updateStar(dormId:string) {
+    const dorm = await this.DormService.getSingleDorm(dormId)
+    const reviews = await this.reviewModel.find({'dorm.dormId': dormId})
+
+    var total = 0
+    for (var i = 0; i < reviews.length; i++) {
+      total = total + reviews[i].star
+    }
+    const result = total/reviews.length
+    dorm.avgStar = result
+    dorm.save()
+    return result
   }
 
   async find(

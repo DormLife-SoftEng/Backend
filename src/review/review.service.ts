@@ -140,21 +140,13 @@ export class ReviewService {
       if (result.n === 0) {
         throw new NotFoundException('Could not find review.');
       }
-      this.updateDeleted(review.dorm.dormId)
+      const newStar = await this.reviewRepo.updateStar(review.dorm.dormId)
+      console.log(newStar)
       return result;
     } catch (err) {
       throw err;
     }
   }
 
-  async updateDeleted(dormId:string) {
-    const result = await this.reviewRepo.find({'dorm.dormId':dormId})
-    var total = 0
-    result.forEach(review => {
-      total = total + review.star
-    });
-    const newStar = total/(result.length)
-    const dorm = await this.DormService.getSingleDorm(dormId)
-    dorm.avgStar = newStar
-  }
+
 }
