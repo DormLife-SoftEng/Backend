@@ -26,7 +26,9 @@ export class ReviewRepository {
     async updateReviewScore(dormId: string, incStar: number) {
         const dorm = await this.DormService.getSingleDorm(dormId)
         const query = { 'dorm._id': dormId };
-        const reviewsCount = (await this.find(query)).length
+        const reviews = await this.find(query)
+        console.log(`reviews : ${reviews}`)
+        const reviewsCount = reviews.length
         const oldStar = dorm.avgStar
         console.log('before')
         console.log(`review count: ${reviewsCount}, current score: ${oldStar}`)
