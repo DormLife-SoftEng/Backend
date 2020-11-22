@@ -159,7 +159,9 @@ export class LobbyService {
     const lobby = await this.LobbyRepository.findLobbyById(lobbyId);
     const UserDoc = await this.UsersService.findById(user.userId);
     const User: generalUserInfo = this.UsersService.userDataToDtoConversion(UserDoc);
-
+    if ( lobby.member.length >= lobby.maxMember ) {
+      throw new ForbiddenException('Lobby full');
+    }
     for (let i = 0; i < lobby.blackList.length; i++) {
       if (UserDoc._id == lobby.blackList[i].user.userId) {
         throw new ForbiddenException(lobby.blackList[i].message);
