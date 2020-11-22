@@ -165,10 +165,10 @@ export class AdminService {
           dorm.code = ticket.newdata.code;
           dorm.owner = ticket.newdata.owner;
           dorm.contact = {
-            telephone: ticket.newdata.telephone,
-            email: ticket.newdata.email,
-            lineID: ticket.newdata.lineID,
-            website: ticket.newdata.website,
+            telephone: ticket.newdata.contact.telephone,
+            email: ticket.newdata.contact.email,
+            lineID: ticket.newdata.contact.lineID,
+            website: ticket.newdata.contact.website,
           };
           dorm.address = {
             address: ticket.newdata.address.address,
@@ -178,7 +178,7 @@ export class AdminService {
           dorm.utility = ticket.newdata.utilities;
           dorm.type = ticket.newdata.type;
           dorm.description = ticket.newdata.description;
-          dorm.room = ticket.newdata.rooms;
+          dorm.room = ticket.newdata.room;
           dorm.allowedSex = ticket.newdata.allowedSex;
           dorm.avgStar = ticket.newdata.avgStar;
           dorm.image = ticket.newdata.image;
