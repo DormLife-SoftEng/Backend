@@ -56,6 +56,7 @@ export class AdminService {
     const _offset = parseInt(offset);
     const _stop = parseInt(stop);
     const tickets = await this.findTicket(_stop);
+    this.deleteApproved()
     return tickets
       .map(ticket => ({
         id: ticket.id,
@@ -273,6 +274,12 @@ export class AdminService {
     } else {
       throw new BadRequestException('request should be edit or delete');
     }
+  }
+
+  async deleteApproved() {
+    const result = await this.pendingActionModel
+      .deleteMany({'status':'approved'})
+      .exec();
   }
 
   async deleteTicket(ticketId: TicketIdDto) {
