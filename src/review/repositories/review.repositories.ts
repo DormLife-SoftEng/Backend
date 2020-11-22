@@ -28,7 +28,6 @@ export class ReviewRepository {
     dto.dorm = { dormId: dormId, code: dorm.code };
     const query = { 'dorm.dormId': dormId };
     const reviews = await this.find(query);
-    const count = reviews.length;
 
     const document = new this.reviewModel(dto);
     const result = await document.save(options, fn);
