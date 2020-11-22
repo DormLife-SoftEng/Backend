@@ -28,7 +28,7 @@ export class ReviewRepository {
         const query = { 'dorm._id': dormId };
         const reviewsCount = (await this.find(query)).length
         const oldStar = dorm.avgStar
-        const newStar = (oldStar + incStar)/(reviewsCount+1)
+        const newStar = oldStar + ((incStar)/(reviewsCount+1))
         dorm.avgStar = newStar
         dorm.save()
     }
