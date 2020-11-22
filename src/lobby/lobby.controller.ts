@@ -44,8 +44,14 @@ export class LobbyController {
       dormId,
       roomId,
     );
+    var newLobbyList = []
+    for (var i = 0;i < lobbiesList;i++) {
+      if (lobbiesList[i].member.length != lobbiesList[i].maxMember) {
+        newLobbyList.push(lobbiesList[i])
+      }
+    }
 
-    return lobbiesList;
+    return newLobbyList;
   }
 
   @Post()
