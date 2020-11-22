@@ -289,7 +289,7 @@ export class LobbyService {
     lobbies.forEach(lobby => {
       lobby.member.forEach(person => {
         if (person.user.userId == userId) {
-          result = lobby._id
+          result = lobby.id
         }
       })
     });

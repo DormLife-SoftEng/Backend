@@ -62,7 +62,11 @@ export class LobbyController {
     );
     return { id: generatedId };
   }
-
+  @Get('/check')
+  async checkLobby(@Request() req) {
+    const res = await this.lobbyService.checkLobby(req.user.userId)
+    return res
+  }
   @Get(':id')
   async getSpecificLobby(@Request() req, @Param('id') lobbyId: string) {
     const lobby = await this.lobbyService.getLobbyById(lobbyId);
@@ -174,9 +178,5 @@ export class LobbyController {
     return res
   }
 
-  @Get('check')
-  async checkLobby(@Request() req) {
-    const res = await this.lobbyService.checkLobby(req.user.userId)
-    return res
-  }
+  
 }
