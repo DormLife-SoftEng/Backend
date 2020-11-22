@@ -20,10 +20,11 @@ import { Role } from 'src/auth/decorator/role.decorator';
 
 @Controller('/reviews')
 @ApiTags('Reviews')
-@UseGuards(JwtAuthGuard, RoleGuard)
-@Role('general')
+
+
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
+
 
   @Get()
   @ApiQuery({ name: 'dormId', required: false })
@@ -81,6 +82,8 @@ export class ReviewController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
   @Post()
   async addReview(@Body() reviewBody: ReviewBodyDto, @Request() req) {
     const userid = req.user.userId
@@ -88,6 +91,8 @@ export class ReviewController {
     return { id: generatedId };
   }
 
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
   @Patch()
   async editReview(
     @Query() reviewCode: reviewCodeDto,
@@ -102,6 +107,8 @@ export class ReviewController {
     return { id: generatedId };
   }
 
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('general')
   @Delete(':reviewId')
   async seleteReview(@Param() reviewId: ReviewParamDto) {
     await this.reviewService.deleteReview(reviewId);
