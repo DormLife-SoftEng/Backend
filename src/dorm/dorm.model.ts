@@ -122,34 +122,34 @@ export interface Dorm extends mongoose.Document {
   approvedOn: Date;
 }
 
-export interface DormAdd extends mongoose.Document {
-  name: string;
-  code: string;
-  owner: UserDocument; //change to userschema here
-  contact: {
-    telephone: string;
-    email: string;
-    lineID: string;
-    website: string;
-  };
-  address: {
-    address: string;
-    coordinate: { type: 'Point'; coordinates: number[] };
-  };
-  utility: Array<UtilityInterface>;
-  room: Array<RoomInterface>;
-  allowedSex: string;
-  avgStar: number;
-  license: string[];
-}
+// export interface DormAdd extends mongoose.Document {
+//   name: string;
+//   code: string;
+//   owner: UserDocument; //change to userschema here
+//   contact: {
+//     telephone: string;
+//     email: string;
+//     lineID: string;
+//     website: string;
+//   };
+//   address: {
+//     address: string;
+//     coordinate: { type: 'Point'; coordinates: number[] };
+//   };
+//   utility: Array<UtilityInterface>;
+//   room: Array<RoomInterface>;
+//   allowedSex: string;
+//   avgStar: number;
+//   license: string[];
+// }
 
-export interface DormQuery extends mongoose.Document {
-  name: string;
-  address: {
-    address: string;
-    coordinate: [Number];
-  };
-  utility: Array<UtilityInterface>;
-  room: Array<RoomInterface>;
-  allowedSex: string;
-}
+// export interface DormQuery extends mongoose.Document {
+//   name: string;
+//   address: {
+//     address: string;
+//     coordinate: [Number];
+//   };
+//   utility: Array<UtilityInterface>;
+//   room: Array<RoomInterface>;
+//   allowedSex: string;
+// }
