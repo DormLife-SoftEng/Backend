@@ -86,6 +86,23 @@ export class DormController {
     return utils;
   }
 
+  @Get('users')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Role('owner')
+  async getUserDorm(@Request() req): Promise<Dorm[] | undefined> {
+    // get userdoc
+    const userDoc = await this.userServ.findById(req.user.userId);
+    try {
+      if (!userDoc) {
+        throw new Error('Fatal: Exists user not found');
+      }
+    } catch (err) {
+      throw new InternalServerErrorException();
+    }
+    const query = await this.DormService.getUserDorm(userDoc._id);
+    return query;
+  }
+
   @Get(':id')
   async getDorm(@Param('id') dormID: string) {
     return await this.DormService.getSingleDorm(dormID);
@@ -224,22 +241,7 @@ export class DormController {
     return dorms;
   }
 
-  @Get('users')
-  @UseGuards(JwtAuthGuard, RoleGuard)
-  @Role('owner')
-  async getUserDorm(@Req() req): Promise<Dorm[] | undefined> {
-    // get userdoc
-    const userDoc = await this.userServ.findById(req.user.userId);
-    try {
-      if (!userDoc) {
-        throw new Error('Fatal: Exists user not found');
-      }
-    } catch (err) {
-      throw new InternalServerErrorException();
-    }
-    const query = await this.DormService.getUserDorm(userDoc._id);
-    return query;
-  }
+  
   // returns array of images' path
   @Post('images')
   @UseInterceptors(
