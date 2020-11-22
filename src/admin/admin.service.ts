@@ -116,8 +116,8 @@ export class AdminService {
             website: ticketBody.target.website,
           },
           address: {
-            address: ticketBody.target.address,
-            coordinate: ticketBody.target.coordinate,
+            address: ticketBody.target.address.address,
+            coordinate: ticketBody.target.address.coordinate,
           },
           distance: ticketBody.target.distance,
           utility: ticketBody.target.utility,
