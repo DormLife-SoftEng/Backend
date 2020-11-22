@@ -91,7 +91,7 @@ export class ReviewService {
       image: review.image,
       createdOn: review.createdOn,
     }}))
-    return reviews.slice(_offset)
+    return reviews
       
   }
 
