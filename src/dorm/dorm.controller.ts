@@ -109,7 +109,7 @@ export class DormController {
   async queryDorm(
     // @Body() propsSearch: propsSearchDto,
     @Query('name') name: string,
-    // @Query('distance') distance: string,
+    @Query('distance') distance: string,
     @Query('avgStar') avgStar: string,
     @Query('allowedSex') allowedSex: string,
     @Query('price') price: string,
@@ -152,8 +152,8 @@ export class DormController {
       name: name,
       allowedSex: allowedSex,
       type: dormType,
-      // distance: parseInt(distance),
-      avgStar: parseInt(avgStar),
+      distance: parseFloat(distance),
+      avgStar: parseFloat(avgStar),
       'room.price.amount': parseInt(price),
       'room.capacity': parseInt(maxPerson),
       'room.kitchen': parseInt(kitchen),
@@ -176,9 +176,9 @@ export class DormController {
     if (!name) {
       delete propsSearch.name;
     }
-    // if (!distance) {
-    //   propsSearch.distance = -1;
-    // }
+    if (!distance) {
+      propsSearch.distance = -1;
+    }
     if (!avgStar) {
       propsSearch.avgStar = -1;
     }

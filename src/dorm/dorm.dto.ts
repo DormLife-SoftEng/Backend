@@ -45,7 +45,7 @@ export class addDorm {
 export class propsSearchDto {
   //dorm
   dormName: string;
-  // distance: number; // address.coord - kaset.coord
+  distance: number; // address.coord - kaset.coord
   avgStar: number;
   gender: string;
   //room
