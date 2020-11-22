@@ -34,7 +34,7 @@ export const DormSchema = new mongoose.Schema({
   code: { type: String },
   owner: { type: String }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   contact: {
-    telephone: {type: String },
+    telephone: { type: String },
     email: { type: String },
     lineId: { type: String },
     website: { type: String },
@@ -45,13 +45,14 @@ export const DormSchema = new mongoose.Schema({
       type: [Number],
     },
   },
+  distance: { type: Number },
   utility: [utilSchema],
   type: { type: String },
   description: { type: String },
   room: [RoomSchema],
   allowedSex: { type: String },
   avgStar: { type: Number },
-  image: {type:[String]},
+  image: { type: [String] },
   license: { type: [String] },
   createdOn: { type: Date },
   modifiedOn: { type: Date },
@@ -108,13 +109,14 @@ export interface Dorm extends mongoose.Document {
     address: string;
     coordinate: number[];
   };
+  distance: number;
   utility: UtilityInterface[];
   room: RoomInterface[];
   allowedSex: string;
   avgStar: number;
-  type:string;
-  description:string;
-  image:string[];
+  type: string;
+  description: string;
+  image: string[];
   license: string[];
   createdOn: Date;
   modifiedOn: Date;

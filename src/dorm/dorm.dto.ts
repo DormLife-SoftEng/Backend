@@ -140,10 +140,6 @@ export class DormAddDto {
   @IsNotEmpty()
   readonly allowedSex: string;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // readonly distance: number;
-
   @IsNotEmpty()
   image: string[];
   

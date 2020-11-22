@@ -193,6 +193,7 @@ export class AdminService {
         dorm.contact.website,
         dorm.address.address,
         dorm.address.coordinate,
+        dorm.distance,
         dorm.utility,
         dorm.type,
         dorm.description,
