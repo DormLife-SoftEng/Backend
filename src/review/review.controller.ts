@@ -70,12 +70,12 @@ export class ReviewController {
       );
       return reviews;
     } else if (dormId === undefined) {
-      if (req.user._id === undefined) {
+      if (req.user.userId === undefined) {
         throw new BadRequestException('userId must be defined.');
       }
       const review = await this.reviewService.getSingleReviewByReviewCode(
         reviewCode,
-        req.user._id,
+        req.user.userId,
       );
       return review;
     }
@@ -97,7 +97,7 @@ export class ReviewController {
     const generatedId = await this.reviewService.editReview(
       reviewCode,
       reviewBody,
-      req.user._id,
+      req.user.userId,
     );
     return { id: generatedId };
   }
