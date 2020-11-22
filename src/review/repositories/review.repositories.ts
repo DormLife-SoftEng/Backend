@@ -16,16 +16,12 @@ export class ReviewRepository {
     async create(reviewBody: ReviewBodyDto, user:string,options?:ModelOptions, fn?: any): Promise<Review | undefined> {
         const dto: ReviewPrimitive = {...reviewBody,user:{userId:user}, createdOn: new Date().toString()};
         const dormId = dto.dorm.id
-        dto.dorm = await this.DormService.getSingleDorm(dormId)
-        
-        //debug zone
         const dorm = await this.DormService.getSingleDorm(dormId)
+        dto.dorm = dorm
         const query = { 'dorm._id': dormId };
         const reviews = await this.find(query)
         const count = reviews.length
-        console.log(count)
-        //end of debug zone
-        
+
         const document = new this.reviewModel(dto);
         const result = await document.save(options, fn);
         this.updateReviewScore(dto.dorm.id, dto.star,count)
@@ -38,14 +34,9 @@ export class ReviewRepository {
         const reviews = await this.find(query)
         const oldStar = dorm.avgStar * reviewsCount
         const newCount = reviews.length
-        console.log('before')
-        console.log(`review count: ${reviewsCount}, current score: ${oldStar}`)
         const newStar = ((oldStar + incStar)/newCount)
         dorm.avgStar = newStar
         dorm.save()
-
-        console.log('after')
-        console.log(`review count: ${newCount}, current score: ${newStar}`)
     }
 
     async find(query: any, projection?: any, callback?: any): Promise<Review[] | undefined> {
