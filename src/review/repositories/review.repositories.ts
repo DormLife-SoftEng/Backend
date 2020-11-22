@@ -27,7 +27,7 @@ export class ReviewRepository {
         const dorm = await this.DormService.getSingleDorm(dormId)
         const query = { 'dorm._id': dormId };
         const reviews = await this.find(query)
-        const reviewsCount = reviews.length
+        var reviewsCount = reviews.length
         const oldStar = dorm.avgStar * reviewsCount
         console.log('before')
         console.log(`review count: ${reviewsCount}, current score: ${oldStar}`)
@@ -35,7 +35,8 @@ export class ReviewRepository {
         dorm.avgStar = newStar
         dorm.save()
         console.log('after')
-        console.log(`review count: ${reviewsCount+1}, current score: ${newStar}`)
+        reviewsCount = reviewsCount+1
+        console.log(`review count: ${reviewsCount}, current score: ${newStar}`)
     }
 
     async find(query: any, projection?: any, callback?: any): Promise<Review[] | undefined> {
