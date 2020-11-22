@@ -160,64 +160,33 @@ export class AdminService {
           if (!dorm) {
             throw new NotFoundException('Could not find dorm.');
           }
-          ticket.newdata = {
-              name: ticket.newdata.name,
-              code: ticket.newdata.code,
-              owner: ticket.newdata.owner, //ownerId
-              contact: {
-                telephone: ticket.newdata.telephone,
-                email: ticket.newdata.email,
-                lineID: ticket.newdata.lineID,
-                website: ticket.newdata.website,
-              },
-              address: {
-                address: ticket.newdata.address,
-                coordinate: ticket.newdata.coordinate,
-              },
-              distance: ticket.newdata.distance,
-              utility: ticket.newdata.utilities,
-              type: ticket.newdata.type,
-              description: ticket.newdata.description,
-              room: ticket.newdata.rooms,
-              allowedSex: ticket.newdata.allowedSex,
-              avgStar: ticket.newdata.avgStar,
-              image: ticket.newdata.image,
-              license: ticket.newdata.license,
-              createdOn: ticket.newdata.createdOn,
-              modifiedOn: Date.now(),
-              approved: ticket.newdata.approved,
-              approvedOn: ticket.newdata.approvedOn,
-            }
-          dorm = ticket.newdata;
-          // dorm.modifiedOn = Date.now();
-          // dorm = {
-          //   name: ticket.newdata.name,
-          //   code: ticket.newdata.code,
-          //   owner: ticket.newdata.owner, //ownerId
-          //   contact: {
-          //     telephone: ticket.newdata.telephone,
-          //     email: ticket.newdata.email,
-          //     lineID: ticket.newdata.lineID,
-          //     website: ticket.newdata.website,
-          //   },
-          //   address: {
-          //     address: ticket.newdata.address,
-          //     coordinate: ticket.newdata.coordinate,
-          //   },
-          //   distance: ticket.newdata.distance,
-          //   utility: ticket.newdata.utilities,
-          //   type: ticket.newdata.type,
-          //   description: ticket.newdata.description,
-          //   room: ticket.newdata.rooms,
-          //   allowedSex: ticket.newdata.allowedSex,
-          //   avgStar: ticket.newdata.avgStar,
-          //   image: ticket.newdata.image,
-          //   license: ticket.newdata.license,
-          //   createdOn: ticket.newdata.createdOn,
-          //   modifiedOn: Date.now(),
-          //   approved: ticket.newdata.approved,
-          //   approvedOn: ticket.newdata.approvedOn,
-          // };
+          dorm.name = ticket.newdata.name;
+          dorm.code = ticket.newdata.code;
+          dorm.owner = ticket.newdata.owner;
+          dorm.contact = {
+            telephone: ticket.newdata.telephone,
+            email: ticket.newdata.email,
+            lineID: ticket.newdata.lineID,
+            website: ticket.newdata.website,
+          };
+          dorm.address = {
+            address: ticket.newdata.address,
+            coordinate: ticket.newdata.coordinate,
+          };
+          dorm.distance = ticket.newdata.distance;
+          dorm.utility = ticket.newdata.utilities;
+          dorm.type = ticket.newdata.type;
+          dorm.description = ticket.newdata.description;
+          dorm.room = ticket.newdata.rooms;
+          dorm.allowedSex = ticket.newdata.allowedSex;
+          dorm.avgStar = ticket.newdata.avgStar;
+          dorm.image = ticket.newdata.image;
+          dorm.license = ticket.newdata.license;
+          dorm.createdOn = ticket.newdata.createdOn;
+          dorm.modifiedOn = Date.now();
+          dorm.approved = ticket.newdata.approved;
+          dorm.approvedOn = ticket.newdata.approvedOn;
+        
           dorm.save();
         } else {
           throw new BadRequestException('type should be user or dorm');
