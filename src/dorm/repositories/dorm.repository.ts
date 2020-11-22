@@ -485,7 +485,7 @@ export class DormRepository {
         owner: ownerId,
         _id: dormId,
       });
-      if (dorm!) {
+      if (!dorm) {
         throw new Error('Owner Mismatch');
       }
       dorm.code = newcode;
