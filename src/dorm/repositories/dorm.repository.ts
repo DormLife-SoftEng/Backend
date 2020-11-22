@@ -476,7 +476,7 @@ export class DormRepository {
 
   async genNewReviewCode(ownerId: string, dormId: string) {
     let newcode = makeid(5);
-    while (this.validateCode(newcode)) {
+    while (await this.validateCode(newcode)) {
       newcode = makeid(5);
     }
     // get dorm
