@@ -162,8 +162,8 @@ export class AdminService {
             throw new NotFoundException('Could not find dorm.');
           }
           dorm.name = ticket.newdata.name;
-          dorm.code = ticket.newdata.code;
-          dorm.owner = ticket.newdata.owner;
+          dorm.code = ticket.target.code;
+          dorm.owner = ticket.target.owner;
           dorm.contact = {
             telephone: ticket.newdata.contact.telephone,
             email: ticket.newdata.contact.email,
@@ -180,13 +180,13 @@ export class AdminService {
           dorm.description = ticket.newdata.description;
           dorm.room = ticket.newdata.room;
           dorm.allowedSex = ticket.newdata.allowedSex;
-          dorm.avgStar = ticket.newdata.avgStar;
+          dorm.avgStar = ticket.target.avgStar;
           dorm.image = ticket.newdata.image;
           dorm.license = ticket.newdata.license;
-          dorm.createdOn = ticket.newdata.createdOn;
+          dorm.createdOn = ticket.target.createdOn;
           dorm.modifiedOn = Date.now();
-          dorm.approved = ticket.newdata.approved;
-          dorm.approvedOn = ticket.newdata.approvedOn;
+          dorm.approved = ticket.target.approved;
+          dorm.approvedOn = ticket.target.approvedOn;
         
           dorm.save();
         } else {
