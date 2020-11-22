@@ -29,6 +29,29 @@ export class DormRepository {
     private readonly PendingActionModel: Model<PendingAction>,
   ) {}
 
+  distanceCal(lat1, lon1) {
+    const kasetLat = 13.847582362619896
+    const kasetLon = 100.56961172111154
+    if ((lat1 == kasetLat) && (lon1 == kasetLon)) {
+      return 0;
+    }
+    else {
+      var radlat1 = Math.PI * lat1/180;
+      var radkasetLat = Math.PI * kasetLat/180;
+      var theta = lon1-kasetLon;
+      var radtheta = Math.PI * theta/180;
+      var dist = Math.sin(radlat1) * Math.sin(radkasetLat) + Math.cos(radlat1) * Math.cos(radkasetLat) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180/Math.PI;
+      dist = dist * 60 * 1.1515;
+      dist = dist * 1.609344 
+      return dist;
+    }
+  }
+
   addRoom(roomArray: RoomInterface[]) {
     var newRoomArray: any[] = [];
 
