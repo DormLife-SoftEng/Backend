@@ -127,7 +127,35 @@ export class AdminService {
           if (!dorm) {
             throw new NotFoundException('Could not find dorm.');
           }
-          dorm = ticket.newdata;
+          // dorm = ticket.newdata;
+          dorm = {
+            name: ticket.newdata.name,
+            code: ticket.newdata.code,
+            owner: ticket.newdata.owner, //ownerId
+            contact: {
+              telephone: ticket.newdata.telephone,
+              email: ticket.newdata.email,
+              lineID: ticket.newdata.lineID,
+              website: ticket.newdata.website,
+            },
+            address: {
+              address: ticket.newdata.address,
+              coordinate: ticket.newdata.coordinate,
+            },
+            distance: ticket.newdata.distance,
+            utility: ticket.newdata.utilities,
+            type: ticket.newdata.type,
+            description: ticket.newdata.description,
+            room: ticket.newdata.rooms,
+            allowedSex: ticket.newdata.allowedSex,
+            avgStar: ticket.newdata.avgStar,
+            image: ticket.newdata.image,
+            license: ticket.newdata.license,
+            createdOn: ticket.newdata.createdOn,
+            modifiedOn: Date.now(),
+            approved: ticket.newdata.approved,
+            approvedOn: ticket.newdata.approvedOn,
+          };
           dorm.save();
         } else {
           throw new BadRequestException('type should be user or dorm');
@@ -148,8 +176,8 @@ export class AdminService {
         // delete
         if (ticket.type === 'user') {
           let user;
-          try { 
-            user = await this.UserModel.findOneAndDelete({_id: target._id});
+          try {
+            user = await this.UserModel.findOneAndDelete({ _id: target._id });
           } catch (error) {
             throw new NotFoundException('Could not find user.');
           }
@@ -158,7 +186,7 @@ export class AdminService {
           }
         } else if (ticket.type === 'dorm') {
           let dorm;
-          try { 
+          try {
             dorm = await this.DormRepo.getDormAndDelete(target._id);
           } catch (error) {
             throw new NotFoundException('Could not find dorm.');
@@ -179,41 +207,37 @@ export class AdminService {
 
       ticket.save();
       return ticket.id as string;
-    } 
-    else if(ticket.request == "add") {
-      if (ticket.status == "pending") {
+    } else if (ticket.request == 'add') {
+      if (ticket.status == 'pending') {
         const dorm = ticket.newdata;
-      let newDorm = this.DormRepo.AddDorm(
-        dorm.name,
-        dorm.code,
-        dorm.owner, //ownerId
-        dorm.contact.telephone,
-        dorm.contact.email,
-        dorm.contact.lineID,
-        dorm.contact.website,
-        dorm.address.address,
-        dorm.address.coordinate,
-        dorm.distance,
-        dorm.utility,
-        dorm.type,
-        dorm.description,
-        dorm.room,
-        dorm.allowedSex,
-        dorm.avgStar,
-        dorm.image,
-        dorm.license,
-        dorm.createdOn,
-        Date.now(),
-        "approved",
-        Date.now(),
-
-      )
-      ticket.status="approved";
-      ticket.save();
-      return ticket.id as string;
-      }
-      else if (ticket.status == "approved") {
-        
+        let newDorm = this.DormRepo.AddDorm(
+          dorm.name,
+          dorm.code,
+          dorm.owner, //ownerId
+          dorm.contact.telephone,
+          dorm.contact.email,
+          dorm.contact.lineID,
+          dorm.contact.website,
+          dorm.address.address,
+          dorm.address.coordinate,
+          dorm.distance,
+          dorm.utility,
+          dorm.type,
+          dorm.description,
+          dorm.room,
+          dorm.allowedSex,
+          dorm.avgStar,
+          dorm.image,
+          dorm.license,
+          dorm.createdOn,
+          Date.now(),
+          'approved',
+          Date.now(),
+        );
+        ticket.status = 'approved';
+        ticket.save();
+        return ticket.id as string;
+      } else if (ticket.status == 'approved') {
       }
     } else {
       throw new BadRequestException('request should be edit or delete');
