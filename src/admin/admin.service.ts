@@ -86,10 +86,10 @@ export class AdminService {
             website: ticketBody.newdata.website,
           },
           address: {
-            address: ticketBody.newdata.address.address,
-            coordinate: ticketBody.newdata.address.coordinate,
+            address: ticketBody.newdata.address,
+            coordinate: ticketBody.newdata.coordinate,
           },
-          distance: ticketBody.newdata.distance,
+          distance: ticketBody.target.distance,
           utility: ticketBody.newdata.utility,
           type: ticketBody.newdata.type,
           description: ticketBody.newdata.description,
