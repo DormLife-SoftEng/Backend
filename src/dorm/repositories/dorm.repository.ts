@@ -372,7 +372,7 @@ export class DormRepository {
   async getDormList(propsSearch, utilsSearch, offset: string, stop: string) {
     const Offset = parseInt(offset);
 
-    propsSearch.distance = { $gte: propsSearch.distance };
+    propsSearch.distance = { $lte: propsSearch.distance };
     propsSearch.avgStar = { $gte: propsSearch.avgStar };
     propsSearch['room.price.amount'] = {
       $lte: propsSearch['room.price.amount'],
