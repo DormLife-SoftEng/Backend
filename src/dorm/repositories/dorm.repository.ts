@@ -242,7 +242,46 @@ export class DormRepository {
   async getDormByOwner(dormOwner: string): Promise<Dorm[]> {
     const dorm = await this.DormModel.find({ owner: dormOwner });
     // .exec();
-    return dorm;
+    return dorm.map(d => ({
+      id: d.id,
+      name: d.name,
+      code: d.code,
+      contact: {
+        telephone: d.contact?.telephone,
+        email: d.contact?.email,
+        lineID: d.contact?.lineID,
+        website: d.contact?.website,
+      },
+      address: {
+        address: d.address.address,
+        coordinate: d.address.coordinate,
+      },
+      distance: d.distance,
+      utility: d.utility.map(res => ({
+        type: res.type,
+        distance: res.distance,
+        description: res.description,
+      })),
+      type: d.type,
+      description: d.description,
+      allowedSex: d.allowedSex,
+      avgStar: d.avgStar,
+      image: d.image,
+      license: d.license,
+      room: d.room.map(res => ({
+        id: res.id,
+        price: res.price,
+        image: res.image,
+        name: res.name,
+        capacity: res.capacity,
+        bathroom: res.bathroom,
+        aircond: res.aircond,
+        kitchen: res.kitchen,
+        bedroom: res.bedroom,
+        description: res.description,
+        allowedSex: res.allowedSex,
+      })),
+    }));
   }
 
   //get specific dorm
