@@ -74,34 +74,67 @@ export class AdminService {
   async addTicket(ticketBody: TicketBodyDto) {
     let _new;
     if (ticketBody.type === 'dorm') {
-      _new = {
-        name: ticketBody.newdata.name,
-        code: ticketBody.newdata.code,
-        owner: ticketBody.newdata.owner, //ownerId
-        contact: {
-          telephone: ticketBody.newdata.telephone,
-          email: ticketBody.newdata.email,
-          lineID: ticketBody.newdata.lineID,
-          website: ticketBody.newdata.website,
-        },
-        address: {
-          address: ticketBody.newdata.address,
-          coordinate: ticketBody.newdata.coordinate,
-        },
-        distance: ticketBody.newdata.distance,
-        utility: ticketBody.newdata.utilities,
-        type: ticketBody.newdata.type,
-        description: ticketBody.newdata.description,
-        room: ticketBody.newdata.rooms,
-        allowedSex: ticketBody.newdata.allowedSex,
-        avgStar: ticketBody.newdata.avgStar,
-        image: ticketBody.newdata.image,
-        license: ticketBody.newdata.license,
-        createdOn: ticketBody.newdata.createdOn,
-        modifiedOn: Date.now(),
-        approved: ticketBody.newdata.approved,
-        approvedOn: ticketBody.newdata.approvedOn,
-      };
+      if (ticketBody.request != 'delete') {
+        _new = {
+          name: ticketBody.newdata.name,
+          code: ticketBody.newdata.code,
+          owner: ticketBody.newdata.owner, //ownerId
+          contact: {
+            telephone: ticketBody.newdata.telephone,
+            email: ticketBody.newdata.email,
+            lineID: ticketBody.newdata.lineID,
+            website: ticketBody.newdata.website,
+          },
+          address: {
+            address: ticketBody.newdata.address.address,
+            coordinate: ticketBody.newdata.address.coordinate,
+          },
+          distance: ticketBody.newdata.distance,
+          utility: ticketBody.newdata.utility,
+          type: ticketBody.newdata.type,
+          description: ticketBody.newdata.description,
+          room: ticketBody.newdata.room,
+          allowedSex: ticketBody.newdata.allowedSex,
+          avgStar: ticketBody.newdata.avgStar,
+          image: ticketBody.newdata.image,
+          license: ticketBody.newdata.license,
+          createdOn: ticketBody.newdata.createdOn,
+          modifiedOn: Date.now(),
+          approved: ticketBody.newdata.approved,
+          approvedOn: ticketBody.newdata.approvedOn,
+        };
+      }
+      else {
+        _new = {
+          name: ticketBody.target.name,
+          code: ticketBody.target.code,
+          owner: ticketBody.target.owner, //ownerId
+          contact: {
+            telephone: ticketBody.target.telephone,
+            email: ticketBody.target.email,
+            lineID: ticketBody.target.lineID,
+            website: ticketBody.target.website,
+          },
+          address: {
+            address: ticketBody.target.address.address,
+            coordinate: ticketBody.target.address.coordinate,
+          },
+          distance: ticketBody.target.distance,
+          utility: ticketBody.target.utility,
+          type: ticketBody.target.type,
+          description: ticketBody.target.description,
+          room: ticketBody.target.room,
+          allowedSex: ticketBody.target.allowedSex,
+          avgStar: ticketBody.target.avgStar,
+          image: ticketBody.target.image,
+          license: ticketBody.target.license,
+          createdOn: ticketBody.target.createdOn,
+          modifiedOn: Date.now(),
+          approved: ticketBody.target.approved,
+          approvedOn: ticketBody.target.approvedOn,
+        };
+      }
+      
     } else {
       _new = ticketBody.newdata;
     }
