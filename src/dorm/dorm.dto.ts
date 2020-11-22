@@ -69,6 +69,9 @@ export class propsSearchDto {
   fitness: string;
   pool: string;
   cooking: string;
+  restaurant:string;
+  restroom:string;
+  commonroom:string;
 }
 
 interface Room {

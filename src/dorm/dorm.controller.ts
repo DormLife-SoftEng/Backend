@@ -128,6 +128,9 @@ export class DormController {
     @Query('fitness') fitness: string,
     @Query('pool') pool: string,
     @Query('cooking') cooking: string,
+    @Query('restaurant') restaurant:string,
+    @Query('restroom') restroom:string,
+    @Query('commonroom') commonroom:string,
     @Query('offset') offset: string,
     @Query('stop') stop: string,
   ) {
@@ -171,6 +174,9 @@ export class DormController {
       fitness: fitness,
       pool: pool,
       cooking: cooking,
+      restaurant:restaurant,
+      restroom:restroom,
+      commonroom:commonroom
     };
 
     if (!name) {

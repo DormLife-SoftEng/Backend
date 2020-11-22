@@ -318,6 +318,9 @@ export class DormRepository {
     this.utilChk(utilsSearch.fitness, mySearch);
     this.utilChk(utilsSearch.pool, mySearch);
     this.utilChk(utilsSearch.cooking, mySearch);
+    this.utilChk(utilsSearch.restaurant, mySearch);
+    this.utilChk(utilsSearch.restroom, mySearch);
+    this.utilChk(utilsSearch.commonroom, mySearch);
     console.log(mySearch)
     // [ { utility: [ [Object], [Object] ] } ]
     // [ { type: 'laundry' }, { type: 'pet' } ]
