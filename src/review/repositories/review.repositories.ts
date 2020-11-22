@@ -28,9 +28,13 @@ export class ReviewRepository {
         const query = { 'dorm._id': dormId };
         const reviewsCount = (await this.find(query)).length
         const oldStar = dorm.avgStar
+        console.log('before')
+        console.log(`review count: ${reviewsCount}, current score: ${oldStar}`)
         const newStar = oldStar + ((incStar)/(reviewsCount+1))
         dorm.avgStar = newStar
         dorm.save()
+        console.log('after')
+        console.log(`review count: ${reviewsCount}, current score: ${newStar}`)
     }
 
     async find(query: any, projection?: any, callback?: any): Promise<Review[] | undefined> {
