@@ -26,8 +26,8 @@ export interface ReviewPrimitive {
   createdOn: string;
 }
 export interface Review extends mongoose.Document {
-  id: { dormId: string; code: string };
-  dorm: string;
+  id: string;
+  dorm: { dormId: string; code: string };
   user: {
     userId: string;
   };
