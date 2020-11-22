@@ -71,11 +71,44 @@ export class AdminService {
   }
 
   async addTicket(ticketBody: TicketBodyDto) {
+    let _new;
+    if (ticketBody.type === 'dorm') {
+      _new = {
+        name: ticketBody.newdata.name,
+        code: ticketBody.newdata.code,
+        owner: ticketBody.newdata.owner, //ownerId
+        contact: {
+          telephone: ticketBody.newdata.telephone,
+          email: ticketBody.newdata.email,
+          lineID: ticketBody.newdata.lineID,
+          website: ticketBody.newdata.website,
+        },
+        address: {
+          address: ticketBody.newdata.address,
+          coordinate: ticketBody.newdata.coordinate,
+        },
+        distance: ticketBody.newdata.distance,
+        utility: ticketBody.newdata.utilities,
+        type: ticketBody.newdata.type,
+        description: ticketBody.newdata.description,
+        room: ticketBody.newdata.rooms,
+        allowedSex: ticketBody.newdata.allowedSex,
+        avgStar: ticketBody.newdata.avgStar,
+        image: ticketBody.newdata.image,
+        license: ticketBody.newdata.license,
+        createdOn: ticketBody.newdata.createdOn,
+        modifiedOn: Date.now(),
+        approved: ticketBody.newdata.approved,
+        approvedOn: ticketBody.newdata.approvedOn,
+      };
+    } else {
+      _new = ticketBody.newdata;
+    }
     const newTicket = new this.pendingActionModel({
       request: ticketBody.request,
       type: ticketBody.type,
       target: ticketBody.target,
-      newdata: ticketBody.newdata,
+      newdata: _new,
       createdOn: Date.now(),
       createdBy: ticketBody.createdBy,
       status: ticketBody.status,
@@ -127,35 +160,36 @@ export class AdminService {
           if (!dorm) {
             throw new NotFoundException('Could not find dorm.');
           }
-          // dorm = ticket.newdata;
-          dorm = {
-            name: ticket.newdata.name,
-            code: ticket.newdata.code,
-            owner: ticket.newdata.owner, //ownerId
-            contact: {
-              telephone: ticket.newdata.telephone,
-              email: ticket.newdata.email,
-              lineID: ticket.newdata.lineID,
-              website: ticket.newdata.website,
-            },
-            address: {
-              address: ticket.newdata.address,
-              coordinate: ticket.newdata.coordinate,
-            },
-            distance: ticket.newdata.distance,
-            utility: ticket.newdata.utilities,
-            type: ticket.newdata.type,
-            description: ticket.newdata.description,
-            room: ticket.newdata.rooms,
-            allowedSex: ticket.newdata.allowedSex,
-            avgStar: ticket.newdata.avgStar,
-            image: ticket.newdata.image,
-            license: ticket.newdata.license,
-            createdOn: ticket.newdata.createdOn,
-            modifiedOn: Date.now(),
-            approved: ticket.newdata.approved,
-            approvedOn: ticket.newdata.approvedOn,
-          };
+          dorm = ticket.newdata;
+          dorm.modifiedOn = Date.now();
+          // dorm = {
+          //   name: ticket.newdata.name,
+          //   code: ticket.newdata.code,
+          //   owner: ticket.newdata.owner, //ownerId
+          //   contact: {
+          //     telephone: ticket.newdata.telephone,
+          //     email: ticket.newdata.email,
+          //     lineID: ticket.newdata.lineID,
+          //     website: ticket.newdata.website,
+          //   },
+          //   address: {
+          //     address: ticket.newdata.address,
+          //     coordinate: ticket.newdata.coordinate,
+          //   },
+          //   distance: ticket.newdata.distance,
+          //   utility: ticket.newdata.utilities,
+          //   type: ticket.newdata.type,
+          //   description: ticket.newdata.description,
+          //   room: ticket.newdata.rooms,
+          //   allowedSex: ticket.newdata.allowedSex,
+          //   avgStar: ticket.newdata.avgStar,
+          //   image: ticket.newdata.image,
+          //   license: ticket.newdata.license,
+          //   createdOn: ticket.newdata.createdOn,
+          //   modifiedOn: Date.now(),
+          //   approved: ticket.newdata.approved,
+          //   approvedOn: ticket.newdata.approvedOn,
+          // };
           dorm.save();
         } else {
           throw new BadRequestException('type should be user or dorm');
