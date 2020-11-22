@@ -241,7 +241,6 @@ export class DormController {
     return dorms;
   }
 
-  
   // returns array of images' path
   @Post('images')
   @UseInterceptors(
