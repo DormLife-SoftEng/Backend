@@ -282,4 +282,17 @@ export class LobbyService {
       message: 'OK',
     };
   }
+
+  async checkLobby(userId: string) {
+    const lobbies = await this.LobbyRepository.findAllLobby(9999)
+    var result:string = ""
+    lobbies.forEach(lobby => {
+      lobby.member.forEach(person => {
+        if (person.user.userId == userId) {
+          result = lobby._id
+        }
+      })
+    });
+    return result
+  }
 }

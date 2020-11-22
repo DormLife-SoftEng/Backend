@@ -173,4 +173,10 @@ export class LobbyController {
 
     return res
   }
+
+  @Get('check')
+  async checkLobby(@Request() req) {
+    const res = await this.lobbyService.checkLobby(req.user.userId)
+    return res
+  }
 }
