@@ -171,8 +171,8 @@ export class AdminService {
             website: ticket.newdata.website,
           };
           dorm.address = {
-            address: ticket.newdata.address,
-            coordinate: ticket.newdata.coordinate,
+            address: ticket.newdata.address.address,
+            coordinate: ticket.newdata.address.coordinate,
           };
           dorm.distance = ticket.newdata.distance;
           dorm.utility = ticket.newdata.utilities;

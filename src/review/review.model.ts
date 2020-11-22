@@ -1,19 +1,22 @@
 import * as mongoose from 'mongoose';
 import { DormSchema, Dorm } from '../dorm/dorm.model';
 
-export const ReviewSchema = new mongoose.Schema({
-  reviewId: { type: String },
-  dorm: DormSchema,
-  user: {
-    userId: { type: String },
+export const ReviewSchema = new mongoose.Schema(
+  {
+    reviewId: { type: String },
+    dorm: { dormId: { type: String }, code: { type: String } },
+    user: {
+      userId: { type: String },
+    },
+    star: { type: Number },
+    comment: { type: String },
+    image: { type: [String] },
   },
-  star: { type: Number },
-  comment: { type: String },
-  image: { type: [String] },
-}, {timestamps: {createdAt: 'createdOn', updatedAt: 'modifiedOn'}});
+  { timestamps: { createdAt: 'createdOn', updatedAt: 'modifiedOn' } },
+);
 
 export interface ReviewPrimitive {
-  dorm: Dorm;
+  dorm: { dormId: string; code: string };
   user: {
     userId: string;
   };
@@ -23,8 +26,8 @@ export interface ReviewPrimitive {
   createdOn: string;
 }
 export interface Review extends mongoose.Document {
-  id: string;
-  dorm: Dorm;
+  id: { dormId: string; code: string };
+  dorm: string;
   user: {
     userId: string;
   };

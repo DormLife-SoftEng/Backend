@@ -20,7 +20,7 @@ export class ReviewService {
     stop: number,
   ): Promise<Review[] | undefined> {
     try {
-      const query = { 'dorm._id': dormId };
+      const query = { 'dorm.dormId': dormId };
       const review = await this.reviewRepo.findWithPagination(query, stop);
       if (!review) {
         throw new Error('Empty Repository');
