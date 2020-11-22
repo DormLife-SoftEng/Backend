@@ -17,9 +17,9 @@ export class ReviewRepository {
         const dto: ReviewPrimitive = {...reviewBody,user:{userId:user}, createdOn: new Date().toString()};
         const dormId = dto.dorm.id
         dto.dorm = await this.DormService.getSingleDorm(dormId)
-        this.updateReviewScore(dto.dorm.id, dto.star)
         const document = new this.reviewModel(dto);
         const result = await document.save(options, fn);
+        this.updateReviewScore(dto.dorm.id, dto.star)
         return result;
     }
 
