@@ -200,7 +200,7 @@ export class DormController {
       delete propsSearch.name;
     }
     if (!distance) {
-      propsSearch.distance = -1;
+      propsSearch.distance = 999;
     }
     if (!avgStar) {
       propsSearch.avgStar = -1;
