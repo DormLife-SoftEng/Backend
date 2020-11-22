@@ -175,7 +175,7 @@ export class AdminService {
             coordinate: ticket.newdata.address.coordinate,
           };
           dorm.distance = ticket.newdata.distance;
-          dorm.utility = ticket.newdata.utilities;
+          dorm.utility = ticket.newdata.utility;
           dorm.type = ticket.newdata.type;
           dorm.description = ticket.newdata.description;
           dorm.room = ticket.newdata.room;
