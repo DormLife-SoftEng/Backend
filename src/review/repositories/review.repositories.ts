@@ -26,7 +26,7 @@ export class ReviewRepository {
     const dormId = dto.dorm.dormId;
     const dorm = await this.DormService.getSingleDorm(dormId);
     dto.dorm = { dormId: dormId, code: dorm.code };
-    const query = { 'dorm._id': dormId };
+    const query = { 'dorm.dormId': dormId };
     const reviews = await this.find(query);
     const count = reviews.length;
 
@@ -42,7 +42,7 @@ export class ReviewRepository {
     reviewsCount: number,
   ) {
     const dorm = await this.DormService.getSingleDorm(dormId);
-    const query = { 'dorm._id': dormId };
+    const query = { 'dorm.dormId': dormId };
     const reviews = await this.find(query);
     const oldStar = dorm.avgStar * reviewsCount;
     const newCount = reviews.length;
