@@ -77,8 +77,8 @@ export class AdminService {
       if (ticketBody.request != 'delete') {
         _new = {
           name: ticketBody.newdata.name,
-          code: ticketBody.newdata.code,
-          owner: ticketBody.newdata.owner, //ownerId
+          code: ticketBody.target.code,
+          owner: ticketBody.target.owner, //ownerId
           contact: {
             telephone: ticketBody.newdata.telephone,
             email: ticketBody.newdata.email,
@@ -90,18 +90,18 @@ export class AdminService {
             coordinate: ticketBody.newdata.coordinate,
           },
           distance: ticketBody.target.distance,
-          utility: ticketBody.newdata.utility,
+          utility: ticketBody.newdata.utilities,
           type: ticketBody.newdata.type,
           description: ticketBody.newdata.description,
-          room: ticketBody.newdata.room,
+          room: ticketBody.newdata.rooms,
           allowedSex: ticketBody.newdata.allowedSex,
           avgStar: ticketBody.newdata.avgStar,
           image: ticketBody.newdata.image,
           license: ticketBody.newdata.license,
-          createdOn: ticketBody.newdata.createdOn,
+          createdOn: ticketBody.target.createdOn,
           modifiedOn: Date.now(),
-          approved: ticketBody.newdata.approved,
-          approvedOn: ticketBody.newdata.approvedOn,
+          approved: ticketBody.target.approved,
+          approvedOn: ticketBody.target.approvedOn,
         };
       }
       else {
@@ -116,8 +116,8 @@ export class AdminService {
             website: ticketBody.target.website,
           },
           address: {
-            address: ticketBody.target.address.address,
-            coordinate: ticketBody.target.address.coordinate,
+            address: ticketBody.target.address,
+            coordinate: ticketBody.target.coordinate,
           },
           distance: ticketBody.target.distance,
           utility: ticketBody.target.utility,

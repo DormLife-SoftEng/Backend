@@ -60,6 +60,7 @@ export class ReviewRepository {
     return result;
   }
 
+
   async findWithPagination(
     query: any,
     stop: number,
@@ -84,6 +85,11 @@ export class ReviewRepository {
     } catch (err) {
       throw new Error('Update Failure');
     }
+  }
+
+  async findOne(query:any) {
+    const result = await this.reviewModel.findOne(query)
+    return result
   }
 
   async deleteOne(

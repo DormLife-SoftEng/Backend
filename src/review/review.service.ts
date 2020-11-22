@@ -7,12 +7,14 @@ import {
 import { Review } from '../review/review.model';
 import { ReviewRepository } from './repositories/review.repositories';
 import { UserRepository } from 'src/users/repositories/user.repository';
+import { DormService } from 'src/dorm/dorm.service';
 
 @Injectable()
 export class ReviewService {
   constructor(
     private readonly reviewRepo: ReviewRepository,
-    private readonly UserRep: UserRepository
+    private readonly UserRep: UserRepository,
+    private readonly DormService: DormService
   ) {}
 
   private async findReviewByDormId(
@@ -132,14 +134,27 @@ export class ReviewService {
 
   async deleteReview(reviewId: ReviewParamDto) {
     const query = { _id: reviewId.reviewId };
-    const result = await this.reviewRepo.deleteOne(query);
+    const review = await this.reviewRepo.findOne(query);
+    const result = await this.reviewRepo.deleteOne(query); 
     try {
       if (result.n === 0) {
         throw new NotFoundException('Could not find review.');
       }
+      this.updateDeleted(review.dorm.dormId)
       return result;
     } catch (err) {
       throw err;
     }
+  }
+
+  async updateDeleted(dormId:string) {
+    const result = await this.reviewRepo.find({'dorm.dormId':dormId})
+    var total = 0
+    result.forEach(review => {
+      total = total + review.star
+    });
+    const newStar = total/(result.length)
+    const dorm = await this.DormService.getSingleDorm(dormId)
+    dorm.avgStar = newStar
   }
 }
